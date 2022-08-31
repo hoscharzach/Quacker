@@ -22,5 +22,6 @@ class Comment(db.Model):
             'author': self.poster_id,
             'postId': self.post_id,
             'createdAt': self.created_at,
-            'updatedAt': self.updated_at
+            'updatedAt': self.updated_at,
+            'images': [image.to_dict() for image in self.images]
         }

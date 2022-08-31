@@ -36,10 +36,13 @@ class User(db.Model, UserMixin):
             'lastName': self.last_name,
             'bio': self.bio,
             'profilePic': self.profile_pic,
-            'profileBackground': self.profile_background
+            'profileBackground': self.profile_background,
+            'images': [image.to_dict() for image in self.images]
         }
 
     posts = db.relationship(
         'Post', backref='users', cascade='all, delete')
     comments = db.relationship(
         'Comment', backref='users', cascade='all, delete')
+    images = db.relationship(
+        'Image', backref='users', cascade='all, delete')

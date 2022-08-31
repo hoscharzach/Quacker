@@ -1,0 +1,11 @@
+img {
+    max-width: 200px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    cursor: pointer;
+}
