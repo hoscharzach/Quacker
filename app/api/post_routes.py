@@ -15,9 +15,10 @@ def all_posts():
 @post_routes.get('/home')
 @login_required
 def my_home_page():
-    user_posts = Post.query.filter_by(Post.user_id == current_user.id).limit(
-        10).order_by(Post.created_at).all()
-    return {'userPosts': [post.to_dict() for post in user_posts]}
+    user_posts = Post.query.order_by(Post.created_at).limit(
+        10).all()
+    return {'userPosts': [{'content': 'post 1'}]}
+    {'userPosts': [post.to_dict() for post in user_posts]}
 
 
 # Profile page, all posts by current user

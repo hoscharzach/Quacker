@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
@@ -10,9 +10,11 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import UploadPicture from './components/images/UploadPicture';
 import ImageDisplay from './components/images/GetImages';
+import Main from './components/home/Main';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,13 +31,14 @@ function App() {
   return (
     <div id='entire-app-container'>
       <BrowserRouter>
-        <NavBar />
+        {user && <NavBar />}
         <Switch>
-          <Route path='/login' exact={true}>
-            <LoginForm />
-          </Route>
-          <Route path='/sign-up' exact={true}>
+          <Route exact path='/'>
             <SignUpForm />
+            {/* add login form as modal here */}
+          </Route>
+          <Route exact path='/login'>
+            <LoginForm />
           </Route>
           <ProtectedRoute path='/users' exact={true} >
             <UsersList />
@@ -49,13 +52,15 @@ function App() {
           <ProtectedRoute path='/images' exact={true} >
             <ImageDisplay />
           </ProtectedRoute>
-          <ProtectedRoute path='/' exact={true} >
-            <h1>My Home Page</h1>
+          <ProtectedRoute path='/home' exact={true} >
+            <Main />
           </ProtectedRoute>
         </Switch>
       </BrowserRouter>
     </div>
   );
+
+
 }
 
 export default App;
