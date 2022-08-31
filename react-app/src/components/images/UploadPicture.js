@@ -10,19 +10,17 @@ const UploadPicture = () => {
     const [imageGroup, setImageGroup] = useState([])
     const [hideImageInput, setHideImageInput] = useState(false)
 
-
     useEffect(() => {
         if (imageGroup.length >= 4) {
             setHideImageInput(true)
             return
         }
-
-        if (image && imageGroup.length < 4) {
+        else if (image) {
             const form = document.querySelector('.upload-image-form')
             const submitButton = document.querySelector(".upload-image-form-submit")
             form.requestSubmit(submitButton)
         }
-    }, [image, imageGroup.length])
+    }, [image])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
