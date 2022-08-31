@@ -17,8 +17,7 @@ def all_posts():
 def my_home_page():
     user_posts = Post.query.order_by(Post.created_at).limit(
         10).all()
-    return {'userPosts': [{'content': 'post 1'}]}
-    {'userPosts': [post.to_dict() for post in user_posts]}
+    return {'userPosts': [post.to_dict() for post in user_posts]}
 
 
 # Profile page, all posts by current user
@@ -59,7 +58,44 @@ def create_post():
             post_id=new_post.id
         )
         db.session.add(new_image)
-        # new_post.images.append(image)
     db.session.commit()
 
     return {'post': new_post.to_dict()}
+
+# delete post by id
+
+
+@post_routes.delete('/<int:id>')
+@login_required
+def delete_post(id):
+    post = Post.query.get_or_404(id)
+
+    if post.user_id == current_user.id:
+        db.session.delete(post)
+        db.session.commit()
+    else:
+        return {'error': 'You are not authorized to delete this'}, 403
+    return {'message': 'Successfully deleted'}
+
+# update post by id
+
+
+@post_routes.put('/<int:id>')
+@login_required
+def update_post(id):
+    post = Post.query.get_or_404(id)
+
+    data = request.get_json()
+    content = data['content']
+
+    post.content = content
+
+    db.session.commit()
+    return {'updatedPost': post.to_dict()}
+
+
+# find post by id
+@post_routes.get('/<int:id>')
+def find_post_by_id(id):
+    post = Post.query.get_or_404(id)
+    return {'post': post.to_dict()}

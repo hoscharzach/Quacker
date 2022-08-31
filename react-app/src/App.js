@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
@@ -10,7 +10,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import UploadPicture from './components/images/UploadPicture';
 import ImageDisplay from './components/images/GetImages';
-import Main from './components/home/Main';
+import Home from './components/Home';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -43,7 +43,7 @@ function App() {
           <ProtectedRoute path='/users' exact={true} >
             <UsersList />
           </ProtectedRoute>
-          <ProtectedRoute path='/users/:userId' exact={true} >
+          <ProtectedRoute path='/profile/:username' exact={true} >
             <User />
           </ProtectedRoute>
           <ProtectedRoute path='/upload' exact={true} >
@@ -53,7 +53,7 @@ function App() {
             <ImageDisplay />
           </ProtectedRoute>
           <ProtectedRoute path='/home' exact={true} >
-            <Main />
+            <Home />
           </ProtectedRoute>
         </Switch>
       </BrowserRouter>

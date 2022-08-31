@@ -9,6 +9,18 @@
 #entire-app-container {
     display: flex;
     justify-content: center;
+    width: 100%;
+
+}
+
+.nav-items {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
 }
 
 .get-images-container {
