@@ -24,10 +24,16 @@ def my_home_page():
 @post_routes.get('/<string:username>')
 @login_required
 def profile_page(username):
+    # find user or 404
     user = User.query.filter_by(
-        username == username).first_or_404(description=f'There is no user by the name {username}')
+        username=username).first_or_404(description=f'There is no user by the name {username}')
 
-    user_posts = Post.query.filter_by
+    # find users posts
+    user_posts = Post.query.filter(
+        Post.user_id == user.id).order_by(Post.created_at).all()
+
+    # return the posts in an array
+    return {'user_posts': [post.to_dict() for post in user_posts]}
 
 
 # create new post, only validation is less than 280 characters, no empty post

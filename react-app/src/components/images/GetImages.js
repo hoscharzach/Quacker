@@ -8,7 +8,7 @@ export default function ImageDisplay() {
 
     async function getAllImages() {
         setLoading(true)
-        const data = await fetch('/api/images/')
+        const data = await fetch('/api/images')
         const images = await data.json()
         setImages(images.images)
         setLoading(false)
