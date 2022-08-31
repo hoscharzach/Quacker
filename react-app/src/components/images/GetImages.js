@@ -23,11 +23,13 @@ export default function ImageDisplay() {
             {loading &&
                 <p>Loading...</p>}
 
-            {!loading &&
-                images &&
-                images.map(el => (
-                    <img alt="" key={el.id} src={el.url}></img>
-                ))}
+            <div className="get-images-container">
+                {!loading &&
+                    images &&
+                    images.map(el => (
+                        <img alt="" key={el.id} src={el.url}></img>
+                    ))}
+            </div>
         </>
     )
 }

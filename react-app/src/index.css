@@ -1,1 +1,10 @@
 /* TODO Add site wide styles */
+#entire-app-container {
+    display: flex;
+    justify-content: center;
+}
+
+.get-images-container {
+    display: flex;
+    flex-direction: column;
+}
