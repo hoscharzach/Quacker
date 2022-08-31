@@ -3,18 +3,18 @@ import { useParams } from 'react-router-dom';
 
 function User() {
   const [user, setUser] = useState({});
-  const { userId }  = useParams();
+  const { username } = useParams();
 
   useEffect(() => {
-    if (!userId) {
+    if (!username) {
       return;
     }
     (async () => {
-      const response = await fetch(`/api/users/${userId}`);
+      const response = await fetch(`/api/users/${username}`);
       const user = await response.json();
       setUser(user);
     })();
-  }, [userId]);
+  }, [username]);
 
   if (!user) {
     return null;
@@ -23,7 +23,7 @@ function User() {
   return (
     <ul>
       <li>
-        <strong>User Id</strong> {userId}
+        <strong>User Id</strong> {user.id}
       </li>
       <li>
         <strong>Username</strong> {user.username}
