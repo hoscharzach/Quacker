@@ -29,7 +29,6 @@ const UploadPicture = () => {
     }, [image])
 
     useEffect(() => {
-
         setHideImageInput(imageGroup.length >= 4)
     }, [imageGroup])
 
@@ -59,12 +58,6 @@ const UploadPicture = () => {
             <img hidden={hideImageInput} id="file-select" onClick={handleFileClick} src={uploadImageIcon} alt="" ></img>
 
             {(imageLoading) && <p>Loading...</p>}
-
-            {/* <div>
-                {imageGroup.length > 0 && imageGroup.map((el, i) => (
-                    <img key={i} alt="" src={el} ></img>
-                ))}
-            </div> */}
         </>
     )
 }

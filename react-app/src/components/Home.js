@@ -10,7 +10,7 @@ export default function Home() {
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
-    const posts = useSelector(state => state.posts.normPosts)
+    const posts = useSelector(state => state.posts.allPosts)
 
     useEffect(() => {
         (async () => {
@@ -32,7 +32,7 @@ export default function Home() {
                     <CreatePost />
                 </div>
                 {posts &&
-                    <PostFeed posts={Object.values(posts).reverse()} />}
+                    <PostFeed posts={posts} />}
             </div>
         </>
     )

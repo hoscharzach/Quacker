@@ -17,11 +17,11 @@ const addPost = (post) => ({
 })
 
 export const getAllPosts = () => async (dispatch) => {
-    const response = await fetch('/api/posts')
+    const response = await fetch('/api/posts/home')
 
     if (response.ok) {
         const data = await response.json()
-        dispatch(loadPosts(data.allPosts))
+        dispatch(loadPosts(data.posts))
     } else {
         throw response
     }
