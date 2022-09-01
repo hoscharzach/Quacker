@@ -39,7 +39,7 @@ const SignUpForm = () => {
   };
 
   if (user) {
-    return <Redirect to='/home' />;
+    return <Redirect to='/home' ></Redirect>;
   }
 
   return (
@@ -87,8 +87,7 @@ const SignUpForm = () => {
         ></input>
       </div>
       <button type='submit'>Sign Up</button>
-      <p>Already have an account?</p>
-      <Link to='/login'>Login here</Link>
+      <p>Already have an account? Login <Link to='/login'><strong>here</strong></Link></p>
     </form>
   );
 };

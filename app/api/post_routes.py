@@ -15,7 +15,7 @@ def all_posts():
 @post_routes.get('/home')
 @login_required
 def my_home_page():
-    user_posts = Post.query.order_by(Post.created_at).limit(
+    user_posts = Post.query.order_by(Post.created_at.desc()).limit(
         10).all()
     return {'userPosts': [post.to_dict() for post in user_posts]}
 
@@ -54,7 +54,7 @@ def create_post():
 
     for image in images:
         new_image = Image(
-            url=image,
+            url=image['url'],
             post_id=new_post.id
         )
         db.session.add(new_image)
