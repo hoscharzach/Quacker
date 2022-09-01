@@ -8,7 +8,7 @@ export default function PostFeed({ posts }) {
                     <p>{el.content}</p>
                     {el.images.length > 0 &&
                         el.images.map(el => (
-                            <img src={el.url}></img>
+                            <img key={el.id} src={el.url}></img>
                         ))}
                 </div>
             ))}

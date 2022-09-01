@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import CreatePost from "./postfeed/CreatePost";
+import UploadPicture from "./imagetestcomponent/UploadPicture";
 import PostFeed from "./postfeed/PostFeed";
 
 export default function Home() {
+
 
     const [loaded, setLoaded] = useState(false)
     const [viewPosts, setViewPosts] = useState([])
@@ -22,13 +25,15 @@ export default function Home() {
     }
 
     return (
-        <div className="center-column">
-            <div>
-                <p>New Post here</p>
-                <button>Create Post</button>
+        <>
+
+            <div className="center-column">
+                <div>
+                    <CreatePost />
+                </div>
+                {viewPosts.length > 0 &&
+                    <PostFeed posts={viewPosts} />}
             </div>
-            {viewPosts.length > 0 &&
-                <PostFeed posts={viewPosts} />}
-        </div>
+        </>
     )
 }
