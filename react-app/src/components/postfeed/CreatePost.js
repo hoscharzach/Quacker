@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { clearImages } from "../../store/images"
+import { createNewPost } from "../../store/posts"
 import UploadPicture from "../imagetestcomponent/UploadPicture"
 import './createpost.css'
 
@@ -10,17 +11,11 @@ export default function CreatePost() {
 
     const images = useSelector(state => state.images.staging)
 
-    // const [staging, setStaging] = useState([])
     const [content, setContent] = useState('')
 
     useEffect(() => {
         return () => dispatch(clearImages())
     }, [])
-
-    // useEffect(() => {
-    //     setStaging(Object.values(images))
-    //     console.log(staging)
-    // }, [images])
 
     function changeContent(e) {
         setContent(e.target.value)
@@ -29,25 +24,17 @@ export default function CreatePost() {
     async function handleSubmit(e) {
         e.preventDefault()
 
-        const newPost = {
+        const payload = {
             content,
             images: Object.values(images)
         }
 
-        const response = await fetch('/api/posts/new', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newPost),
-        })
+        dispatch(createNewPost(payload))
 
         setContent('')
         dispatch(clearImages())
 
     }
-
-    console.log(images)
 
     return (
         <div className="new-post-wrapper">

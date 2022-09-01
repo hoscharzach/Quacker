@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import CreatePost from "./postfeed/CreatePost";
 import UploadPicture from "./imagetestcomponent/UploadPicture";
 import PostFeed from "./postfeed/PostFeed";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPosts } from "../store/posts";
 
 export default function Home() {
 
+    const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
-    const [viewPosts, setViewPosts] = useState([])
+    const posts = useSelector(state => state.posts.normPosts)
 
     useEffect(() => {
         (async () => {
-            const res = await fetch('/api/posts/home');
-            const data = await res.json();
-            setViewPosts(data.userPosts);
+            await dispatch(getAllPosts());
             setLoaded(true);
         })();
     }, []);
@@ -26,13 +27,12 @@ export default function Home() {
 
     return (
         <>
-
             <div className="center-column">
                 <div>
                     <CreatePost />
                 </div>
-                {viewPosts.length > 0 &&
-                    <PostFeed posts={viewPosts} />}
+                {posts &&
+                    <PostFeed posts={Object.values(posts).reverse()} />}
             </div>
         </>
     )
