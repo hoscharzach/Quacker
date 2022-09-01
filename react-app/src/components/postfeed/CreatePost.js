@@ -47,8 +47,6 @@ export default function CreatePost() {
 
     }
 
-    console.log(images)
-
     return (
         <div className="new-post-wrapper">
             <textarea className="new-post-text" maxLength={280} onChange={changeContent} value={content} placeholder="What's happening?" ></textarea>
