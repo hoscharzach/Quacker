@@ -11,6 +11,11 @@ const loadPosts = (posts) => ({
     posts
 })
 
+const addPost = (post) => ({
+    type: ADD_POST,
+    post
+})
+
 export const getAllPosts = () => async (dispatch) => {
     const response = await fetch('/api/posts')
 
@@ -22,18 +27,35 @@ export const getAllPosts = () => async (dispatch) => {
     }
 }
 
+export const createNewPost = (payload) => async (dispatch) => {
+    const response = await fetch('/api/posts/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(addPost(data.post))
+    }
+}
 
 export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
         case LOAD_POSTS:
             newState = JSON.parse(JSON.stringify(state))
-            console.log(action, "ACTION IN REDUCER")
             newState.allPosts = [...action.posts]
 
             action.posts.forEach(el => {
                 newState.normPosts[el.id] = el
             })
+            return newState
+        case ADD_POST:
+            newState = JSON.parse(JSON.stringify(state))
+            newState.normPosts[action.post.id] = action.post
             return newState
         default:
             return state
