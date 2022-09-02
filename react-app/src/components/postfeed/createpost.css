@@ -4,8 +4,10 @@
     overflow: auto;
     outline: none;
     resize: none;
-    border-bottom: 1px solid lightgrey;
+}
 
+.new-post-buttons {
+    border-top: 1px solid lightgrey;
 }
 
 .new-post-buttons {

@@ -12,6 +12,7 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, onupdate=func.now())
 
+    user = db.relationship('User', back_populates='posts')
     images = db.relationship(
         'Image', backref='posts', cascade='all, delete')
     comments = db.relationship(
@@ -21,7 +22,7 @@ class Post(db.Model):
         return {
             'id': self.id,
             'content': self.content,
-            'authorId': self.user_id,
+            'user': self.user.to_dict_basic_info(),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
             'images': [x.to_dict() for x in self.images],

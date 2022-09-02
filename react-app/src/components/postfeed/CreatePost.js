@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { clearImages } from "../../store/images"
 import { createNewPost } from "../../store/posts"
-import UploadPicture from "../imagetestcomponent/UploadPicture"
+import UploadPicture from "../UploadPicture"
 import './createpost.css'
 
 export default function CreatePost() {
@@ -12,6 +12,7 @@ export default function CreatePost() {
     const images = useSelector(state => state.images.staging)
 
     const [content, setContent] = useState('')
+    const [errors, setErrors] = useState([])
 
     useEffect(() => {
         return () => dispatch(clearImages())
@@ -19,6 +20,10 @@ export default function CreatePost() {
 
     function changeContent(e) {
         setContent(e.target.value)
+
+        content.length >= 275 ?
+            document.getElementsByClassName('character-count-text')[0].style.color = 'red' :
+            document.getElementsByClassName('character-count-text')[0].style.color = 'black'
     }
 
     async function handleSubmit(e) {
@@ -29,12 +34,17 @@ export default function CreatePost() {
             images: Object.values(images)
         }
 
-        dispatch(createNewPost(payload))
-
-        setContent('')
-        dispatch(clearImages())
+        await dispatch(createNewPost(payload))
+            .then(data => {
+                setContent('')
+                dispatch(clearImages())
+            })
+            .catch(data => {
+                setErrors(data)
+            })
 
     }
+
 
     return (
         <div className="new-post-wrapper">
@@ -49,8 +59,10 @@ export default function CreatePost() {
                 <div className="new-post-buttons">
                     <UploadPicture />
                     <button onClick={handleSubmit}>Quack</button>
+                    <span className="character-count-text">Character Limit: {content.length}/280</span>
                 </div>
             </div>
         </div>
     )
+
 }

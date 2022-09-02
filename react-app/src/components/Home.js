@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import CreatePost from "./postfeed/CreatePost";
-import UploadPicture from "./imagetestcomponent/UploadPicture";
 import PostFeed from "./postfeed/PostFeed";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../store/posts";
@@ -10,7 +9,7 @@ export default function Home() {
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
-    const posts = useSelector(state => state.posts.normPosts)
+    const posts = useSelector(state => state.posts.allPosts)
 
     useEffect(() => {
         (async () => {
@@ -28,11 +27,11 @@ export default function Home() {
     return (
         <>
             <div className="center-column">
-                <div>
-                    <CreatePost />
-                </div>
+
+                <CreatePost />
+
                 {posts &&
-                    <PostFeed posts={Object.values(posts).reverse()} />}
+                    <PostFeed posts={posts} />}
             </div>
         </>
     )

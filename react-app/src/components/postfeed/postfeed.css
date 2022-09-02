@@ -1,3 +1,8 @@
 .post-container {
     border: 1px solid grey;
+    width: 600px;
+}
+
+.post-content-text {
+    word-break: break-all;
 }

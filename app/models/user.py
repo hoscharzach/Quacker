@@ -40,6 +40,18 @@ class User(db.Model, UserMixin):
             'images': [image.to_dict() for image in self.images]
         }
 
+    def to_dict_basic_info(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+        }
+
+    def to_dict_only_posts(self):
+        return {
+            'posts': [post.to_dict() for post in self.posts]
+        }
+
     posts = db.relationship(
         'Post', backref='users', cascade='all, delete')
     comments = db.relationship(

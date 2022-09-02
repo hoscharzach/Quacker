@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './images.css'
-import uploadImageIcon from '../../../src/images/imageuploadsvg.svg'
+import uploadImageIcon from '../images/imageuploadsvg.svg'
 import { useDispatch, useSelector } from "react-redux";
-import { uploadImage } from "../../store/images";
+import { uploadImage } from "../store/images";
 
 
 const UploadPicture = () => {
@@ -23,15 +23,16 @@ const UploadPicture = () => {
             return
         }
         else if (image) {
-            const x = dispatch(uploadImage(image))
-            if (x.errors) alert(x.errors.errors)
+            (async () => {
+                const errors = await dispatch(uploadImage(image));
+                if (errors) alert(errors)
+            })()
         }
-    }, [image])
+    }, [image, dispatch])
 
     useEffect(() => {
-
         setHideImageInput(imageGroup.length >= 4)
-    }, [imageGroup])
+    }, [imageGroup.length])
 
     const updateImage = (e) => {
         const file = e.target.files[0];
@@ -59,12 +60,6 @@ const UploadPicture = () => {
             <img hidden={hideImageInput} id="file-select" onClick={handleFileClick} src={uploadImageIcon} alt="" ></img>
 
             {(imageLoading) && <p>Loading...</p>}
-
-            {/* <div>
-                {imageGroup.length > 0 && imageGroup.map((el, i) => (
-                    <img key={i} alt="" src={el} ></img>
-                ))}
-            </div> */}
         </>
     )
 }

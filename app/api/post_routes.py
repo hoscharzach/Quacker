@@ -7,8 +7,8 @@ post_routes = Blueprint('posts', __name__)
 
 @post_routes.get('')
 def all_posts():
-    all_posts = Post.query.all()
-    return {'allPosts': [post.to_dict() for post in all_posts]}
+    all_posts = Post.query.order_by(Post.created_at.desc()).all()
+    return {'posts': [post.to_dict() for post in all_posts]}
 
 
 # Do pagination here, loading 10 at a time
@@ -16,8 +16,8 @@ def all_posts():
 @login_required
 def my_home_page():
     user_posts = Post.query.order_by(Post.created_at.desc()).limit(
-        10).all()
-    return {'userPosts': [post.to_dict() for post in user_posts]}
+        10)
+    return {'posts': [post.to_dict() for post in user_posts]}
 
 
 # Profile page, all posts by current user
@@ -29,11 +29,10 @@ def profile_page(username):
         username=username).first_or_404(description=f'There is no user by the name {username}')
 
     # find users posts
-    user_posts = Post.query.filter(
-        Post.user_id == user.id).order_by(Post.created_at).all()
-
+    # user_posts = Post.query.filter(
+    #     Post.user_id == user.id).order_by(Post.created_at.desc()).limit(5)
     # return the posts in an array
-    return {'user_posts': [post.to_dict() for post in user_posts]}
+    return {'posts': [post.to_dict() for post in user.posts]}
 
 
 # create new post, only validation is less than 280 characters, no empty post
@@ -91,7 +90,7 @@ def update_post(id):
     post.content = content
 
     db.session.commit()
-    return {'updatedPost': post.to_dict()}
+    return {'post': post.to_dict()}
 
 
 # find post by id
