@@ -11,6 +11,8 @@ import { authenticate } from './store/session';
 import UploadPicture from './components/UploadPicture';
 import ImageDisplay from './components/imagetestcomponent/GetImages';
 import Home from './components/Home';
+import Testing from './components/Testing';
+import SinglePost from './components/SinglePost';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -46,14 +48,20 @@ function App() {
           <ProtectedRoute path='/profile/:username' exact={true} >
             <User />
           </ProtectedRoute>
-          <ProtectedRoute path='/upload' exact={true} >
+          <ProtectedRoute path='/profile/:username/post/:postId' >
+            <SinglePost />
+          </ProtectedRoute>
+          {/* <ProtectedRoute path='/upload' exact={true} >
             <UploadPicture />
           </ProtectedRoute>
           <ProtectedRoute path='/images' exact={true} >
             <ImageDisplay />
-          </ProtectedRoute>
+          </ProtectedRoute> */}
           <ProtectedRoute path='/home' exact={true} >
             <Home />
+          </ProtectedRoute>
+          <ProtectedRoute path='/testing' exact={true} >
+            <Testing />
           </ProtectedRoute>
           <Route>
             404 Not Found

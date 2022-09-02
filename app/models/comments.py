@@ -14,7 +14,7 @@ class Comment(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=func.now())
 
     images = db.relationship(
-        'Image', backref='comments', cascade='all, delete')
+        'Image', backref='comment', cascade='all, delete')
 
     def to_dict(self):
         return {
@@ -23,5 +23,6 @@ class Comment(db.Model):
             'postId': self.post_id,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
+            'user': self.user.to_dict_basic_info(),
             'images': [image.to_dict() for image in self.images]
         }

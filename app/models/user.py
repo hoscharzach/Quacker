@@ -8,6 +8,7 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
+    # change to display name instead of first and last name
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
     bio = db.Column(db.String(250))
@@ -45,6 +46,7 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
+            'profilePic': self.profile_pic
         }
 
     def to_dict_only_posts(self):
@@ -53,8 +55,8 @@ class User(db.Model, UserMixin):
         }
 
     posts = db.relationship(
-        'Post', backref='users', cascade='all, delete')
+        'Post', backref='user', cascade='all, delete')
     comments = db.relationship(
-        'Comment', backref='users', cascade='all, delete')
+        'Comment', backref='user', cascade='all, delete')
     images = db.relationship(
-        'Image', backref='users', cascade='all, delete')
+        'Image', backref='user', cascade='all, delete')

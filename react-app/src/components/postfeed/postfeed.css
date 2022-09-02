@@ -1,6 +1,9 @@
 .post-container {
     border: 1px solid grey;
     width: 600px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
 }
 
 .post-content-text {

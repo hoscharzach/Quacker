@@ -1,6 +1,6 @@
 from flask import Blueprint, request
-from flask_login import login_required
-from app.models import Comment
+from flask_login import login_required, current_user
+from app.models import Comment, db
 
 comment_routes = Blueprint('comments', __name__)
 
@@ -18,10 +18,7 @@ def get_all_commments_from_post(postid):
     return {'comments': [comment.to_dict() for comment in comments]}
 
 
-# add comment to specific post
-@comment_routes.post('/posts/<int:postid>/comments')
-def post_new_comment(postid):
-    data = request.get_json()
+
 
     # update comment
 

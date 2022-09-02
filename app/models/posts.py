@@ -12,7 +12,6 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, onupdate=func.now())
 
-    user = db.relationship('User', back_populates='posts')
     images = db.relationship(
         'Image', backref='posts', cascade='all, delete')
     comments = db.relationship(

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Post, User, db, Image
+from app.models import Post, User, db, Image, Comment
 
 post_routes = Blueprint('posts', __name__)
 
@@ -94,3 +94,21 @@ def update_post(id):
 def find_post_by_id(id):
     post = Post.query.get_or_404(id)
     return {'post': post.to_dict()}
+
+
+@post_routes.post('<int:postid>/comments')
+@login_required
+def post_new_comment(postid):
+    data = request.get_json()
+    content = data['content']
+
+    new_comment = Comment(
+        poster_id=current_user.id,
+        post_id=postid,
+        content=content
+    )
+
+    db.session.add(new_comment)
+    db.session.commit()
+
+    return {'comment': new_comment.to_dict()}
