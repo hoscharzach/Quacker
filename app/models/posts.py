@@ -26,5 +26,6 @@ class Post(db.Model):
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
             'images': [x.to_dict() for x in self.images],
-            'comments': [x.to_dict() for x in self.comments]
+            'comments': [x.to_dict() for x in self.comments],
+            'numComments': len(self.comments)
         }
