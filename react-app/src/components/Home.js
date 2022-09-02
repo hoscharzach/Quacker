@@ -3,6 +3,7 @@ import CreatePost from "./postfeed/CreatePost";
 import PostFeed from "./postfeed/PostFeed";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../store/posts";
+import './home.css'
 
 export default function Home() {
 
@@ -18,18 +19,14 @@ export default function Home() {
         })();
     }, []);
 
-    if (!loaded) {
-        return (
-            <p>Loading...</p>
-        )
-    }
-
     return (
         <>
             <div className="center-column">
 
                 <CreatePost />
 
+                {!loaded &&
+                    <div id="loading"></div>}
                 {posts &&
                     <PostFeed posts={posts} />}
             </div>

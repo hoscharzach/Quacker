@@ -7,6 +7,8 @@ import './editpost.css'
 export default function EditPost({ post, setShowModal }) {
     const dispatch = useDispatch()
 
+    console.log(post)
+
     const [content, setContent] = useState(post.content)
     const [images, setImages] = useState(post.images)
 

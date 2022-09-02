@@ -7,6 +7,7 @@ import { uploadImage } from "../store/images";
 
 const UploadPicture = () => {
 
+
     const staging = useSelector(state => state.images.staging)
     const imageGroup = Object.values(staging)
 
@@ -58,8 +59,6 @@ const UploadPicture = () => {
             />
 
             <img hidden={hideImageInput} id="file-select" onClick={handleFileClick} src={uploadImageIcon} alt="" ></img>
-
-            {(imageLoading) && <p>Loading...</p>}
         </>
     )
 }
