@@ -29,11 +29,10 @@ def profile_page(username):
         username=username).first_or_404(description=f'There is no user by the name {username}')
 
     # find users posts
-    user_posts = Post.query.filter(
-        Post.user_id == user.id).order_by(Post.created_at).all()
-
+    # user_posts = Post.query.filter(
+    #     Post.user_id == user.id).order_by(Post.created_at.desc()).limit(5)
     # return the posts in an array
-    return {'posts': [post.to_dict() for post in user_posts]}
+    return {'posts': [post.to_dict() for post in user.posts]}
 
 
 # create new post, only validation is less than 280 characters, no empty post

@@ -16,6 +16,23 @@ const addPost = (post) => ({
     post
 })
 
+const deletePost = (id) => ({
+    type: DELETE_POST,
+    id
+})
+
+export const deletePostById = (id) => async (dispatch) => {
+    const response = await fetch(`/api/posts/${id}`, {
+        method: 'DELETE'
+    })
+
+    if (response.ok) {
+        dispatch(deletePost(id))
+    } else {
+        return response
+    }
+}
+
 export const getAllPosts = () => async (dispatch) => {
     const response = await fetch('/api/posts/home')
 
@@ -23,7 +40,7 @@ export const getAllPosts = () => async (dispatch) => {
         const data = await response.json()
         dispatch(loadPosts(data.posts))
     } else {
-        throw response
+        return response
     }
 }
 
@@ -46,17 +63,28 @@ export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
         case LOAD_POSTS:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
             newState.allPosts = [...action.posts]
 
             action.posts.forEach(el => {
                 newState.normPosts[el.id] = el
             })
             return newState
+
         case ADD_POST:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
             newState.normPosts[action.post.id] = action.post
+            newState.allPosts = [action.post, ...newState.allPosts]
             return newState
+
+        case DELETE_POST:
+            newState = { ...state }
+            delete newState.normPosts[action.id]
+            newState.allPosts = newState.allPosts.filter(el => {
+                return el.id !== action.id
+            })
+            return newState
+
         default:
             return state
     }

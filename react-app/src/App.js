@@ -8,7 +8,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
-import UploadPicture from './components/imagetestcomponent/UploadPicture';
+import UploadPicture from './components/UploadPicture';
 import ImageDisplay from './components/imagetestcomponent/GetImages';
 import Home from './components/Home';
 
