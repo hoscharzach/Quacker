@@ -24,14 +24,10 @@ def my_home_page():
 @post_routes.get('/<string:username>')
 @login_required
 def profile_page(username):
-    # find user or 404
+
     user = User.query.filter_by(
         username=username).first_or_404(description=f'There is no user by the name {username}')
 
-    # find users posts
-    # user_posts = Post.query.filter(
-    #     Post.user_id == user.id).order_by(Post.created_at.desc()).limit(5)
-    # return the posts in an array
     return {'posts': [post.to_dict() for post in user.posts]}
 
 
