@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
+import PostFeed from "./postfeed/PostFeed"
 
 export default function SinglePost() {
     const { postId, username } = useParams()
@@ -16,17 +17,22 @@ export default function SinglePost() {
                     setPost(data.post)
                     setLoaded(true)
                 })
+                .catch(data => {
+                    alert(data)
+                })
             setLoaded(true);
         })();
     }, [postId, username])
+
     return (
         <>
 
             {username}'s profile and {postId}
             <Link to={`/profile/marnie/post/${7}`}>Hey</Link>
             {loaded &&
-                <>
-                    <div className="single-post-main-container">
+                <PostFeed posts={post.replies} />}
+
+            {/* <div className="single-post-main-container">
                         <p>{post.content}</p>
                     </div>
                     <div className="comments">
@@ -37,9 +43,9 @@ export default function SinglePost() {
                                 <p key={el.id}>{el.content}</p>
                             </>
                         ))}
-                    </div>
-                </>
-            }
+                    </div> */}
+
+
         </>
     )
 }

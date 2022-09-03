@@ -38,5 +38,8 @@ class Post(db.Model):
             'user': self.user.to_dict_basic_info(),
             'content': self.content,
             'inReplyTo': self.parent.id,
-            'images': [x.to_dict() for x in self.images]
+            'images': [x.to_dict() for x in self.images],
+            'numReplies': len(self.replies) if self.replies else 0,
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at
         }

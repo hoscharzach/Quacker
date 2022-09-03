@@ -24,7 +24,7 @@ export default function PostFeed({ posts }) {
                     <div className='post-right-container'>
 
                         <span className='post-content-text'>
-                            {el.content}
+                            {el.content} <strong>Post ID: {el.id}</strong>
                             <Link to={`/profile/${el.user.username}/post/${el.id}`}>
                                 {`${el.createdAt.slice(8, 11)} ${el.createdAt.slice(5, 7)}`}
                             </Link>
