@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import CreatePost from "./postfeed/CreatePost";
-import PostFeed from "./postfeed/PostFeed";
+import CreatePost from "./CreatePost";
+import PostFeed from "../postfeed/PostFeed";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../store/posts";
+import { getAllPosts } from "../../store/posts";
 import './home.css'
 
 export default function Home() {

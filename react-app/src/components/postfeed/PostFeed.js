@@ -15,6 +15,8 @@ export default function PostFeed({ posts }) {
     return (
         <div className="main-posts-wrapper">
             {posts && posts.length > 0 && posts.map(el => (
+                // if post.user not in state
+                // put them in state
                 <div className="post-container" key={el.id} >
                     <div className='post-profile-icon-container'>
                         <Link to={`/profile/${el.user.username}`}><img src={el.user.profilePicture || defaultProfile} alt=""></img></Link>
@@ -30,8 +32,8 @@ export default function PostFeed({ posts }) {
 
                         {el.images.length > 0 &&
                             el.images.map(el => (
-                                <div className='post-images-wrapper'>
-                                    <img alt='' key={el.id} src={el.url}></img>
+                                <div key={el.id} className='post-images-wrapper'>
+                                    <img alt='' src={el.url}></img>
 
                                 </div>
 

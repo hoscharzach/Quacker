@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function User() {
   const { username } = useParams();
@@ -39,11 +39,11 @@ function User() {
     <>
       <div className='profile-page'>
         <div className='profile-component'>
-          Hello from {user.username}'s profile!
+          Hello from {username}'s profile!
         </div>
         <div className='profile-posts-wrapper'>
           {userPosts.map(el => (
-            <div>{el.content}</div>
+            <Link to={`/profile/username/post/${el.id}`}> <div>{el.content}</div></Link>
           ))}
         </div>
       </div>

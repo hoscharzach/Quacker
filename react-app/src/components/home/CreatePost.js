@@ -14,9 +14,9 @@ export default function CreatePost() {
     const [content, setContent] = useState('')
     const [errors, setErrors] = useState([])
 
-    useEffect(() => {
-        return () => dispatch(clearImages())
-    }, [])
+    // useEffect(() => {
+    //     return () => dispatch(clearImages())
+    // }, [])
 
     function changeContent(e) {
         setContent(e.target.value)

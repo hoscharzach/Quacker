@@ -6,11 +6,11 @@ import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
-import User from './components/User';
+import User from './components/profile/User';
 import { authenticate } from './store/session';
 import UploadPicture from './components/UploadPicture';
 import ImageDisplay from './components/imagetestcomponent/GetImages';
-import Home from './components/Home';
+import Home from './components/home/Home';
 import Testing from './components/Testing';
 import SinglePost from './components/SinglePost';
 
