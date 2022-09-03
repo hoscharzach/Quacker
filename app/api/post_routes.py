@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Post, User, db, Image, Comment
+from app.models import Post, User, db, Image
 
 post_routes = Blueprint('posts', __name__)
 
@@ -15,7 +15,7 @@ def all_posts():
 @post_routes.get('/home')
 @login_required
 def my_home_page():
-    user_posts = Post.query.order_by(Post.created_at.desc()).limit(
+    user_posts = Post.query.filter_by(parent=None).order_by(Post.created_at.desc()).limit(
         10)
     return {'posts': [post.to_dict() for post in user_posts]}
 
@@ -96,19 +96,21 @@ def find_post_by_id(id):
     return {'post': post.to_dict()}
 
 
-@post_routes.post('<int:postid>/comments')
+@post_routes.post('/<int:id>/reply')
 @login_required
-def post_new_comment(postid):
+def post_new_reply(id):
     data = request.get_json()
     content = data['content']
 
-    new_comment = Comment(
-        poster_id=current_user.id,
-        post_id=postid,
+    new_reply = Post(
+        user_id=current_user.id,
+        parent_id=id,
         content=content
     )
 
-    db.session.add(new_comment)
+    db.session.add(new_reply)
     db.session.commit()
 
-    return {'comment': new_comment.to_dict()}
+    # print(new_reply.parent)
+
+    return {'comment': new_reply.to_dict()}

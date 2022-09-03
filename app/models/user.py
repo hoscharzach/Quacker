@@ -9,8 +9,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     # change to display name instead of first and last name
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
+    display_name = db.Column(db.String(25), nullable=False)
     bio = db.Column(db.String(250))
     profile_pic = db.Column(db.String(250))
     profile_background = db.Column(db.String(250))
@@ -33,20 +32,21 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'firstName': self.first_name,
-            'lastName': self.last_name,
             'bio': self.bio,
             'profilePic': self.profile_pic,
             'profileBackground': self.profile_background,
-            'images': [image.to_dict() for image in self.images]
+            'posts': [x.to_dict() for x in self.posts],
+            # 'images': [image.to_dict() for image in self.images]
         }
 
     def to_dict_basic_info(self):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email,
-            'profilePic': self.profile_pic
+            'displayName': self.display_name,
+            'bio': self.bio,
+            'profilePic': self.profile_pic,
+            'profileBackground': self.profile_background
         }
 
     def to_dict_only_posts(self):
@@ -56,7 +56,7 @@ class User(db.Model, UserMixin):
 
     posts = db.relationship(
         'Post', backref='user', cascade='all, delete')
-    comments = db.relationship(
-        'Comment', backref='user', cascade='all, delete')
-    images = db.relationship(
-        'Image', backref='user', cascade='all, delete')
+    # replies = db.relationship(
+    #     'Comment', backref='user', cascade='all, delete')
+    # images = db.relationship(
+    #     'Image', backref='user', cascade='all, delete')
