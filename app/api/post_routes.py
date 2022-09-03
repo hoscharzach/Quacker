@@ -73,6 +73,7 @@ def delete_post(id):
     return {'message': 'Successfully deleted'}
 
 # update post by id
+# change
 
 
 @post_routes.put('/<int:id>')
