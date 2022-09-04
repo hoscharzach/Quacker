@@ -38,7 +38,7 @@ function User() {
         <div className='profile-posts-wrapper'>
           {!loaded && <div id='loading'></div>}
           {loaded && userPosts.map(el => (
-            <Link to={`/profile/username/post/${el.id}`}> <div>{el.content}</div></Link>
+            <Link key={el.id} to={`/profile/username/post/${el.id}`}> <div>{el.content}</div></Link>
           ))}
         </div>
       </div>

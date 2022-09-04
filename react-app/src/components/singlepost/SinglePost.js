@@ -3,40 +3,77 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import { getSinglePost } from "../../store/posts"
 import PostFeed from "../postfeed/PostFeed"
+import { nanoid } from 'nanoid'
+import CreatePostModal from "../../CreatePostModal"
 
 export default function SinglePost() {
-    const selectNormalizedPosts = useSelector(state => state.posts.normPosts)
     const { postId, username } = useParams()
 
-    console.log(selectNormalizedPosts, "NORMALIZED POSTS")
+    // listen for changes in state posts
+    const selectNormalizedPosts = useSelector(state => state.posts.normPosts)
 
+    console.log("STATE POSTS", selectNormalizedPosts)
     const dispatch = useDispatch()
 
-    const [post, setPost] = useState(null)
-    // const [errors, setErrors] = useState([])
+
+
+    const [loaded, setLoaded] = useState(false)
+    const [post, setPost] = useState(selectNormalizedPosts[postId])
     const [fetched, setFetched] = useState(false)
+    const [errors, setErrors] = useState([])
 
     useEffect(() => {
-        if (!selectNormalizedPosts[postId]) {
+        setErrors([])
+        if (!post) {
             (async () => {
                 await dispatch(getSinglePost(postId))
-                setFetched(true)
+                    .then(data => {
+                        setFetched(true)
+                        setPost(data)
+                    })
+                    .catch(data => {
+                        if (data.status === 404) setErrors(['NOT FOUND'])
+                        setLoaded(true)
+                    })
             })();
         } else {
             setPost(selectNormalizedPosts[postId])
+            setLoaded(true)
         }
 
-    }, [postId, username, dispatch])
+    }, [postId, username, post, dispatch])
 
-    useEffect(() => {
-        selectNormalizedPosts[postId] ? setPost(selectNormalizedPosts[postId]) : setPost(null)
-    }, [fetched])
+    console.log(errors)
 
-    if (!post) return null
+    // useEffect(() => {
+    //     if (fetched && post) setLoaded(true)
+    // }, [post, fetched])
+
+
+
+    // useEffect(() => {
+    //     setErrors([])
+    //     if (selectNormalizedPostById && fetched) {
+    //         setPost(selectNormalizedPostById)
+    //         setLoaded(true)
+    //     } else {
+    //         setErrors(['Post does not exist'])
+    //         setLoaded(true)
+    //     }
+
+    // }, [fetched, post])
+
+    if (!loaded) return null
 
     return (
         <div className="single-post-component-wrapper">
-            {post &&
+            <>
+                {errors.length > 0 &&
+                    errors.map(el => (
+                        <p key={nanoid()}>{el}</p>
+                    ))}
+            </>
+            {loaded && post &&
                 <>
                     <article className="parent-post">
                         <h3>{post.user.username}'s post with id <strong>{post.id}</strong> made on {post.createdAt}</h3>
@@ -48,6 +85,7 @@ export default function SinglePost() {
                             post.images.map(el => (
                                 <img key={el.id} alt="" src={el.url}></img>
                             ))}
+                        <CreatePostModal parentId={post.id} />
                     </article>
                     <PostFeed posts={post.replies} />
                 </>

@@ -40,8 +40,9 @@ export const getSinglePost = (postId) => async (dispatch) => {
         const data = await response.json()
         console.log(data, "DATA INSIDE THUNK")
         dispatch(loadOnePost(data.post))
+        return data.post
     } else {
-        return response.status
+        throw response
     }
 }
 

@@ -5,10 +5,10 @@ import './postfeed.css'
 import closeImage from '../../images/imageclose-x.svg'
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import { Link } from 'react-router-dom'
+import CreatePostModal from '../../CreatePostModal'
 
 export default function PostFeed({ posts }) {
 
-    let className
 
     const dispatch = useDispatch()
 
@@ -45,6 +45,7 @@ export default function PostFeed({ posts }) {
                             }
                         }>Delete</button>
                         <EditPostModal post={el} />
+                        <CreatePostModal parentId={el.id} />
                     </div>
                 </div>
             ))}

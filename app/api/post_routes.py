@@ -38,8 +38,10 @@ def create_post():
     data = request.get_json()
     content = data['content']
     images = data['images']
+    parent_id = data['parentId'] if 'parentId' in data else None
 
     new_post = Post(
+        parent_id=parent_id,
         content=content,
         user_id=current_user.id
     )
