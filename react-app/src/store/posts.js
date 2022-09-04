@@ -3,12 +3,18 @@ const LOAD_POSTS = '/posts/LOAD'
 const ADD_POST = '/posts/ADD'
 const UPDATE_POST = '/posts/UPDATE'
 const DELETE_POST = '/posts/DELETE'
+const LOAD_ONE = '/posts/SINGLE'
 
 const initialState = { normPosts: {}, allPosts: [] }
 
 const loadPosts = (posts) => ({
     type: LOAD_POSTS,
     posts
+})
+
+const loadOnePost = (post) => ({
+    type: LOAD_ONE,
+    post
 })
 
 const addPost = (post) => ({
@@ -26,6 +32,19 @@ const editPost = (post) => ({
     post
 })
 
+export const getSinglePost = (postId) => async (dispatch) => {
+    const response = await fetch(`/api/posts/${postId}`)
+    console.log(response, "RESPONSE IN THUNK")
+
+    if (response.ok) {
+        const data = await response.json()
+        console.log(data, "DATA INSIDE THUNK")
+        dispatch(loadOnePost(data.post))
+    } else {
+        return response.status
+    }
+}
+
 export const updatePostById = (post) => async (dispatch) => {
     const response = await fetch(`/api/posts/${post.id}`, {
         method: 'PUT',
@@ -38,6 +57,7 @@ export const updatePostById = (post) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json()
         dispatch(editPost(data.post))
+        return data
     } else {
         throw response
     }
@@ -62,7 +82,8 @@ export const getAllPosts = () => async (dispatch) => {
         const data = await response.json()
         dispatch(loadPosts(data.posts))
     } else {
-        throw response
+        const errors = await response.json()
+        return errors
     }
 }
 
@@ -86,6 +107,13 @@ export const createNewPost = (payload) => async (dispatch) => {
 export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
+        case LOAD_ONE:
+            newState = JSON.parse(JSON.stringify(state))
+            console.log(action, "ACTION INSIDE REDUCER")
+            newState.normPosts[action.post.id] = action.post
+            newState.allPosts = [...newState.allPosts, action.post]
+            return newState
+
         case LOAD_POSTS:
             newState = { ...state }
             newState.allPosts = [...action.posts]

@@ -12,7 +12,7 @@ import UploadPicture from './components/UploadPicture';
 import ImageDisplay from './components/imagetestcomponent/GetImages';
 import Home from './components/home/Home';
 import Testing from './components/Testing';
-import SinglePost from './components/SinglePost';
+import SinglePost from './components/singlepost/SinglePost';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -42,29 +42,28 @@ function App() {
           <Route exact path='/login'>
             <LoginForm />
           </Route>
-          <ProtectedRoute path='/users' exact={true} >
-            <UsersList />
-          </ProtectedRoute>
-          <ProtectedRoute path='/profile/:username' exact={true} >
-            <User />
-          </ProtectedRoute>
-          <ProtectedRoute path='/profile/:username/post/:postId' >
-            <SinglePost />
-          </ProtectedRoute>
-          {/* <ProtectedRoute path='/upload' exact={true} >
-            <UploadPicture />
-          </ProtectedRoute>
-          <ProtectedRoute path='/images' exact={true} >
-            <ImageDisplay />
-          </ProtectedRoute> */}
-          <ProtectedRoute path='/home' exact={true} >
+          <ProtectedRoute exact path='/home'>
+            {/* <NavBar /> */}
             <Home />
           </ProtectedRoute>
-          <ProtectedRoute path='/testing' exact={true} >
+          <ProtectedRoute exact path='/users'>
+            {/* <NavBar /> */}
+            <UsersList />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/profile/:username'>
+            {/* <NavBar /> */}
+            <User />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/profile/:username/post/:postId'>
+            {/* <NavBar /> */}
+            <SinglePost />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/testing'>
+            {/* <NavBar /> */}
             <Testing />
           </ProtectedRoute>
           <Route>
-            404 Not Found
+            <Redirect to='/home'></Redirect>
           </Route>
         </Switch>
       </BrowserRouter>

@@ -26,8 +26,8 @@ class Post(db.Model):
             'user': self.user.to_dict_basic_info(),
             'images': [x.to_dict() for x in self.images],
             'replies': [x.to_dict_reply() for x in self.replies],
-            'numReplies': len(self.replies) if self.replies else 0,
-            'numImages': len(self.images) if self.images else 0,
+            'numReplies': len(self.replies),
+            'numImages': len(self.images),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -37,7 +37,7 @@ class Post(db.Model):
             'id': self.id,
             'user': self.user.to_dict_basic_info(),
             'content': self.content,
-            'inReplyTo': self.parent.id,
+            'inReplyTo': self.parent.to_dict_reply() if self.parent else None,
             'images': [x.to_dict() for x in self.images],
             'numReplies': len(self.replies) if self.replies else 0,
             'createdAt': self.created_at,

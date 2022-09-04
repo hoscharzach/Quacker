@@ -17,7 +17,7 @@ export default function Home() {
             await dispatch(getAllPosts());
             setLoaded(true);
         })();
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

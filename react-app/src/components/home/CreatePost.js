@@ -13,18 +13,17 @@ export default function CreatePost() {
 
     const [content, setContent] = useState('')
     const [errors, setErrors] = useState([])
-
-    // useEffect(() => {
-    //     return () => dispatch(clearImages())
-    // }, [])
+    const [style, setStyle] = useState('black')
 
     function changeContent(e) {
         setContent(e.target.value)
-
-        content.length >= 275 ?
-            document.getElementsByClassName('character-count-text')[0].style.color = 'red' :
-            document.getElementsByClassName('character-count-text')[0].style.color = 'black'
     }
+
+    useEffect(() => {
+        if (content.length >= 260) setStyle('red')
+        else if (content.length >= 230) setStyle('#DEC20B')
+        else setStyle('black')
+    }, [content])
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -48,7 +47,7 @@ export default function CreatePost() {
 
     return (
         <div className="new-post-wrapper">
-            <textarea className="new-post-text" maxLength={280} onChange={changeContent} value={content} placeholder="What's happening?" ></textarea>
+            <textarea className="new-post-text" maxLength={280} onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
             <div className="staging-images">
                 {Object.values(images).length > 0 &&
                     Object.values(images).map(el => (
@@ -59,7 +58,7 @@ export default function CreatePost() {
                 <div className="new-post-buttons">
                     <UploadPicture />
                     <button onClick={handleSubmit}>Quack</button>
-                    <span className="character-count-text">Character Limit: {content.length}/280</span>
+                    <span style={{ color: style }}>{280 - content.length}</span>
                 </div>
             </div>
         </div>
