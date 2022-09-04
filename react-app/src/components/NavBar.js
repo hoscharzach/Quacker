@@ -34,8 +34,8 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/upload' exact={true} activeClassName='active'>
-            Upload
+          <NavLink to={`/profile/${user.username}`} exact={true} activeClassName='active'>
+            Profile
           </NavLink>
         </li>
         <li>

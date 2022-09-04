@@ -36,7 +36,6 @@ class User(db.Model, UserMixin):
             'profilePic': self.profile_pic,
             'profileBackground': self.profile_background,
             'posts': [x.to_dict() for x in self.posts],
-            # 'images': [image.to_dict() for image in self.images]
         }
 
     def to_dict_basic_info(self):

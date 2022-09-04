@@ -26,13 +26,7 @@ function User() {
   }, [username]);
 
   if (!user) {
-    return null;
-  }
-
-  else if (!loaded) {
-    return (
-      <div id='loading'></div>
-    )
+    return <p>User not Found</p>;
   }
 
   return (
@@ -42,7 +36,8 @@ function User() {
           Hello from {username}'s profile!
         </div>
         <div className='profile-posts-wrapper'>
-          {userPosts.map(el => (
+          {!loaded && <div id='loading'></div>}
+          {loaded && userPosts.map(el => (
             <Link to={`/profile/username/post/${el.id}`}> <div>{el.content}</div></Link>
           ))}
         </div>

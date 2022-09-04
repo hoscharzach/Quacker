@@ -1,8 +1,26 @@
 /* TODO Add site wide styles */
+* {
+    color: #425476;
+    background-color: #6b8298;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #db9d66;
+    color: black;
+    border: none;
+    border-radius: 10px;
+}
+
+.center-column {
+    border-left: 1px solid #fbecbb;
+    border-right: 1px solid #fbecbb;
+}
 
 #root {
     display: flex;
     justify-content: center;
+    height: 100%;
     width: 100%;
 }
 
