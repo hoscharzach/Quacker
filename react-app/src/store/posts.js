@@ -141,7 +141,7 @@ export default function reducer(state = initialState, action) {
             newState = JSON.parse(JSON.stringify(state))
 
             // add post with key as id
-            newState.normPosts[action.post.id] = action.post
+            newState.normPosts[action.post.id] = { ...newState.normPosts[action.post.id], ...action.post }
             // preprend post to allPosts array because it's newer
             // newState.allPosts = [action.post, ...newState.allPosts]
 
