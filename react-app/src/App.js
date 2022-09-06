@@ -63,7 +63,7 @@ function App() {
             <Testing />
           </ProtectedRoute>
           <Route>
-            <Redirect to='/home'></Redirect>
+            404 Not Found
           </Route>
         </Switch>
       </BrowserRouter>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Modal } from '../src/context/Modal'
-import CreatePost from './components/home/CreatePost'
+import { Modal } from '../context/Modal'
+import CreatePost from './home/CreatePost'
 
 export default function CreatePostModal({ parentId }) {
     const [showModal, setShowModal] = useState(false)

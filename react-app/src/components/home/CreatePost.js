@@ -7,15 +7,16 @@ import defaultProfile from '../../images/defaultprofilepic.svg'
 import UploadPicture from "../UploadPicture"
 import './createpost.css'
 
-export default function CreatePost({ parentId }) {
+export default function CreatePost({ parentId, setShowModal }) {
 
-    console.log(parentId, "PARENT ID IN CREATE POST COMPONENT")
+    // console.log(parentId, "PARENT ID IN CREATE POST COMPONENT")
 
     const dispatch = useDispatch()
 
 
-    const selectParentPost = useSelector(state => state.posts.normPosts[parentId])
-    console.log(selectParentPost, "PARENT POST IN CREATE POST COMPONENT")
+    const selectPosts = useSelector(state => state.posts.normPosts)
+    const selectParentPost = selectPosts[parentId]
+    // console.log(selectParentPost, "PARENT POST IN CREATE POST COMPONENT")
     const images = useSelector(state => state.images.staging)
 
     const [content, setContent] = useState('')
@@ -27,8 +28,8 @@ export default function CreatePost({ parentId }) {
     }
 
     useEffect(() => {
-        if (content.length >= 260) setStyle('red')
-        else if (content.length >= 230) setStyle('#DEC20B')
+        if (content?.length >= 260) setStyle('red')
+        else if (content?.length >= 230) setStyle('#DEC20B')
         else setStyle('black')
     }, [content])
 
@@ -42,14 +43,15 @@ export default function CreatePost({ parentId }) {
             images: Object.values(images)
         }
 
-        await dispatch(createNewPost(payload))
-            .then(data => {
-                setContent('')
-                dispatch(clearImages())
-            })
-            .catch(data => {
-                setErrors(data)
-            })
+        const data = await dispatch(createNewPost(payload))
+        if (data) {
+            alert(data)
+        } else {
+            setContent('')
+            if (setShowModal) setShowModal(false)
+            dispatch(clearImages())
+        }
+
 
     }
 
@@ -73,9 +75,9 @@ export default function CreatePost({ parentId }) {
                         </span>
 
                         {selectParentPost.images.length > 0 &&
-                            selectParentPost.images.map(selectParentPost => (
-                                <div key={selectParentPost.id} className='post-images-wrapper'>
-                                    <img alt='' src={selectParentPost.url}></img>
+                            selectParentPost.images.map(el => (
+                                <div key={el.id} className='post-images-wrapper'>
+                                    <img alt='' src={el.url}></img>
 
                                 </div>
 
@@ -84,8 +86,8 @@ export default function CreatePost({ parentId }) {
                 </div>}
             <textarea className="new-post-text" maxLength={280} onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
             <div className="staging-images">
-                {Object.values(images).length > 0 &&
-                    Object.values(images).map(el => (
+                {Object.values(images)?.length > 0 &&
+                    Object.values(images)?.map(el => (
                         <div key={el.id} >
                             <img src={el.url}></img>
                         </div>

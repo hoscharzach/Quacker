@@ -4,32 +4,34 @@ import { Link, useParams } from "react-router-dom"
 import { getSinglePost } from "../../store/posts"
 import PostFeed from "../postfeed/PostFeed"
 import { nanoid } from 'nanoid'
-import CreatePostModal from "../../CreatePostModal"
+import CreatePostModal from "../CreatePostModal"
 
 export default function SinglePost() {
     const { postId, username } = useParams()
 
-    // listen for changes in state posts
-    const selectNormalizedPosts = useSelector(state => state.posts.normPosts)
+    // listen for changes in state post
+    const selectPosts = useSelector(state => state.posts.normPosts)
+    const parentPost = selectPosts[postId]?.inReplyTo
+    const mainPost = selectPosts[postId]
+    const replies = mainPost?.replies
 
-    console.log("STATE POSTS", selectNormalizedPosts)
     const dispatch = useDispatch()
 
 
 
     const [loaded, setLoaded] = useState(false)
-    const [post, setPost] = useState(selectNormalizedPosts[postId])
-    const [fetched, setFetched] = useState(false)
     const [errors, setErrors] = useState([])
+    console.log(replies)
+
 
     useEffect(() => {
         setErrors([])
-        if (!post) {
+        console.log(!mainPost, mainPost, !(parentPost?.hasOwnProperty('replies')), "!mainPost and mainPost and replies in main post")
+        if (!mainPost || !mainPost.hasOwnProperty.call(mainPost, 'replies')) {
             (async () => {
                 await dispatch(getSinglePost(postId))
                     .then(data => {
-                        setFetched(true)
-                        setPost(data)
+                        setLoaded(true)
                     })
                     .catch(data => {
                         if (data.status === 404) setErrors(['NOT FOUND'])
@@ -37,31 +39,10 @@ export default function SinglePost() {
                     })
             })();
         } else {
-            setPost(selectNormalizedPosts[postId])
             setLoaded(true)
         }
 
-    }, [postId, username, post, dispatch])
-
-    console.log(errors)
-
-    // useEffect(() => {
-    //     if (fetched && post) setLoaded(true)
-    // }, [post, fetched])
-
-
-
-    // useEffect(() => {
-    //     setErrors([])
-    //     if (selectNormalizedPostById && fetched) {
-    //         setPost(selectNormalizedPostById)
-    //         setLoaded(true)
-    //     } else {
-    //         setErrors(['Post does not exist'])
-    //         setLoaded(true)
-    //     }
-
-    // }, [fetched, post])
+    }, [postId, username, dispatch])
 
     if (!loaded) return null
 
@@ -73,21 +54,22 @@ export default function SinglePost() {
                         <p key={nanoid()}>{el}</p>
                     ))}
             </>
-            {loaded && post &&
+
+            {loaded && mainPost &&
                 <>
-                    <article className="parent-post">
-                        <h3>{post.user.username}'s post with id <strong>{post.id}</strong> made on {post.createdAt}</h3>
-                        <p>Content: {post.content}</p>
-                        <p>Number of Replies {post.numReplies}</p>
-                        {post.inReplyTo &&
-                            <p>In Reply to post <Link to={`/profile/${post.user.username}/post/${post.inReplyTo}`}>{post.inReplyTo}</Link></p>}
-                        {post.images &&
-                            post.images.map(el => (
+                    <article className="main-post">
+                        <h3>{mainPost.user.username}'s mainPost with id <strong>{mainPost.id}</strong> made on {mainPost.createdAt}</h3>
+                        <p>Content: {mainPost.content}</p>
+                        <p>Number of Replies {mainPost.numReplies}</p>
+                        {mainPost.inReplyTo &&
+                            <p>In Reply to mainPost <Link to={`/profile/${mainPost.user.username}/post/${mainPost.inReplyTo}`}>{mainPost.inReplyTo}</Link></p>}
+                        {mainPost.images &&
+                            mainPost.images.map(el => (
                                 <img key={el.id} alt="" src={el.url}></img>
                             ))}
-                        <CreatePostModal parentId={post.id} />
+                        <CreatePostModal parentId={mainPost.id} />
                     </article>
-                    <PostFeed posts={post.replies} />
+                    {replies && <PostFeed posts={replies} />}
                 </>
             }
         </div>
