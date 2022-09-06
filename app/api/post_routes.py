@@ -17,7 +17,7 @@ def all_posts():
 def my_home_page():
     user_posts = Post.query.filter_by(parent=None).order_by(Post.created_at.desc()).limit(
         10)
-    return {'posts': [post.to_dict() for post in user_posts]}
+    return {'posts': [post.to_dict_parent_and_replies() for post in user_posts]}
 
 
 # Profile page, all posts by current user
@@ -38,8 +38,10 @@ def create_post():
     data = request.get_json()
     content = data['content']
     images = data['images']
+    parent_id = data['parentId'] if 'parentId' in data else None
 
     new_post = Post(
+        parent_id=parent_id,
         content=content,
         user_id=current_user.id
     )
@@ -94,7 +96,7 @@ def update_post(id):
 @post_routes.get('/<int:id>')
 def find_post_by_id(id):
     post = Post.query.get_or_404(id)
-    return {'post': post.to_dict()}
+    return {'post': post.to_dict_parent_and_replies()}
 
 
 @post_routes.post('/<int:id>/reply')

@@ -10,7 +10,10 @@ export default function Home() {
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
-    const posts = useSelector(state => state.posts.allPosts)
+    const [posts, setPosts] = useState(null)
+    const selectAllPosts = useSelector(state => state.posts.normPosts)
+
+    console.log("RERENDERING HOME COMPONENT", selectAllPosts)
 
     useEffect(() => {
         (async () => {
@@ -19,6 +22,11 @@ export default function Home() {
         })();
     }, [dispatch]);
 
+    useEffect(() => {
+        setPosts(Object.values(selectAllPosts).filter(el => !el.inReplyTo).reverse())
+    }, [loaded])
+
+    console.log(posts, "POSTS IN HOME COMPONENT")
     return (
         <>
             <div className="center-column">
@@ -27,7 +35,7 @@ export default function Home() {
 
                 {!loaded &&
                     <div id="loading"></div>}
-                {posts &&
+                {loaded && posts &&
                     <PostFeed posts={posts} />}
             </div>
         </>

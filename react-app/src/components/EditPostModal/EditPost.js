@@ -7,8 +7,6 @@ import './editpost.css'
 export default function EditPost({ post, setShowModal }) {
     const dispatch = useDispatch()
 
-    console.log(post)
-
     const [content, setContent] = useState(post.content)
     const [images, setImages] = useState(post.images)
 
@@ -24,12 +22,8 @@ export default function EditPost({ post, setShowModal }) {
         }
 
         await dispatch(updatePostById(payload))
-            .then(data => {
-                setShowModal(false)
-            })
-            .catch(data => {
-                window.alert(data)
-            })
+            .then(() => setShowModal(false))
+            .catch(data => window.alert(data))
 
     }
     return (
@@ -40,7 +34,7 @@ export default function EditPost({ post, setShowModal }) {
             <p>UserId {post.user.id} </p>
             <p>Posted on: {post.createdAt}</p>
             <div>
-                {post.images.length > 0 &&
+                {post.images?.length > 0 &&
                     post.images.map(el => (
                         <img className="edit-image" src={el.url} alt="" key={el.id}></img>
                     ))}

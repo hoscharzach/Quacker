@@ -2,21 +2,19 @@ import { useDispatch } from 'react-redux'
 import { deletePostById } from '../../store/posts'
 import EditPostModal from '../EditPostModal/EditPostModal'
 import './postfeed.css'
-import closeImage from '../../images/imageclose-x.svg'
+import removeImage from '../../images/imageclose-x.svg'
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import { Link } from 'react-router-dom'
+import CreatePostModal from '../CreatePostModal'
 
 export default function PostFeed({ posts }) {
 
-    let className
-
+    console.log(posts, "POSTS IN POST FEED")
     const dispatch = useDispatch()
 
     return (
         <div className="main-posts-wrapper">
-            {posts && posts.length > 0 && posts.map(el => (
-                // if post.user not in state
-                // put them in state
+            {posts && posts.map(el => (
                 <div className="post-container" key={el.id} >
                     <div className='post-profile-icon-container'>
                         <Link to={`/profile/${el.user.username}`}><img src={el.user.profilePicture || defaultProfile} alt=""></img></Link>
@@ -39,12 +37,10 @@ export default function PostFeed({ posts }) {
                                 </div>
 
                             ))}
-                        <button onClick={
-                            () => {
-                                dispatch(deletePostById(el.id))
-                            }
-                        }>Delete</button>
+                        <button onClick={() => dispatch(deletePostById(el.id))}>Delete</button>
                         <EditPostModal post={el} />
+                        <CreatePostModal parentId={el.id} />
+                        <div>Number of replies: {el.numReplies}</div>
                     </div>
                 </div>
             ))}

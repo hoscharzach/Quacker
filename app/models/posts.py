@@ -39,7 +39,34 @@ class Post(db.Model):
             'content': self.content,
             'inReplyTo': self.parent.to_dict_reply() if self.parent else None,
             'images': [x.to_dict() for x in self.images],
-            'numReplies': len(self.replies) if self.replies else 0,
+            'numReplies': len(self.replies),
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at
+        }
+
+    def to_dict_parent_and_replies(self):
+        return {
+            'id': self.id,
+            'user': self.user.to_dict_basic_info(),
+            'content': self.content,
+            'inReplyTo': self.parent.id if self.parent else None,
+            'parent': self.parent.to_dict_basic_info() if self.parent else None,
+            'replies': [x.to_dict_basic_info() for x in self.replies],
+            'images': [x.to_dict() for x in self.images],
+            'numReplies': len(self.replies),
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at
+        }
+
+    def to_dict_basic_info(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'user': self.user.to_dict_basic_info(),
+            'images': [x.to_dict() for x in self.images],
+            'numReplies': len(self.replies),
+            'numImages': len(self.images),
+            'inReplyTo': self.parent.id if self.parent else None,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
