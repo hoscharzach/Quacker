@@ -3,6 +3,7 @@
     color: white;
     background-color: #716F81;
     font-family: -apple-system;
+    font-size: 18px;
 }
 
 button {
@@ -37,11 +38,7 @@ button {
 
 a {
     text-decoration: none;
-    color: black;
+    color: white;
+    opacity: .4;
     cursor: pointer;
-}
-
-.get-images-container {
-    display: flex;
-    flex-direction: column;
 }

@@ -55,7 +55,3 @@ class User(db.Model, UserMixin):
 
     posts = db.relationship(
         'Post', backref='user', cascade='all, delete')
-    # replies = db.relationship(
-    #     'Comment', backref='user', cascade='all, delete')
-    # images = db.relationship(
-    #     'Image', backref='user', cascade='all, delete')

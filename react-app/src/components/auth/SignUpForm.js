@@ -9,19 +9,25 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [displayname, setDisplayname] = useState('')
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   const onSignUp = async (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
-      const data = await dispatch(signUp(username, email, password));
+      const data = await dispatch(signUp(username, email, password, displayname));
       if (data) {
         setErrors(data)
       }
+    } else {
+      setErrors(['Passwords must match.'])
     }
   };
 
+  const updateDisplayname = (e) => {
+    setDisplayname(e.target.value);
+  };
   const updateUsername = (e) => {
     setUsername(e.target.value);
   };
@@ -57,6 +63,15 @@ const SignUpForm = () => {
           onChange={updateUsername}
           value={username}
         ></input>
+        <div>
+          <label>Display Name</label>
+          <input
+            type='text'
+            name='displayname'
+            onChange={updateDisplayname}
+            value={displayname}
+          ></input>
+        </div>
       </div>
       <div>
         <label>Email</label>
