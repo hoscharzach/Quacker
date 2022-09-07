@@ -139,6 +139,7 @@ export default function reducer(state = initialState, action) {
 
             // add post to state
             newState.normPosts[action.post.id] = action.post
+            console.log(action.post, "ACTION POST IN ADD POST REDUCER")
 
             // increment parent's replies counter and add the post to parent's replies array
             if (action.post.inReplyTo) {

@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deletePostById } from '../../store/posts'
 import EditPostModal from '../EditPostModal/EditPostModal'
 import './postfeed.css'
@@ -8,6 +8,10 @@ import { Link } from 'react-router-dom'
 import CreatePostModal from '../CreatePostModal'
 
 export default function PostFeed({ posts }) {
+
+    console.log("POST FEED RERENDERING")
+
+    const selectAllPosts = useSelector(state => state.posts.normPosts)
 
     const dispatch = useDispatch()
 
