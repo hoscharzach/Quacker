@@ -86,6 +86,15 @@ def update_post(id):
     return {'post': post.to_dict()}
 
 
+@post_routes.get('/<int:id>/parent')
+def check_if_post_has_parent(id):
+    post = Post.query.get_or_404(id)
+    if post.parent:
+        return {'hasParent': True, 'parent': post.parent.id}
+    else:
+        return {'hasParent': False}
+
+
 # find post by id
 @post_routes.get('/<int:id>')
 def find_post_by_id(id):

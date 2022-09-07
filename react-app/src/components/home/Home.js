@@ -4,15 +4,14 @@ import PostFeed from "../postfeed/PostFeed";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../store/posts";
 import './home.css'
+import Cards from "../Cards";
 
 export default function Home() {
-
-    let posts
 
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
-    const selectAllPosts = useSelector(state => state.posts.normPosts)
+    const feed = useSelector(state => state.posts.feed)
 
 
     useEffect(() => {
@@ -22,10 +21,6 @@ export default function Home() {
         })();
     }, [dispatch]);
 
-    if (selectAllPosts) {
-        posts = Object.values(selectAllPosts).filter(el => !el.inReplyTo).reverse()
-    }
-
     return (
         <>
             <div className="center-column">
@@ -34,8 +29,10 @@ export default function Home() {
 
                 {!loaded &&
                     <div id="loading"></div>}
-                {loaded && posts &&
-                    <PostFeed posts={posts} />}
+                {loaded && feed &&
+                    feed.map(el => (
+                        <Cards key={el.id} postId={el.id} />
+                    ))}
             </div>
         </>
     )

@@ -6,51 +6,55 @@ import PostFeed from "../postfeed/PostFeed"
 import { nanoid } from 'nanoid'
 import CreatePostModal from "../CreatePostModal"
 import './singlepost.css'
+import Cards from "../Cards"
 
 export default function SinglePost() {
     const { postId, username } = useParams()
 
     // listen for changes in state posts
-    const selectAllPosts = useSelector(state => state.posts.normPosts)
+    // const selectAllPosts = useSelector(state => state.posts.normPosts)
     const mainPost = useSelector(state => state.posts.normPosts[postId])
-    // const parentPost = useSelector(state => state.posts.normPosts[postId]?.)
-
-    // const parentPost = useSelector(state => state.normPosts[mainPost?.inReplyTo])
 
 
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState('')
+    const [hasParent, setHasParent] = useState(false)
 
+    // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
     useEffect(() => {
-        setErrors([])
-        if (!mainPost || !mainPost.replies) {
-            (async () => {
-                await dispatch(getSinglePost(postId))
-                    .then(data => {
+        (async () => {
+            setErrors('')
+            if (!mainPost) {
+                const response = await fetch(`/api/posts/${postId}/parent`)
+                if (response.ok) {
+                    const data = await response.json()
+                    console.log(data, "DATA INSIDE USEEFFECT FOR SINGLE POST")
+                    if (data.hasParent) {
+                        await dispatch(getSinglePost(data.parent))
                         setLoaded(true)
-                    })
-                    .catch(data => {
-                        if (data.status === 404) setErrors(['NOT FOUND'])
+                    } else {
+                        await dispatch(getSinglePost(postId))
                         setLoaded(true)
-                    })
-            })();
-        } else {
-            setLoaded(true)
-        }
+                    }
+                } else {
+                    setErrors('POST NOT FOUND')
+                    setLoaded(true)
+                }
+            } else {
+                setLoaded(true)
+            }
+        })();
     }, [postId, username, dispatch])
 
     if (!loaded) return null
 
     return (
         <div id="single-post-component-wrapper">
-            <>
-                {errors.length > 0 &&
-                    errors.map(el => (
-                        <p key={nanoid()}>{el}</p>
-                    ))}
-            </>
+            {loaded && errors.length > 0 &&
+                <h1>{errors}</h1>
+            }
             {loaded && mainPost && mainPost.parent &&
                 <article id="parent-post">
                     <h3>{mainPost.parent.user.username}'s mainPost.parent with id <strong>{mainPost.parent.id}</strong> made on {mainPost.parent.createdAt}</h3>
@@ -81,7 +85,11 @@ export default function SinglePost() {
                             ))}
                         <CreatePostModal parentId={mainPost.id} />
                     </article>
-                    {selectAllPosts && <PostFeed posts={selectAllPosts[postId].replies} />}
+                    <div className="replies-container">
+                        {mainPost?.replies && mainPost.replies.map(el => (
+                            <Cards key={el.id} postId={el.id} />
+                        ))}
+                    </div>
                 </>
             }
         </div>

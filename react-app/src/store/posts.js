@@ -5,7 +5,7 @@ const UPDATE_POST = '/posts/UPDATE'
 const DELETE_POST = '/posts/DELETE'
 const LOAD_ONE = '/posts/SINGLE'
 
-const initialState = { normPosts: {} }
+const initialState = { normPosts: {}, feed: [] }
 
 const loadPosts = (posts) => ({
     type: LOAD_POSTS,
@@ -128,20 +128,23 @@ export default function reducer(state = initialState, action) {
         case LOAD_POSTS:
             newState = { ...state }
 
+            // take all of the posts returned and put them into the feed
+            newState.feed = action.posts
+
             // add all replies and the replies' replies to state
             recursiveIterator(action.posts, newState)
             return newState
 
         case ADD_POST:
 
-            // deep copy old state
+            // deep copy old state (might not need this but doing it just in case)
             newState = JSON.parse(JSON.stringify(state))
 
             // add post to state
             newState.normPosts[action.post.id] = action.post
-            console.log(action.post, "ACTION POST IN ADD POST REDUCER")
+            newState.feed = [action.post, ...newState.feed]
 
-            // increment parent's replies counter and add the post to parent's replies array
+            // if it's a reply, adjust the parents numReplies and replies accordingly
             if (action.post.inReplyTo) {
                 newState.normPosts[action.post.inReplyTo].numReplies++
                 newState.normPosts[action.post.inReplyTo].replies = [action.post, ...newState.normPosts[action.post.inReplyTo].replies]
@@ -152,10 +155,12 @@ export default function reducer(state = initialState, action) {
         case UPDATE_POST:
             newState = JSON.parse(JSON.stringify(state))
             newState.normPosts[action.post.id] = action.post
+            newState.feed = newState.feed.map(el => action.post.id === el.id ? action.post : el)
             return newState
 
         case DELETE_POST:
             newState = JSON.parse(JSON.stringify(state))
+            newState.feed = newState.feed.filter(el => el.id !== action.id)
             delete newState.normPosts[action.id]
             return newState
 

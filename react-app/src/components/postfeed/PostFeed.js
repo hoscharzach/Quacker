@@ -1,52 +1,27 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { deletePostById } from '../../store/posts'
-import EditPostModal from '../EditPostModal/EditPostModal'
-import './postfeed.css'
-import removeImage from '../../images/imageclose-x.svg'
-import defaultProfile from '../../images/defaultprofilepic.svg'
-import { Link } from 'react-router-dom'
-import CreatePostModal from '../CreatePostModal'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { deletePostById } from '../../store/posts'
+// import EditPostModal from '../EditPostModal/EditPostModal'
+// import './postfeed.css'
+// import removeImage from '../../images/imageclose-x.svg'
+// import defaultProfile from '../../images/defaultprofilepic.svg'
+// import { Link } from 'react-router-dom'
+// import CreatePostModal from '../CreatePostModal'
+// import { useEffect, useState } from 'react'
 
-export default function PostFeed({ posts }) {
+// export default function PostFeed({ list, posts }) {
 
-    console.log("POST FEED RERENDERING")
 
-    const selectAllPosts = useSelector(state => state.posts.normPosts)
 
-    const dispatch = useDispatch()
+//     const selectAllPosts = useSelector(state => state.posts.normPosts)
+//     const [stuff, setStuff] = useState([])
+//     const dispatch = useDispatch()
 
-    return (
-        <div className="main-posts-wrapper">
-            {posts && posts.map(el => (
-                <div className="post-container" key={el.id} >
-                    <div className='post-profile-icon-container'>
-                        <Link to={`/profile/${el.user.username}`}><img src={el.user.profilePicture || defaultProfile} alt=""></img></Link>
-                    </div>
-                    <div className='post-right-container'>
 
-                        <span className='post-content-text'>
-                            {el.content} <strong>Post ID: {el.id}</strong><br></br>
-                            <strong>Username: {el.user.username}</strong>
-                            <Link to={`/profile/${el.user.username}/post/${el.id}`}>
-                                {`${el.createdAt.slice(8, 11)} ${el.createdAt.slice(5, 7)}`}
-                            </Link>
-                        </span>
+//     return (
+//         <div className="main-posts-wrapper">
+//             {selectAllPosts && stuff && stuff.map(el => (
 
-                        {el.images.length > 0 &&
-                            el.images.map(el => (
-                                <div key={el.id} className='post-images-wrapper'>
-                                    <img alt='' src={el.url}></img>
-
-                                </div>
-
-                            ))}
-                        <button onClick={() => dispatch(deletePostById(el.id))}>Delete</button>
-                        <EditPostModal post={el} />
-                        <CreatePostModal parentId={el.id} />
-                        <div>Number of replies: {el.numReplies}</div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    )
-}
+//             ))}
+//         </div>
+//     )
+// }

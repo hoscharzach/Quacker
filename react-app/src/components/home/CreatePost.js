@@ -12,8 +12,7 @@ export default function CreatePost({ parentId, setShowModal }) {
     const dispatch = useDispatch()
 
 
-    const selectPosts = useSelector(state => state.posts.normPosts)
-    const selectParentPost = selectPosts[parentId]
+    const selectParentPost = useSelector(state => state.posts.normPosts[parentId])
     const images = useSelector(state => state.images.staging)
 
     const [content, setContent] = useState('')
