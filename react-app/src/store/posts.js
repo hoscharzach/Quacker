@@ -142,12 +142,13 @@ export default function reducer(state = initialState, action) {
 
             // add post to state
             newState.normPosts[action.post.id] = action.post
-            newState.feed = [action.post, ...newState.feed]
 
             // if it's a reply, adjust the parents numReplies and replies accordingly
             if (action.post.inReplyTo) {
                 newState.normPosts[action.post.inReplyTo].numReplies++
                 newState.normPosts[action.post.inReplyTo].replies = [action.post, ...newState.normPosts[action.post.inReplyTo].replies]
+            } else {
+                newState.feed = [action.post, ...newState.feed]
             }
 
             return newState
@@ -160,7 +161,14 @@ export default function reducer(state = initialState, action) {
 
         case DELETE_POST:
             newState = JSON.parse(JSON.stringify(state))
-            newState.feed = newState.feed.filter(el => el.id !== action.id)
+
+            if (newState.normPosts[action.id].inReplyTo) {
+                const i = newState.normPosts[action.id].inReplyTo
+                newState.normPosts[i].numReplies--
+                newState.normPosts[i].replies = newState.normPosts[i].replies.filter(el => el.id !== action.id)
+            } else {
+                newState.feed = newState.feed.filter(el => el.id !== action.id)
+            }
             delete newState.normPosts[action.id]
             return newState
 
