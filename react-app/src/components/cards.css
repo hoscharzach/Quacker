@@ -1,0 +1,19 @@
+.profile-picture {
+    background-color: white;
+    border-radius: 50%;
+}
+
+.post-container {
+    border: 1px solid #FFEADB;
+    width: 600px;
+    display: flex;
+    padding: 10px;
+}
+
+.post-content-text {
+    word-break: break-all;
+}
+
+.post-profile-icon-container {
+    padding-right: 10px;
+}

@@ -63,21 +63,22 @@ export default function CreatePost({ parentId, setShowModal }) {
                     <div className='post-right-container'>
 
                         <span className='post-content-text'>
-                            {selectParentPost.content} <strong>Post ID: {selectParentPost.id}</strong><br></br>
+                            {selectParentPost.content}<br></br>
+                            {selectParentPost.images.length > 0 &&
+                                selectParentPost.images.map(el => (
+                                    <a target="_blank" href={el.url} key={el.id}>
+                                        {el.url}</a>
+
+                                ))}
+                            <br></br>
+                            <strong>Post ID: {selectParentPost.id}</strong><br></br>
                             <strong>Username: {selectParentPost.user.username}</strong>
                             <Link to={`/profile/${selectParentPost.user.username}/post/${selectParentPost.id}`}>
                                 {`${selectParentPost.createdAt.slice(8, 11)} ${selectParentPost.createdAt.slice(5, 7)}`}
                             </Link>
                         </span>
 
-                        {selectParentPost.images.length > 0 &&
-                            selectParentPost.images.map(el => (
-                                <div key={el.id} className='post-images-wrapper'>
-                                    <img alt='' src={el.url}></img>
 
-                                </div>
-
-                            ))}
                     </div>
                 </div>}
             <textarea className="new-post-text" maxLength={280} onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>

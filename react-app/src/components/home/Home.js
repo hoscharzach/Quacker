@@ -12,6 +12,7 @@ export default function Home() {
 
     const [loaded, setLoaded] = useState(false)
     const feed = useSelector(state => state.posts.feed)
+    const sessionUser = useSelector(state => state.session.user)
 
 
     useEffect(() => {
