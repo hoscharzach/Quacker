@@ -9,7 +9,6 @@ import CreatePostModal from '../CreatePostModal'
 
 export default function PostFeed({ posts }) {
 
-    console.log(posts, "POSTS IN POST FEED")
     const dispatch = useDispatch()
 
     return (

@@ -21,7 +21,6 @@ export const clearImages = () => ({
 const initialState = { staging: {} }
 
 export const uploadImage = (image) => async (dispatch) => {
-    console.log(image, "IMAGE IN REDUCER")
     const formData = new FormData();
     formData.append("image", image);
 
@@ -36,7 +35,6 @@ export const uploadImage = (image) => async (dispatch) => {
     }
     else {
         const errors = await res.json()
-        console.log(errors.errors, "ERRORS INSIDE THUNK")
         return errors.errors
     }
 }
