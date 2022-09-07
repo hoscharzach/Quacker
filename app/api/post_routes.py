@@ -5,19 +5,13 @@ from app.models import Post, User, db, Image
 post_routes = Blueprint('posts', __name__)
 
 
-@post_routes.get('')
-def all_posts():
-    all_posts = Post.query.order_by(Post.created_at.desc()).all()
-    return {'posts': [post.to_dict() for post in all_posts]}
-
-
 # Do pagination here, loading 10 at a time
 @post_routes.get('/home')
 @login_required
 def my_home_page():
     user_posts = Post.query.filter_by(parent=None).order_by(Post.created_at.desc()).limit(
         10)
-    return {'posts': [post.to_dict_parent_and_replies() for post in user_posts]}
+    return {'posts': [post.to_dict() for post in user_posts]}
 
 
 # Profile page, all posts by current user
@@ -96,7 +90,7 @@ def update_post(id):
 @post_routes.get('/<int:id>')
 def find_post_by_id(id):
     post = Post.query.get_or_404(id)
-    return {'post': post.to_dict_parent_and_replies()}
+    return {'post': post.to_dict()}
 
 
 @post_routes.post('/<int:id>/reply')

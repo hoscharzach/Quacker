@@ -9,14 +9,11 @@ import './createpost.css'
 
 export default function CreatePost({ parentId, setShowModal }) {
 
-    // console.log(parentId, "PARENT ID IN CREATE POST COMPONENT")
-
     const dispatch = useDispatch()
 
 
     const selectPosts = useSelector(state => state.posts.normPosts)
     const selectParentPost = selectPosts[parentId]
-    // console.log(selectParentPost, "PARENT POST IN CREATE POST COMPONENT")
     const images = useSelector(state => state.images.staging)
 
     const [content, setContent] = useState('')

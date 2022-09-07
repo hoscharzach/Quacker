@@ -22,24 +22,13 @@ class Post(db.Model):
         return {
             'id': self.id,
             'inReplyTo': self.parent.id if self.parent != None else None,
+            'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'content': self.content,
             'user': self.user.to_dict_basic_info(),
             'images': [x.to_dict() for x in self.images],
-            'replies': [x.to_dict_reply() for x in self.replies],
+            'replies': [x.to_dict() for x in self.replies],
             'numReplies': len(self.replies),
             'numImages': len(self.images),
-            'createdAt': self.created_at,
-            'updatedAt': self.updated_at
-        }
-
-    def to_dict_reply(self):
-        return {
-            'id': self.id,
-            'user': self.user.to_dict_basic_info(),
-            'content': self.content,
-            'inReplyTo': self.parent.to_dict_reply() if self.parent else None,
-            'images': [x.to_dict() for x in self.images],
-            'numReplies': len(self.replies),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -49,6 +38,7 @@ class Post(db.Model):
             'id': self.id,
             'user': self.user.to_dict_basic_info(),
             'content': self.content,
+            'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'inReplyTo': self.parent.id if self.parent else None,
             'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'replies': [x.to_dict_basic_info() for x in self.replies],
@@ -63,10 +53,10 @@ class Post(db.Model):
             'id': self.id,
             'content': self.content,
             'user': self.user.to_dict_basic_info(),
+            'inReplyTo': self.parent.id if self.parent else None,
             'images': [x.to_dict() for x in self.images],
             'numReplies': len(self.replies),
             'numImages': len(self.images),
-            'inReplyTo': self.parent.id if self.parent else None,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
