@@ -1,16 +1,39 @@
 .new-post-text {
-    width: 100%;
+    width: 99%;
     border: none;
     overflow: auto;
     outline: none;
     resize: none;
 }
 
-.new-post-buttons {
-    border-top: 1px solid lightgrey;
+.entire-create-post-wrapper {
+    display: flex;
+    border-bottom: 1px solid white;
+}
+
+.create-post-profile-pic-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.new-post-buttons-border {
+    display: flex;
 }
 
 .new-post-buttons {
+    padding: 5px;
+    width: 80%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    border-top: 1px solid white;
+}
+
+.new-post-wrapper {
+    width: 100%;
 }

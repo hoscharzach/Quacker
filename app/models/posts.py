@@ -16,7 +16,7 @@ class Post(db.Model):
     images = db.relationship(
         'Image', backref='post', cascade='all, delete')
     replies = db.relationship(
-        'Post', backref=db.backref('parent', remote_side=[id]), cascade='all, delete', )
+        'Post', backref=db.backref('parent', remote_side=[id]), cascade='all, delete')
 
     def to_dict(self):
         return {

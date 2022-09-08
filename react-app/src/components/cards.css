@@ -1,13 +1,18 @@
 .profile-picture {
     background-color: white;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
 }
 
+.post-container-border {
+    width: 100%;
+    border-bottom: 1px solid white;
+}
+
 .post-container {
-    border: 1px solid #FFEADB;
-    width: 600px;
-    display: flex;
     padding: 10px;
+    display: flex;
 }
 
 .post-content-text {

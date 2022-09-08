@@ -1,7 +1,21 @@
 #parent-post {
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 #main-post {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
+}
+
+.title-container {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px solid white;
+    height: 28px;
+}
+
+.back-button {
+    height: 20px;
+    display: flex;
+    align-items: center;
 }
