@@ -1,0 +1,15 @@
+.navbar-text {
+    font-family: 'chirpH';
+    font-size: 1.5rem;
+    color: #415475;
+}
+
+#logout-button {
+    padding: 0;
+}
+
+#navbar-quack-button {
+    width: 225px;
+    height: 52px;
+    border-radius: 50%;
+}

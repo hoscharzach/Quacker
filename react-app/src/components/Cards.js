@@ -9,9 +9,9 @@ import './cards.css'
 export default function Cards({ postId }) {
 
     const post = useSelector(state => state.posts.normPosts[postId])
+    const sessionUser = useSelector(state => state.session.user)
+
     const dispatch = useDispatch()
-
-
 
     return (
         <>
@@ -36,13 +36,17 @@ export default function Cards({ postId }) {
                                 {post.images.length > 0 &&
                                     post.images.map(img => (
                                         <div key={img.id} className='post-image'>
-                                            <img alt='' src={img.url}></img>
+                                            <img alt='' src={img.url}  ></img>
                                         </div>
 
                                     ))}
                             </div>
-                            <button onClick={() => dispatch(deletePostById(post.id))}>Delete</button>
-                            <EditPostModal post={post} />
+                            {sessionUser.id === post.user.id &&
+                                <>
+                                    <button onClick={() => dispatch(deletePostById(post.id))}>Delete</button>
+                                    <EditPostModal post={post} />
+                                </>
+                            }
                             <CreatePostModal parentId={post.id} />
                             <div>Number of replies: {post.numReplies}</div>
                         </div>
