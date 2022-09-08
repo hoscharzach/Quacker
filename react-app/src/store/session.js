@@ -1,6 +1,17 @@
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
+const ADD_ERROR = 'session/ADD_ERROR'
+const REMOVE_ERRORS = 'sessoin/REMOVE_ERRORS'
+
+export const addError = (error) => ({
+  type: ADD_ERROR,
+  error
+})
+
+export const removeErrors = () => ({
+  type: REMOVE_ERRORS
+})
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -11,7 +22,7 @@ const removeUser = () => ({
   type: REMOVE_USER,
 })
 
-const initialState = { user: null };
+const initialState = { user: null, errors: [] };
 
 export const authenticate = () => async (dispatch) => {
   const response = await fetch('/api/auth/', {
@@ -99,11 +110,20 @@ export const signUp = (username, email, password, displayname) => async (dispatc
 }
 
 export default function reducer(state = initialState, action) {
+  let newState
   switch (action.type) {
     case SET_USER:
       return { user: action.payload }
     case REMOVE_USER:
       return { user: null }
+    case ADD_ERROR:
+      newState = { ...state }
+      newState.errors = [...newState.errors, action.error]
+      return newState
+    case REMOVE_ERRORS:
+      newState = { ...state }
+      newState.errors = []
+      return newState
     default:
       return state;
   }

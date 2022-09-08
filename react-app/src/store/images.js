@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action) {
             return { staging: {} }
         case REMOVE_IMAGE:
             newState = { ...state }
-            delete newState[action.id]
+            delete newState.staging[action.id]
             return newState
         default:
             return state;

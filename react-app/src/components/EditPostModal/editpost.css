@@ -1,5 +1,9 @@
+.edit-post-modal-container,
+.edit-post-modal-container * {
+    background-color: #415475;
+}
+
 .edit-post-modal-container {
     width: 600px;
-    height: 500px;
     padding: 20px;
 }
