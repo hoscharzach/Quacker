@@ -17,12 +17,12 @@ def show_images():
 @login_required
 def upload_image():
     if "image" not in request.files:
-        return {"errors": "image required"}, 400
+        return {"errors": "Image required"}, 400
 
     image = request.files["image"]
 
     if not allowed_file(image.filename):
-        return {"errors": "file type not permitted"}, 400
+        return {"errors": "File type not permitted, must be .png, .jpg, .jpeg, or .gif"}, 400
 
     image.filename = get_unique_filename(image.filename)
     # print(image.filename, "GETTING TO FILENAME")

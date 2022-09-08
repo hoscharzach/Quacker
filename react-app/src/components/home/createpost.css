@@ -6,6 +6,10 @@
     resize: none;
 }
 
+.error-message {
+    color: red;
+}
+
 .entire-create-post-wrapper {
     display: flex;
     border-bottom: 1px solid white;
@@ -36,4 +40,9 @@
 
 .new-post-wrapper {
     width: 100%;
+}
+
+.staging-image {
+    min-width: 100%;
+    position: relative;
 }

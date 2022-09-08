@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import CreatePost from "./CreatePost";
-import PostFeed from "../postfeed/PostFeed";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../store/posts";
 import './home.css'
@@ -12,8 +11,6 @@ export default function Home() {
 
     const [loaded, setLoaded] = useState(false)
     const feed = useSelector(state => state.posts.feed)
-    const sessionUser = useSelector(state => state.session.user)
-
 
     useEffect(() => {
         (async () => {
@@ -33,6 +30,8 @@ export default function Home() {
                 {loaded && feed &&
                     feed.map(el => (
                         <Cards key={el.id} postId={el.id} />
+
+
                     ))}
             </div>
         </>

@@ -56,9 +56,9 @@ export const updatePostById = (post) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json()
         dispatch(editPost(data.post))
-        return data
     } else {
-        throw response
+        const error = await response.json()
+        return error
     }
 }
 
@@ -111,7 +111,6 @@ const recursiveIterator = (arr, newState) => {
         }
     })
 }
-
 
 export default function reducer(state = initialState, action) {
     let newState

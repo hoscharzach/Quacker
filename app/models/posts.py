@@ -1,5 +1,6 @@
 from .db import db
 from sqlalchemy.sql import func
+from sqlalchemy.orm import validates
 
 
 class Post(db.Model):
@@ -34,21 +35,6 @@ class Post(db.Model):
             'updatedAt': self.updated_at
         }
 
-    def to_dict_parent_and_replies(self):
-        return {
-            'id': self.id,
-            'user': self.user.to_dict_basic_info(),
-            'content': self.content,
-            'parent': self.parent.to_dict_basic_info() if self.parent else None,
-            'inReplyTo': self.parent.id if self.parent else None,
-            'parent': self.parent.to_dict_basic_info() if self.parent else None,
-            'replies': [x.to_dict_basic_info() for x in self.replies],
-            'images': [x.to_dict() for x in self.images],
-            'numReplies': len(self.replies),
-            'createdAt': self.created_at,
-            'updatedAt': self.updated_at
-        }
-
     def to_dict_basic_info(self):
         return {
             'id': self.id,
@@ -61,3 +47,13 @@ class Post(db.Model):
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
+
+    @validates('content')
+    def validate_content(self, key, content):
+        if not content:
+            raise AssertionError('Post cannot be blank.')
+
+        if len(content) > 280:
+            raise AssertionError('Post cannot be longer than 280 characters.')
+
+        return content

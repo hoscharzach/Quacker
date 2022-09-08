@@ -58,24 +58,26 @@ export default function SinglePost() {
                     <h1>{errors}</h1>
                 }
                 {loaded && mainPost && mainPost.parent &&
-                    <article id="parent-post">
-                        <h3>{mainPost.parent.user.username}'s mainPost.parent with id <strong>{mainPost.parent.id}</strong> made on {mainPost.parent.createdAt}</h3>
-                        <p>Content: {mainPost.parent.content}</p>
-                        <p>Number of Replies {mainPost.parent.numReplies}</p>
-                        {mainPost.parent.inReplyTo &&
-                            <p>In Reply to mainPost.parent <Link to={`/profile/${mainPost.parent.user.username}/post/${mainPost.parent.inReplyTo}`}>{mainPost.parent.inReplyTo}</Link></p>}
-                        {mainPost.parent.images &&
-                            mainPost.parent.images.map(el => (
-                                <img key={el.id} alt="" src={el.url}></img>
-                            ))}
-                        <CreatePostModal parentId={mainPost.parent.id} />
-                    </article>
+                    <Cards parentId={mainPost.parent.id || null} postId={mainPost.parent.id} />
+                    // <article id="parent-post">
+                    //     <h3>{mainPost.parent.user.username}'s mainPost.parent with id <strong>{mainPost.parent.id}</strong> made on {mainPost.parent.createdAt}</h3>
+                    //     <p>Content: {mainPost.parent.content}</p>
+                    //     <p>Number of Replies {mainPost.parent.numReplies}</p>
+                    //     {mainPost.parent.inReplyTo &&
+                    //         <p>In Reply to mainPost.parent <Link to={`/profile/${mainPost.parent.user.username}/post/${mainPost.parent.inReplyTo}`}>{mainPost.parent.inReplyTo}</Link></p>}
+                    //     {mainPost.parent.images &&
+                    //         mainPost.parent.images.map(el => (
+                    //             <img key={el.id} alt="" src={el.url}></img>
+                    //         ))}
+                    //     <CreatePostModal parentId={mainPost.parent.id} />
+                    // </article>
 
                 }
 
                 {loaded && mainPost &&
                     <>
-                        <article id="main-post">
+                        <Cards parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
+                        {/* <article id="main-post">
                             <h3>{mainPost.user.username}'s mainPost with id <strong>{mainPost.id}</strong> made on {mainPost.createdAt}</h3>
                             <p>Content: {mainPost.content}</p>
                             <p>Number of Replies {mainPost.numReplies}</p>
@@ -86,7 +88,7 @@ export default function SinglePost() {
                                     <img key={el.id} alt="" src={el.url}></img>
                                 ))}
                             <CreatePostModal parentId={mainPost.id} />
-                        </article>
+                        </article> */}
                         <div className="replies-container">
                             {mainPost?.replies && mainPost.replies.map(el => (
                                 <Cards parentId={el.inReplyTo || null} key={el.id} postId={el.id} />

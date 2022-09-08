@@ -3,6 +3,7 @@ import './images.css'
 import uploadImageIcon from '../images/imageuploadsvg.svg'
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../store/images";
+import { addError, removeErrors } from "../store/session";
 
 
 const UploadPicture = () => {
@@ -13,8 +14,8 @@ const UploadPicture = () => {
 
 
     const [image, setImage] = useState(null);
-    const [imageLoading, setImageLoading] = useState(false);
     const [hideImageInput, setHideImageInput] = useState(false)
+
 
     const dispatch = useDispatch()
 
@@ -25,11 +26,18 @@ const UploadPicture = () => {
         }
         else if (image) {
             (async () => {
+                dispatch(removeErrors())
                 const errors = await dispatch(uploadImage(image));
-                if (errors) alert(errors)
+                if (errors) {
+                    dispatch(addError(errors))
+                }
             })()
         }
     }, [image, dispatch])
+
+    useEffect(() => {
+        return () => dispatch(removeErrors())
+    }, [])
 
     useEffect(() => {
         setHideImageInput(imageGroup.length >= 4)
@@ -58,7 +66,7 @@ const UploadPicture = () => {
                 style={{ display: 'none' }}
             />
 
-            <img hidden={hideImageInput} id="file-select" onClick={handleFileClick} src={uploadImageIcon} alt="" ></img>
+            <button disabled={hideImageInput} id="file-select" onClick={handleFileClick} ><img src={uploadImageIcon} alt="" ></img></button>
         </>
     )
 }

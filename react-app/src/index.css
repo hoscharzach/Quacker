@@ -16,12 +16,22 @@
     font-size: 18px;
 }
 
-button:not(.back-button) {
+button {
+    border: none;
+}
+
+button:not(.back-button):not(#file-select) {
     background-color: #db9d66;
     color: black;
     border: none;
     border-radius: 15px;
 }
+
+#file-select:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
 
 
 button:hover {

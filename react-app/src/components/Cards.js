@@ -11,6 +11,8 @@ export default function Cards({ postId }) {
     const post = useSelector(state => state.posts.normPosts[postId])
     const dispatch = useDispatch()
 
+
+
     return (
         <>
             {
@@ -35,7 +37,6 @@ export default function Cards({ postId }) {
                                     post.images.map(img => (
                                         <div key={img.id} className='post-image'>
                                             <img alt='' src={img.url}></img>
-
                                         </div>
 
                                     ))}
