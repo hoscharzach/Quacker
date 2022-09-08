@@ -61,7 +61,7 @@ def create_post():
 def delete_post(id):
     post = Post.query.get_or_404(id)
 
-    if post.user_id == current_user.id:
+    if post.user.id == current_user.id:
         db.session.delete(post)
         db.session.commit()
     else:
