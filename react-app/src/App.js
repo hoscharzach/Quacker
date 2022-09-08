@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
@@ -8,11 +8,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/profile/User';
 import { authenticate } from './store/session';
-import UploadPicture from './components/UploadPicture';
-import ImageDisplay from './components/imagetestcomponent/GetImages';
-import Home from './components/home/Home';
-import Testing from './components/Testing';
 import SinglePost from './components/singlepost/SinglePost';
+import Home from './components/home/Home';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -43,24 +40,16 @@ function App() {
             <LoginForm />
           </Route>
           <ProtectedRoute exact path='/home'>
-            {/* <NavBar /> */}
             <Home />
           </ProtectedRoute>
           <ProtectedRoute exact path='/users'>
-            {/* <NavBar /> */}
             <UsersList />
           </ProtectedRoute>
           <ProtectedRoute exact path='/profile/:username'>
-            {/* <NavBar /> */}
             <User />
           </ProtectedRoute>
           <ProtectedRoute exact path='/profile/:username/post/:postId'>
-            {/* <NavBar /> */}
             <SinglePost />
-          </ProtectedRoute>
-          <ProtectedRoute exact path='/testing'>
-            {/* <NavBar /> */}
-            <Testing />
           </ProtectedRoute>
           <Route>
             404 Not Found
