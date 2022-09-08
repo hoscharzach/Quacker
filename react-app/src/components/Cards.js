@@ -47,7 +47,7 @@ export default function Cards({ postId }) {
                                     <EditPostModal post={post} />
                                 </>
                             }
-                            <CreatePostModal parentId={post.id} />
+                            <CreatePostModal location={'card'} parentId={post.id} />
                             <div>Number of replies: {post.numReplies}</div>
                         </div>
                     </div>
