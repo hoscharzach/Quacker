@@ -1,14 +1,24 @@
 /* TODO Add site wide styles */
+@font-face {
+    font-family: 'chirp';
+    src: local('chirp'), url(./fonts/chirp.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'chirpH';
+    src: local('chirpH'), url(./fonts/chirpH.woff) format('woff');
+}
+
 * {
     color: white;
-    background-color: #716F81;
-    font-family: -apple-system;
+    background-color: #b3d7de;
+    font-family: 'chirp';
     font-size: 18px;
 }
 
 button:not(.back-button) {
-    background-color: #F6AE99;
-    color: white;
+    background-color: #db9d66;
+    color: black;
     border: none;
     border-radius: 15px;
 }
@@ -23,6 +33,8 @@ button:hover {
 }
 
 .navigation {
+    font-family: 'chirpH';
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -30,9 +42,10 @@ button:hover {
 
 .center-column {
     /* padding: 10px; */
-    border: 1px solid white;
+    /* border: 1px solid white; */
     width: 650px;
     display: grid;
+    grid-row-gap: 20px;
     grid-template-columns: 1fr;
     justify-content: center;
     /* justify-content: center;
