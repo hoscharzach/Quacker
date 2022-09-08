@@ -1,14 +1,14 @@
 /* TODO Add site wide styles */
 * {
     color: white;
-    background-color: #716F81;
+    background-color: #b3d7de;
     font-family: -apple-system;
     font-size: 18px;
 }
 
 button:not(.back-button) {
-    background-color: #F6AE99;
-    color: white;
+    background-color: #db9d66;
+    color: black;
     border: none;
     border-radius: 15px;
 }
@@ -30,9 +30,10 @@ button:hover {
 
 .center-column {
     /* padding: 10px; */
-    border: 1px solid white;
+    /* border: 1px solid white; */
     width: 650px;
     display: grid;
+    grid-row-gap: 20px;
     grid-template-columns: 1fr;
     justify-content: center;
     /* justify-content: center;
