@@ -10,7 +10,6 @@ import { addError, removeErrors } from "../../store/session"
 
 export default function CreatePost({ parentId, setShowModal }) {
 
-
     const textInput = useRef(null)
 
     const dispatch = useDispatch()
@@ -23,22 +22,26 @@ export default function CreatePost({ parentId, setShowModal }) {
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
     const [hideCounter, setHideCounter] = useState(true)
-    const [imageStyle, setImageStyle] = useState({})
 
     function changeContent(e) {
         setContent(e.target.value)
     }
 
-    useEffect(() => {
-        if (images.length === 1) {
-            imageStyle = {
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }
-        }
-    }, [images])
+    // useEffect(() => {
+    //     if (images.length === 1) {
+    //         imageStyle = {
+    //             width: '100%',
+    //             display: 'flex',
+    //             justifyContent: 'center',
+    //             alignItems: 'center'
+    //         }
+    //     } else if (images.length === 2) {
+    //         imageStyle = {
+    //             display: 'grid',
+    //             gridTemplateColumns: '1fr 1fr'
+    //         }
+    //     }
+    // }, [images])
 
     useEffect(() => {
         if (content.length < 1) setStyle('red')
@@ -79,9 +82,9 @@ export default function CreatePost({ parentId, setShowModal }) {
             dispatch(addError(data.error))
         } else {
             setContent('')
-            textInput.current.style.height = 'auto'
-            if (setShowModal) setShowModal(false)
+            textInput.current.style.height = '1rem'
             dispatch(clearImages())
+            if (setShowModal) setShowModal(false)
         }
 
 
@@ -90,7 +93,7 @@ export default function CreatePost({ parentId, setShowModal }) {
     return (
         <>
             {!!errors && errors.map(err => (
-                <p className="error-message">{err}</p>
+                <div className="error-message">{err}</div>
             ))}
             <div className="entire-create-post-wrapper">
                 <div className="create-post-profile-pic-wrapper">
@@ -127,22 +130,32 @@ export default function CreatePost({ parentId, setShowModal }) {
                         </div>}
                     <textarea ref={textInput} className="new-post-text" onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
 
-                    <div style={{ display: 'flex' }}>
+
+
+                    <>
+
                         {Object.values(images)?.length > 0 &&
-                            Object.values(images)?.map(el => (
-                                <div className="staging-image-container" key={el.id} >
-                                    <img className="staging-image" src={el.url}></img>
-                                </div>
-                            ))}
+                            <div className="staging-images-wrapper" data-images={Object.values(images)?.length} >
+                                {Object.values(images)?.map(el => (
+                                    <div className="staging-image-container" key={el.id} >
+                                        <img className="staging-image" data-images={Object.values(images)?.length} src={el.url}></img>
+                                    </div>
+                                ))}
+                            </div>}
+
                         <div className="new-post-buttons-border">
 
                             <div className="new-post-buttons">
                                 <UploadPicture />
-                                <button onClick={handleSubmit}>Quack</button>
-                                <span hidden={hideCounter} style={{ color: style }}>{280 - content.length}</span>
+
+                                <div className="char-count-and-quack-button">
+                                    <button className="main-quack-button" onClick={handleSubmit}>Quack</button>
+                                    <span hidden={hideCounter} style={{ color: style }}>{280 - content.length} characters remaining</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </>
+
                 </div >
             </div>
         </>

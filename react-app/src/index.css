@@ -20,7 +20,7 @@ button {
     border: none;
 }
 
-button:not(.back-button):not(#file-select) {
+button:not(.back-button):not(#file-select):not(#logout-button) {
     background-color: #db9d66;
     color: black;
     border: none;
@@ -92,7 +92,6 @@ button:hover {
 .navigation-icons-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
 .navigation-icons-wrapper>* {
