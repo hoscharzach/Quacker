@@ -10,6 +10,7 @@ import User from './components/profile/User';
 import { authenticate } from './store/session';
 import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
+import Testing from './components/Testing';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -50,6 +51,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path='/profile/:username/post/:postId'>
             <SinglePost />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/testing'>
+            <Testing />
           </ProtectedRoute>
           <Route>
             404 Not Found

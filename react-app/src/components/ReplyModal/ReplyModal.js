@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Modal } from '../../context/Modal'
 import { clearImages } from '../../store/images'
 import Reply from './Reply'
+import replyIcon from '../../images/replybutton.svg'
 
 
 export default function ReplyModal({ parentId, numReplies }) {
@@ -11,7 +12,10 @@ export default function ReplyModal({ parentId, numReplies }) {
 
     return (
         <>
-            <button onClick={() => setShowModal(true)}>Reply {numReplies}</button>
+            <button id='reply-modal-button' onClick={() => {
+                setShowModal(true)
+                dispatch(clearImages())
+            }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'> Reply</span></button>
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false)

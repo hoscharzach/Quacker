@@ -47,6 +47,9 @@ def password_length(form, field):
         raise ValidationError('Password must be at least 5 characters')
 
 
+# add email validator
+
+
 class SignUpForm(FlaskForm):
     username = StringField(
         'username', validators=[DataRequired(message="Username is required"), username_exists, username_length])

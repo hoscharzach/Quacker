@@ -7,7 +7,7 @@ export default function EditPostModal({ post }) {
 
     return (
         <>
-            <button onClick={() => setShowModal(true)}>Edit Post</button>
+            <button onClick={() => setShowModal(true)}> <img></img></button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <EditPost post={post} setShowModal={setShowModal} />

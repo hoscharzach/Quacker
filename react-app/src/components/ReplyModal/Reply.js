@@ -10,7 +10,7 @@ import { clearImages } from '../../store/images'
 import { createNewPost } from '../../store/posts'
 import UploadPicture from '../UploadPicture'
 import { nanoid } from 'nanoid'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export default function Reply({ parentId, setShowModal }) {
 
@@ -27,8 +27,6 @@ export default function Reply({ parentId, setShowModal }) {
     const [timestamp, setTimeStamp] = useState('')
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
-
-    console.log(parent)
 
     function changeContent(e) {
         setContent(e.target.value)
@@ -71,7 +69,10 @@ export default function Reply({ parentId, setShowModal }) {
             setContent('')
             replyModalTextInput.current.style.height = '1rem'
             dispatch(clearImages())
-            if (setShowModal) history.push(`/profile/${parent.user.username}/post/${parent.id}`)
+            if (setShowModal) {
+                setShowModal(false)
+                history.push(`/profile/${parent.user.username}/post/${parent.id}`)
+            }
         }
     }
 
@@ -112,6 +113,10 @@ export default function Reply({ parentId, setShowModal }) {
                             </div>
                             <div className='reply-modal-parent-content'>
                                 {parent.content}
+                                <div>{parent.images.map((img, i) => (
+                                    <a target={"_blank"} href={`${img.url}`}>{`quacker-app.com/${parent.id}/image/${i + 1} `}</a>
+                                ))}
+                                </div>
                             </div>
                             <div className='reply-modal-replying-to-text'>
                                 <span className='reply-modal-username-timestamp'>Replying to </span><span className='reply-modal-at'>@{parent.user.username}</span>

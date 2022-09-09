@@ -3,7 +3,7 @@ import CreatePost from "./CreatePost";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../store/posts";
 import './home.css'
-import Cards from "../Cards";
+import Cards from "../MainPostCard/MainPost";
 
 export default function Home() {
 

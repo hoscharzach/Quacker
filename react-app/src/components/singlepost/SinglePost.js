@@ -1,26 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState, React } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory, useParams } from "react-router-dom"
 import { getSinglePost } from "../../store/posts"
-import CreatePostModal from "../CreatePostModal"
 import './singlepost.css'
-import Cards from "../Cards"
+import MainPost from "../MainPostCard/MainPost"
 import backbutton from '../../images/backbutton.svg'
+import ParentCard from "../ParentCard/ParentCard"
 
 export default function SinglePost() {
+
+    // const mainView = useRef(null)
+
     const { postId, username } = useParams()
     const history = useHistory()
 
     const allPosts = useSelector(state => state.normPosts)
     const mainPost = useSelector(state => state.posts.normPosts[postId])
-    const parentPost = useSelector(state => state.posts[mainPost]?.inReplyTo)
-
+    const parentPost = useSelector(state => state.posts.normPosts[mainPost?.inReplyTo])
 
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
     const [errors, setErrors] = useState('')
 
+    console.log(parentPost)
     console.log(mainPost)
 
     // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
@@ -61,8 +64,9 @@ export default function SinglePost() {
                 {loaded && errors.length > 0 &&
                     <h1>{errors}</h1>
                 }
+                {/* line drawing to main post and smaller image */}
                 {loaded && mainPost && parentPost &&
-                    <Cards parentId={parentPost.id || null} postId={parentPost.id} />
+                    <ParentCard postId={parentPost.id} />
                     // <article id="parent-post">
                     //     <h3>{mainPost.parent.user.username}'s mainPost.parent with id <strong>{mainPost.parent.id}</strong> made on {mainPost.parent.createdAt}</h3>
                     //     <p>Content: {mainPost.parent.content}</p>
@@ -80,7 +84,10 @@ export default function SinglePost() {
 
                 {loaded && mainPost &&
                     <>
-                        <Cards parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
+                        {/* <div ref={mainView} id="main-post"> */}
+
+                        <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
+                        {/* </div> */}
                         {/* <article id="main-post">
                             <h3>{mainPost.user.username}'s mainPost with id <strong>{mainPost.id}</strong> made on {mainPost.createdAt}</h3>
                             <p>Content: {mainPost.content}</p>
@@ -95,7 +102,7 @@ export default function SinglePost() {
                         </article> */}
                         <div className="replies-container">
                             {mainPost?.replies && mainPost.replies.map(el => (
-                                <Cards parentId={el.inReplyTo || null} key={el.id} postId={el.id} />
+                                <MainPost parentId={el.inReplyTo || null} key={el.id} postId={el.id} />
                             ))}
                         </div>
                     </>
