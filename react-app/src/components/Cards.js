@@ -32,14 +32,10 @@ export default function Cards({ postId }) {
                                 {post.content}
                             </div>
 
-                            <div className='post-images-wrapper'>
-                                {post.images.length > 0 &&
-                                    post.images.map(img => (
-                                        <div key={img.id} className='post-image'>
-                                            <img alt='' src={img.url}  ></img>
-                                        </div>
-
-                                    ))}
+                            <div className='post-images-wrapper' data-post-images={post.images.length} >
+                                {post.images.map(img => (
+                                    <img className='post-image' key={img.id} alt='' src={img.url}></img>
+                                ))}
                             </div>
                             {sessionUser.id === post.user.id &&
                                 <>

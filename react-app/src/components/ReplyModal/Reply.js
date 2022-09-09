@@ -22,7 +22,7 @@ export default function Reply({ parentId, setShowModal }) {
     const sessionUser = useSelector(state => state.session.user)
     const errors = useSelector(state => state.session.errors)
     const images = useSelector(state => state.images.staging)
-    const numImages = images?.length
+    const numImages = Object.values(images)?.length
 
     const [timestamp, setTimeStamp] = useState('')
     const [content, setContent] = useState('')
@@ -127,7 +127,7 @@ export default function Reply({ parentId, setShowModal }) {
                                 <textarea value={content} onChange={changeContent} placeholder='Quack your reply' id='reply-modal-input' ref={replyModalTextInput} ></textarea>
 
                             </div>
-                            {images &&
+                            {Object.values(images) &&
                                 <div className='reply-modal-images-container' data-images={numImages} >
                                     {Object.values(images).map(img => (
                                         <img className='reply-modal-image' src={img.url} alt="" key={img.id} ></img>
