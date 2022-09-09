@@ -28,8 +28,6 @@ export default function Reply({ parentId, setShowModal }) {
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
 
-    console.log(parent)
-
     function changeContent(e) {
         setContent(e.target.value)
     }

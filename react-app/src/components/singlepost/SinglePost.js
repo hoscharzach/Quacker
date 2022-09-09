@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory, useParams } from "react-router-dom"
 import { getSinglePost } from "../../store/posts"
 import './singlepost.css'
-import Cards from "../Cards"
+import MainPost from "../MainPostCard/MainPost"
 import backbutton from '../../images/backbutton.svg'
 import ParentCard from "../ParentCard/ParentCard"
 
@@ -86,7 +86,7 @@ export default function SinglePost() {
                     <>
                         {/* <div ref={mainView} id="main-post"> */}
 
-                        <Cards parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
+                        <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
                         {/* </div> */}
                         {/* <article id="main-post">
                             <h3>{mainPost.user.username}'s mainPost with id <strong>{mainPost.id}</strong> made on {mainPost.createdAt}</h3>
@@ -102,7 +102,7 @@ export default function SinglePost() {
                         </article> */}
                         <div className="replies-container">
                             {mainPost?.replies && mainPost.replies.map(el => (
-                                <Cards parentId={el.inReplyTo || null} key={el.id} postId={el.id} />
+                                <MainPost parentId={el.inReplyTo || null} key={el.id} postId={el.id} />
                             ))}
                         </div>
                     </>

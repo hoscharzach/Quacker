@@ -28,17 +28,17 @@ export default function ParentCard({ postId }) {
             {
                 post &&
                 <Link to={`/profile/${post.user.username}/post/${post.id}`}>
-                    <div className="reply-modal-body-container">
+                    <div className="parent-body-container">
 
-                        <div className='reply-modal-parent-left'>
+                        <div className='parent-post-left'>
                             <img className='reply-modal-parent-profile-pic' src={post.user.profilePic || defaultProfilePic} alt=""></img>
-                            <div className='reply-modal-connecting-line-container'>
-                                <div className='reply-modal-connecting-line'></div>
+                            <div className='parent-reply-connecting-line'>
+                                <div className='connecting-line'></div>
                             </div>
                         </div>
                         <div className='parent-card-right'>
                             <div>
-                                {post.user.displayName || post.user.username} <span className='reply-modal-username-timestamp'>@{post.user.username} · <Link to={`/profile/${post.user.username}/post/${post.id}`}>{timestamp}</Link></span>
+                                {post.user.displayName || post.user.username} <span className='reply-modal-username-timestamp'>@{post.user.username} · {timestamp}</span>
                             </div>
                             <div className='parent-card-content'>
                                 {post.content}

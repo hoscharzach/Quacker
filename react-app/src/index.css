@@ -61,14 +61,11 @@ button:hover {
 
 .center-column {
     /* padding: 10px; */
-    /* border: 1px solid white; */
+    border-left: 1px solid white;
+    border-right: 1px solid white;
     width: 650px;
-    display: grid;
-    grid-row-gap: 20px;
-    grid-template-columns: 1fr;
-    justify-content: center;
-    /* justify-content: center;
-    align-items: center; */
+    display: flex;
+    flex-direction: column;
 }
 
 ::placeholder {
