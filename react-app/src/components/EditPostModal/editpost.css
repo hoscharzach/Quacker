@@ -7,3 +7,14 @@
     width: 600px;
     padding: 20px;
 }
+
+.edit-post-button {
+    display: flex;
+    align-items: center;
+}
+
+#edit-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 3px;
+}
