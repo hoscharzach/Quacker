@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 
 const SignUpForm = () => {
+
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -21,10 +22,11 @@ const SignUpForm = () => {
         setErrors(data)
       }
     } else {
-      setErrors(['Passwords must match.'])
+      setErrors([' error: Passwords must match.'], ...errors)
     }
   };
 
+  console.log(errors)
   const updateDisplayname = (e) => {
     setDisplayname(e.target.value);
   };
@@ -52,7 +54,7 @@ const SignUpForm = () => {
     <form onSubmit={onSignUp}>
       <div>
         {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
+          <div className='error-message' key={ind}>{error.split(':')[1]}</div>
         ))}
       </div>
       <div>
@@ -98,7 +100,6 @@ const SignUpForm = () => {
           name='repeat_password'
           onChange={updateRepeatPassword}
           value={repeatPassword}
-          required={true}
         ></input>
       </div>
       <button type='submit'>Sign Up</button>

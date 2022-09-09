@@ -3,8 +3,8 @@ import { deletePostById } from '../store/posts'
 import EditPostModal from '../components/EditPostModal/EditPostModal'
 import defaultProfile from '../images/defaultprofilepic.svg'
 import { Link } from 'react-router-dom'
-import CreatePostModal from '../components/CreatePostModal'
 import './cards.css'
+import ReplyModal from './ReplyModal/ReplyModal'
 
 export default function Cards({ postId }) {
 
@@ -25,7 +25,7 @@ export default function Cards({ postId }) {
                         <div className='post-right-container'>
 
                             <div className='post-user-timestamp'>
-                                {post.user.displayname || post.user.username} @{post.user.username} · <Link to={`/profile/${post.user.username}/post/${post.id}`}>timestamp and id: {post.id}</Link>
+                                {post.user.displayName || post.user.username} @{post.user.username} · <Link to={`/profile/${post.user.username}/post/${post.id}`}>timestamp and id: {post.id}</Link>
                             </div>
 
                             <div className='post-content-text'>
@@ -47,8 +47,7 @@ export default function Cards({ postId }) {
                                     <EditPostModal post={post} />
                                 </>
                             }
-                            <CreatePostModal location={'card'} parentId={post.id} />
-                            <div>Number of replies: {post.numReplies}</div>
+                            <ReplyModal parentId={post.id} numReplies={post.numReplies} />
                         </div>
                     </div>
                 </div>

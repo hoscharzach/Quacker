@@ -11,13 +11,17 @@ export default function SinglePost() {
     const { postId, username } = useParams()
     const history = useHistory()
 
+    const allPosts = useSelector(state => state.normPosts)
     const mainPost = useSelector(state => state.posts.normPosts[postId])
+    const parentPost = useSelector(state => state.posts[mainPost]?.inReplyTo)
 
 
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
     const [errors, setErrors] = useState('')
+
+    console.log(mainPost)
 
     // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
     useEffect(() => {
@@ -42,7 +46,7 @@ export default function SinglePost() {
                 setLoaded(true)
             }
         })();
-    }, [postId, username, dispatch])
+    }, [postId, username, dispatch, mainPost])
 
     if (!loaded) return null
 
@@ -57,8 +61,8 @@ export default function SinglePost() {
                 {loaded && errors.length > 0 &&
                     <h1>{errors}</h1>
                 }
-                {loaded && mainPost && mainPost.parent &&
-                    <Cards parentId={mainPost.parent.id || null} postId={mainPost.parent.id} />
+                {loaded && mainPost && parentPost &&
+                    <Cards parentId={parentPost.id || null} postId={parentPost.id} />
                     // <article id="parent-post">
                     //     <h3>{mainPost.parent.user.username}'s mainPost.parent with id <strong>{mainPost.parent.id}</strong> made on {mainPost.parent.createdAt}</h3>
                     //     <p>Content: {mainPost.parent.content}</p>
