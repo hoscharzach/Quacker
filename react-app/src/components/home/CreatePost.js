@@ -27,21 +27,6 @@ export default function CreatePost({ parentId, setShowModal }) {
         setContent(e.target.value)
     }
 
-    // useEffect(() => {
-    //     if (images.length === 1) {
-    //         imageStyle = {
-    //             width: '100%',
-    //             display: 'flex',
-    //             justifyContent: 'center',
-    //             alignItems: 'center'
-    //         }
-    //     } else if (images.length === 2) {
-    //         imageStyle = {
-    //             display: 'grid',
-    //             gridTemplateColumns: '1fr 1fr'
-    //         }
-    //     }
-    // }, [images])
 
     useEffect(() => {
         if (content.length < 1) setStyle('red')
@@ -51,6 +36,7 @@ export default function CreatePost({ parentId, setShowModal }) {
 
         textInput.current.style.height = 'auto'
         textInput.current.style.height = textInput.current.scrollHeight + 'px'
+
         if (content.length > 280) {
             textInput.current.style.backgroundColor = 'red'
         } else {

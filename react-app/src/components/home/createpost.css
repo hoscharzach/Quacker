@@ -77,7 +77,14 @@
     gap: 5px;
 }
 
-.staging-image[data-images='2'] {
+.staging-image[data-images='2'],
+.staging-images[data-images='3'] {
     width: 240px;
     height: 282px;
+}
+
+.staging-images-wrapper[data-images='3'] {
+    display: grid;
+    grid-template-columns: 290px 290px;
+    grid-template-rows: 290px 290px;
 }

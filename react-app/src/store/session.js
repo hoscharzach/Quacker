@@ -2,7 +2,7 @@
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const ADD_ERROR = 'session/ADD_ERROR'
-const REMOVE_ERRORS = 'sessoin/REMOVE_ERRORS'
+const REMOVE_ERRORS = 'session/REMOVE_ERRORS'
 
 export const addError = (error) => ({
   type: ADD_ERROR,

@@ -7,8 +7,8 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(40), nullable=False, unique=True)
-    display_name = db.Column(db.String(25), nullable=False)
+    username = db.Column(db.String(15), nullable=False, unique=True)
+    display_name = db.Column(db.String(30), nullable=False)
     bio = db.Column(db.String(250))
     profile_pic = db.Column(db.String(250))
     profile_background = db.Column(db.String(250))
