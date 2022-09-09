@@ -53,6 +53,9 @@ class Post(db.Model):
         if not content:
             raise AssertionError('Post cannot be blank.')
 
+        if len(content.strip()) == 0:
+            raise AssertionError('Post must contain at least one character')
+
         if len(content) > 280:
             raise AssertionError('Post cannot be longer than 280 characters.')
 

@@ -11,7 +11,10 @@ export default function ReplyModal({ parentId, numReplies }) {
 
     return (
         <>
-            <button onClick={() => setShowModal(true)}>Reply {numReplies}</button>
+            <button onClick={() => {
+                setShowModal(true)
+                dispatch(clearImages())
+            }}>Reply {numReplies}</button>
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false)

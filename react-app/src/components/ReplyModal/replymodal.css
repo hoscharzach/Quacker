@@ -91,15 +91,12 @@
 .reply-modal-parent-content {
     margin-top: 5px;
     padding-bottom: 12px;
+    font-size: 1rem;
     word-break: break-all;
 }
 
 .reply-modal-replying-to-text {
     padding: 4px 0px 16px;
-}
-
-.reply-modal-at {
-    color: #1D9BF0;
 }
 
 .reply-modal-footer-container {
@@ -113,7 +110,6 @@
 
 .reply-modal-footer-right {
     width: 100%;
-
     display: grid;
     grid-template-rows: auto auto auto;
     max-height: 500px;
@@ -160,6 +156,7 @@
     line-height: 20px;
     font-weight: 700;
 }
+
 
 .reply-modal-images-container[data-images='0'] {
     display: none;

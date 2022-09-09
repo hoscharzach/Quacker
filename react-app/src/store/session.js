@@ -105,7 +105,7 @@ export const signUp = (username, email, password, displayname) => async (dispatc
       return data.errors;
     }
   } else {
-    return ['An error occurred. Please try again.']
+    return ['error: An error occurred. Please try again.']
   }
 }
 
