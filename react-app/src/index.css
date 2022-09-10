@@ -27,13 +27,8 @@ button {
 }
 
 button:not(#logout-button):not(#x-button) {
-    /* background-color: #db9d66; */
-    /* color: black; */
     font-family: 'chirp';
     border: none;
-    /* border-radius: 3em; */
-    /* width: 225px; */
-    /* height: 52px; */
 }
 
 #file-select:disabled {
@@ -63,7 +58,7 @@ button:hover {
     /* padding: 10px; */
     border-left: 1px solid white;
     border-right: 1px solid white;
-    width: 650px;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
