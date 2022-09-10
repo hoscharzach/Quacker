@@ -100,7 +100,25 @@ label {
     font-weight: 700;
 }
 
-#signup-submit-button {}
+#signup-submit-button {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    font-family: 'chirpH';
+    background-color: rgb(29, 155, 240);
+    border-radius: 3rem;
+    height: 40px;
+    width: 175px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+
+.signup-buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
 
 #signup-form {
     width: 400px;
