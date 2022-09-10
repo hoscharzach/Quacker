@@ -1,9 +1,25 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom';
-import { signUp } from '../../store/session';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+import { login, signUp } from '../../store/session';
+import './signupform.css'
+import twitterIcon from '../../images/bigtwittericon.svg'
+import smallTwitterIcon from '../../images/twittericon.svg'
+import { demoLogin } from './LoginForm'
+
 
 const SignUpForm = () => {
+
+  // const history = useHistory()
+  const demoLogin = async (e) => {
+    e.preventDefault()
+    const data = await dispatch(login("demo@aa.io", "password"))
+    if (data) {
+      setErrors(data)
+    } else {
+      // history.push('/home')
+    }
+  }
 
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState('');
@@ -51,60 +67,90 @@ const SignUpForm = () => {
   }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
-        {errors.map((error, ind) => (
-          <div className='error-message' key={ind}>{error.split(':')[1]}</div>
-        ))}
-      </div>
-      <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-        <div>
-          <label>Display Name</label>
-          <input
-            type='text'
-            name='displayname'
-            onChange={updateDisplayname}
-            value={displayname}
-          ></input>
+    <>
+      <div id='splash-page-body'>
+
+        <div id='splash-image-container'>
+          <img id='splash-image-icon' src={twitterIcon} alt="" ></img>
+        </div>
+        <div className='splash-right-div'>
+          <div className='inner-form-container'>
+            <img src={smallTwitterIcon} className='twitter-right-side-icon'></img>
+            <div className='splash-big-text-container'>
+              <span className='splash-big-text'>Quackening Now</span>
+            </div>
+            <span className='splash-small-text'>Join Quacker Today.</span>
+
+            <form id='signup-form' onSubmit={onSignUp}>
+              <div className='signup-form-error-container'>
+                {errors.map((error, ind) => (
+                  <div className='error-message' key={ind}>{error.split(':')[1]}</div>
+                ))}
+              </div>
+              <div className='signup-form-container'>
+                <div className='signup-form-input-div'>
+
+                  <span>User Name</span>
+                  <input
+                    placeholder='Username'
+                    type='text'
+                    name='username'
+                    onChange={updateUsername}
+                    value={username}
+                  ></input>
+                </div>
+                <div className='signup-form-input-div'>
+                  <span>Display Name</span>
+                  <input
+                    placeholder='Display Name'
+                    type='text'
+                    name='displayname'
+                    onChange={updateDisplayname}
+                    value={displayname}
+                  ></input>
+                </div>
+              </div>
+              <div className='signup-form-input-div'>
+                <span>Email</span>
+                <input
+                  placeholder='Email'
+                  type='text'
+                  name='email'
+                  onChange={updateEmail}
+                  value={email}
+                ></input>
+              </div>
+              <div className='signup-form-input-div'>
+                <span>Password</span>
+                <input
+                  placeholder='Password'
+                  type='password'
+                  name='password'
+                  onChange={updatePassword}
+                  value={password}
+                ></input>
+              </div>
+              <div className='signup-form-input-div'>
+                <span>Repeat Password</span>
+                <input
+                  placeholder='Repeat Password'
+                  type='password'
+                  name='repeat_password'
+                  onChange={updateRepeatPassword}
+                  value={repeatPassword}
+                ></input>
+              </div>
+              <button id='signup-submit-button' type='submit'>Sign Up</button>
+            </form>
+            <span className='have-account-text'>Already have an account?</span>
+            <span><button onClick={demoLogin}>Demo</button></span>
+          </div>
+        </div>
+        <div id="footer-info">
+          <span>LinkedIn</span><span>Github</span>
         </div>
       </div>
-      <div>
-        <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
-      </div>
-      <div>
-        <label>Repeat Password</label>
-        <input
-          type='password'
-          name='repeat_password'
-          onChange={updateRepeatPassword}
-          value={repeatPassword}
-        ></input>
-      </div>
-      <button type='submit'>Sign Up</button>
-      <p>Already have an account? Login <Link to='/login'><strong>here</strong></Link></p>
-    </form>
+    </>
   );
 };
 

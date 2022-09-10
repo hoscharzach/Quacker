@@ -6,7 +6,7 @@ import Reply from './Reply'
 import replyIcon from '../../images/replybutton.svg'
 
 
-export default function ReplyModal({ parentId, numReplies }) {
+export default function ReplyModal({ parentId, numReplies, text }) {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
@@ -15,7 +15,7 @@ export default function ReplyModal({ parentId, numReplies }) {
             <button id='reply-modal-button' onClick={() => {
                 setShowModal(true)
                 dispatch(clearImages())
-            }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'> Reply</span></button>
+            }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'>{text}</span></button>
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false)

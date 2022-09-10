@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom'
 import './mainpost.css'
 import ReplyModal from '../ReplyModal/ReplyModal'
 import deleteIconSquare from '../../images/deleteiconsquare.svg'
+import { format } from 'date-fns'
 
 export default function MainPostCard({ postId }) {
 
@@ -41,19 +42,20 @@ export default function MainPostCard({ postId }) {
 
                     </div>
                     <div className='main-post-body-container'>
-                        <Link to={params.postId == post.id ? '#' : `/profile/${post.user.username}/post/${post.id}`}>
 
 
-                            <div className='main-post-content-text'>
-                                {post.content}
-                            </div>
+                        <div className='main-post-content-text'>
+                            {post.content}
+                        </div>
 
-                            <div className='main-post-images-wrapper' data-post-images={post.images.length} >
-                                {post.images.map(img => (
-                                    <img className='main-post-image' key={img.id} alt='' src={img.url}></img>
-                                ))}
-                            </div>
-                        </Link>
+                        <div className='main-post-images-wrapper' data-post-images={post.images.length} >
+                            {post.images.map(img => (
+                                <img className='main-post-image' key={img.id} alt='' src={img.url}></img>
+                            ))}
+                        </div>
+
+                        {/* 6:38 PM * Sep 8, 2022 Quacker Web App */}
+                        <div className='main-post-timestamp'><span className='main-post-timestamp-text'>{format(Date.parse(post.createdAt), 'PPP')} · {format(Date.parse(post.createdAt), 'p')} · Quacker Web App </span></div>
                         <div className='main-post-buttons-outer-container'>
 
                             <div className='main-post-buttons-wrapper'>
@@ -61,12 +63,12 @@ export default function MainPostCard({ postId }) {
                                     <>
                                         <span className='delete-button-span'><button id='delete-post-button' onClick={() => dispatch(deletePostById(post.id))}><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
                                         <EditPostModal post={post} />
-                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} />
+                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
                                     </>
                                 }
                                 {sessionUser.id !== post.user.id &&
                                     <>
-                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} />
+                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
                                     </>
                                 }
                             </div>

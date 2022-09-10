@@ -5,45 +5,51 @@ import './replycard.css'
 import defaultProfilePic from '../../images/defaultprofilepic.svg'
 import { useEffect } from 'react'
 import { intlFormatDistance } from 'date-fns'
+import ReplyModal from '../ReplyModal/ReplyModal'
+import { Link } from 'react-router-dom'
+import EditPostModal from '../EditPostModal/EditPostModal'
+import { deletePostById } from '../../store/posts'
+import deleteIcon from '../../images/deleteiconsquare.svg'
 
-export default function ReplyCard({ replyId, parentId }) {
+export default function ReplyCard({ replyId }) {
 
-    // const reply = useSelector(state => state.posts.normPosts[186])
     const dispatch = useDispatch()
+    const sessionUser = useSelector(state => state.session.user)
+    const reply = useSelector(state => state.posts.normPosts[replyId])
 
-    const [reply, setReply] = useState(null)
-
-    useEffect(() => {
-        (async () => {
-            const response = await fetch(`/api/posts/185`);
-            const post = await response.json()
-            setReply(post.post);
-        })();
-    }, []);
-
-    console.log(reply)
-
+    console.log(replyId, "reply inside replycard")
     return (
         <>
             {reply &&
                 <div id="reply-card-wrapper">
+
                     <div className='reply-card-left'>
                         <img className='reply-card-profile-pic' src={defaultProfilePic} alt="" ></img>
                     </div>
                     <div className='reply-card-right'>
                         <div className='reply-card-user-timestamp-container'>
-                            {reply.user.displayName || reply.user.username} <span className='reply-card-dim'>@{reply.user.username} · {intlFormatDistance(Date.parse(reply.createdAt), new Date())} </span>
+                            <Link to={`/profile/${reply.user.username}/post/${reply.id}`}>
+                                {reply.user.displayName || reply.user.username} <span className='reply-card-dim'>@{reply.user.username} · {intlFormatDistance(Date.parse(reply.createdAt), new Date())} </span>
+                            </Link>
                         </div>
                         <div className='reply-card-replying-to'>
-                            <span className='reply-card-dim'>Replying to @{reply.parent.user.username}</span>
+                            {reply.inReplyTo && <span className='reply-card-dim'>Replying to @{reply.parent.user.username}</span>}
                         </div>
-                        <div className='reply-card-content-container'>{reply.content}</div>
+                        <div className='reply-card-content-container'><Link to={`/profile/${reply.user.username}/post/${reply.id}`}>{reply.content}</Link></div>
                         <div className='reply-card-images-container' data-images={reply.images.length}>
                             {reply.images.map(img => (
-                                <img className='reply-card-image' alt='' src={img.url}></img>
+                                <Link to={`/profile/${reply.user.username}/post/${reply.id}`}><img key={img.id} className='reply-card-image' alt='' src={img.url}></img></Link>
                             ))}
                         </div>
-                        <div className='reply-card-buttons'>buttons</div>
+                        <div className='reply-card-buttons'>
+                            {sessionUser?.id === reply.user.id ?
+                                <>
+                                    <ReplyModal parentId={reply.id} text={reply.numReplies} />
+                                    <EditPostModal post={reply} />
+                                    <button onClick={() => dispatch(deletePostById(reply.id))}><img src={deleteIcon} ></img></button>
+                                </> : <ReplyModal parentId={reply.id} text={reply.numReplies} />
+                            }
+                        </div>
                     </div>
                 </div>
             }
