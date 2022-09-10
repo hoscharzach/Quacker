@@ -6,6 +6,7 @@ import './signupform.css'
 import twitterIcon from '../../images/bigtwittericon.svg'
 import smallTwitterIcon from '../../images/twittericon.svg'
 import { demoLogin } from './LoginForm'
+import LoginModal from '../LoginModal/LoginModal';
 
 
 const SignUpForm = () => {
@@ -140,10 +141,14 @@ const SignUpForm = () => {
                   value={repeatPassword}
                 ></input>
               </div>
-              <button id='signup-submit-button' type='submit'>Sign Up</button>
             </form>
-            <span className='have-account-text'>Already have an account?</span>
-            <span><button onClick={demoLogin}>Demo</button></span>
+            <div className='signup-buttons-container'>
+              <button id='signup-submit-button' type='submit'>Sign Up</button>
+
+              <span className='have-account-text'>Already have an account?</span>
+              <LoginModal />
+              <span><button id='signup-submit-button' onClick={demoLogin}>Demo User</button></span>
+            </div>
           </div>
         </div>
         <div id="footer-info">

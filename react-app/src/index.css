@@ -22,11 +22,11 @@ html {
     font-size: 18px;
 }
 
-button {
+button:not(#signin-button) {
     border: none;
 }
 
-button:not(#logout-button):not(#x-button) {
+button:not(#logout-button):not(#x-button):not(#signin-button) {
     font-family: 'chirp';
     border: none;
 }
