@@ -6,6 +6,7 @@ import './singlepost.css'
 import MainPost from "../MainPostCard/MainPost"
 import backbutton from '../../images/backbutton.svg'
 import ParentCard from "../ParentCard/ParentCard"
+import ReplyCard from "../ReplyCard/ReplyCard"
 
 export default function SinglePost() {
 
@@ -42,7 +43,7 @@ export default function SinglePost() {
                         setLoaded(true)
                     }
                 } else {
-                    setErrors('POST NOT FOUND')
+                    setErrors('404 Resource Not Found')
                     setLoaded(true)
                 }
             } else {
@@ -54,61 +55,35 @@ export default function SinglePost() {
     if (!loaded) return null
 
     return (
-        <div className="center-column">
-            <div className="title-container">
-                <button className="back-button" onClick={() => history.goBack()}><img src={backbutton} alt="" ></img></button>
-                <div>Thread</div>
-            </div>
-
-            <div id="single-post-component-wrapper">
+        <>
+            <div className="center-column">
+                <div className="title-container">
+                    <button className="back-button" onClick={() => history.goBack()}><img src={backbutton} alt="" ></img></button>
+                    <div>Tweet</div>
+                </div>
                 {loaded && errors.length > 0 &&
-                    <h1>{errors}</h1>
+                    <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid white', alignItems: 'center', padding: '0px 10px' }} >
+                        <h3>Post couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
+                    </div>
                 }
-                {/* line drawing to main post and smaller image */}
-                {loaded && mainPost && parentPost &&
-                    <ParentCard postId={parentPost.id} />
-                    // <article id="parent-post">
-                    //     <h3>{mainPost.parent.user.username}'s mainPost.parent with id <strong>{mainPost.parent.id}</strong> made on {mainPost.parent.createdAt}</h3>
-                    //     <p>Content: {mainPost.parent.content}</p>
-                    //     <p>Number of Replies {mainPost.parent.numReplies}</p>
-                    //     {mainPost.parent.inReplyTo &&
-                    //         <p>In Reply to mainPost.parent <Link to={`/profile/${mainPost.parent.user.username}/post/${mainPost.parent.inReplyTo}`}>{mainPost.parent.inReplyTo}</Link></p>}
-                    //     {mainPost.parent.images &&
-                    //         mainPost.parent.images.map(el => (
-                    //             <img key={el.id} alt="" src={el.url}></img>
-                    //         ))}
-                    //     <CreatePostModal parentId={mainPost.parent.id} />
-                    // </article>
 
-                }
+                {loaded && mainPost && parentPost &&
+                    <ParentCard postId={parentPost.id} />}
 
                 {loaded && mainPost &&
                     <>
-                        {/* <div ref={mainView} id="main-post"> */}
-
                         <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
-                        {/* </div> */}
-                        {/* <article id="main-post">
-                            <h3>{mainPost.user.username}'s mainPost with id <strong>{mainPost.id}</strong> made on {mainPost.createdAt}</h3>
-                            <p>Content: {mainPost.content}</p>
-                            <p>Number of Replies {mainPost.numReplies}</p>
-                            {mainPost.inReplyTo &&
-                                <p>In Reply to mainPost <Link to={`/profile/${mainPost.user.username}/post/${mainPost.inReplyTo}`}>{mainPost.inReplyTo}</Link></p>}
-                            {mainPost.images &&
-                                mainPost.images.map(el => (
-                                    <img key={el.id} alt="" src={el.url}></img>
-                                ))}
-                            <CreatePostModal parentId={mainPost.id} />
-                        </article> */}
+
                         <div className="replies-container">
-                            {mainPost?.replies && mainPost.replies.map(el => (
-                                <MainPost parentId={el.inReplyTo || null} key={el.id} postId={el.id} />
+                            {mainPost?.replies && mainPost.replies.map(reply => (
+                                <ReplyCard key={reply.id} replyId={reply.id} />
                             ))}
                         </div>
                     </>
                 }
+
             </div>
-        </div>
+        </>
 
 
 

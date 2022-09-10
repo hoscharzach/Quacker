@@ -3,7 +3,7 @@ import CreatePost from "./CreatePost";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../store/posts";
 import './home.css'
-import Cards from "../MainPostCard/MainPost";
+import ReplyCard from "../ReplyCard/ReplyCard";
 
 export default function Home() {
 
@@ -29,9 +29,7 @@ export default function Home() {
                     <div id="loading"></div>}
                 {loaded && feed &&
                     feed.map(el => (
-                        <Cards key={el.id} postId={el.id} />
-
-
+                        < ReplyCard key={el.id} replyId={el.id} />
                     ))}
             </div>
         </>

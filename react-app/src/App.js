@@ -11,6 +11,7 @@ import { authenticate } from './store/session';
 import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
 import Testing from './components/Testing';
+import ReplyCard from './components/ReplyCard/ReplyCard';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -53,7 +54,7 @@ function App() {
             <SinglePost />
           </ProtectedRoute>
           <ProtectedRoute exact path='/testing'>
-            <Testing />
+            <ReplyCard />
           </ProtectedRoute>
           <Route>
             404 Not Found

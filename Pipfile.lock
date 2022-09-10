@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e8d89b9820dfbff097fd238ef7382b5e143cb571eff4607d01aff3b0f5319d86"
+            "sha256": "19e4050fc09de0a0f7e3efa1c2d68df2e093ac6853ec6ea4f444a34e7037ac38"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -24,19 +24,19 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:818a40b82e4f66b4bdd4fa38fcc3ed0fb26542f7d8c4d15279d4ba1d4762cd95",
-                "sha256:84b962f18506ad495dc973aeb5168697ee882497c01430dddeba5e8339db7932"
+                "sha256:abac9c7e54212ee68c2a311812a498ece2c43f98d1302f099128a9fe45cf37c5",
+                "sha256:bb69ebe7c484305568b1aaed664db3d09716dc93235e41f23538f99ea4f3addc"
             ],
             "index": "pypi",
-            "version": "==1.24.62"
+            "version": "==1.24.70"
         },
         "botocore": {
             "hashes": [
-                "sha256:69682c874dc8ed1856bffd203786c9591fb76a1946d3dcc516bda1ee6a6989f3",
-                "sha256:8563c7d8b80e8041667cf35b397f1c399537f6c887e1c501f0064bfd7ae541ba"
+                "sha256:2ad5be6ca322a549f858d245237358ed300f7347096caacbb29c013e10663d34",
+                "sha256:c0a014b4dfd7ffe739393034aa6e70e73f3a1b22c7667a59858259b341bf5082"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.27.62"
+            "version": "==1.27.70"
         },
         "click": {
             "hashes": [
@@ -45,6 +45,21 @@
             ],
             "index": "pypi",
             "version": "==7.1.2"
+        },
+        "dnspython": {
+            "hashes": [
+                "sha256:0f7569a4a6ff151958b64304071d370daa3243d15941a7beedf0c9fe5105603e",
+                "sha256:a851e51367fb93e9e1361732c1d60dab63eff98712e503ea7d92e6eccb109b4f"
+            ],
+            "markers": "python_version >= '3.6' and python_version < '4'",
+            "version": "==2.2.1"
+        },
+        "email-validator": {
+            "hashes": [
+                "sha256:6757aea012d40516357c0ac2b1a4c31219ab2f899d26831334c5d069e8b6c3d8",
+                "sha256:c8589e691cf73eb99eed8d10ce0e9cbb05a0886ba920c8bcb7c82873f4c5789c"
+            ],
+            "version": "==1.2.1"
         },
         "flask": {
             "hashes": [
@@ -156,6 +171,21 @@
             ],
             "index": "pypi",
             "version": "==20.1.0"
+        },
+        "idna": {
+            "hashes": [
+                "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff",
+                "sha256:9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
+            ],
+            "markers": "python_version >= '3.5'",
+            "version": "==3.3"
+        },
+        "is-disposable-email": {
+            "hashes": [
+                "sha256:905c84806d8d89c87d77925807a4a2830da6964f89b879a3a9247c314f18e777",
+                "sha256:d31f0200aea99f5f74bf6a6092fc6a65d232d7932a80152a6437e5b8c7884b06"
+            ],
+            "version": "==1.0.0"
         },
         "itsdangerous": {
             "hashes": [
@@ -368,12 +398,23 @@
             "version": "==2.0.1"
         },
         "wtforms": {
+            "extras": [
+                "email"
+            ],
             "hashes": [
-                "sha256:7b504fc724d0d1d4d5d5c114e778ec88c37ea53144683e084215eed5155ada4c",
-                "sha256:81195de0ac94fbc8368abbaf9197b88c4f3ffd6c2719b5bf5fc9da744f3d829c"
+                "sha256:6b351bbb12dd58af57ffef05bc78425d08d1914e0fd68ee14143b7ade023c5bc",
+                "sha256:837f2f0e0ca79481b92884962b914eba4e72b7a2daaf1f939c890ed0124b834b"
             ],
             "index": "pypi",
-            "version": "==2.3.3"
+            "version": "==3.0.1"
+        },
+        "wtforms-validators": {
+            "hashes": [
+                "sha256:6bafc63fb4a000d097da010d8e89dddffe93e894f2ff91069117f774b93e1f7c",
+                "sha256:b61e2da9b3cb8ce77e59550168eb9c445b13f4ad3b262c26b0bb2801aed2462e"
+            ],
+            "index": "pypi",
+            "version": "==1.0.0"
         }
     },
     "develop": {}

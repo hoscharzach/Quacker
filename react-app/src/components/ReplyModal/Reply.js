@@ -10,7 +10,7 @@ import { clearImages } from '../../store/images'
 import { createNewPost } from '../../store/posts'
 import UploadPicture from '../UploadPicture'
 import { nanoid } from 'nanoid'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export default function Reply({ parentId, setShowModal }) {
 
@@ -24,7 +24,6 @@ export default function Reply({ parentId, setShowModal }) {
     const images = useSelector(state => state.images.staging)
     const numImages = Object.values(images)?.length
 
-    const [timestamp, setTimeStamp] = useState('')
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
 
@@ -46,10 +45,6 @@ export default function Reply({ parentId, setShowModal }) {
         } else {
             replyModalTextInput.current.style.backgroundColor = 'inherit'
         }
-
-        // if (content.length > 0) {
-        //     setHideCounter(false)
-        // } else setHideCounter(true)
     }, [content])
 
     async function handleSubmit(e) {
@@ -76,12 +71,6 @@ export default function Reply({ parentId, setShowModal }) {
         }
     }
 
-    useEffect(() => {
-        if (parent) {
-            const newDate = Date.parse(parent.createdAt)
-            setTimeStamp(intlFormatDistance(newDate, new Date()))
-        }
-    }, [parent])
     return (
         <>
             {parent &&
@@ -109,7 +98,7 @@ export default function Reply({ parentId, setShowModal }) {
                         </div>
                         <div className='reply-modal-parent-right'>
                             <div>
-                                {parent.user.displayName || parent.user.username} <span className='reply-modal-username-timestamp'>@{parent.user.username} · {timestamp}</span>
+                                {parent.user.displayName || parent.user.username} <span className='reply-modal-username-timestamp'>@{parent.user.username} · {intlFormatDistance(Date.parse(parent.createdAt), new Date())}</span>
                             </div>
                             <div className='reply-modal-parent-content'>
                                 {parent.content}

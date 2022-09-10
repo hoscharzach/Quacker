@@ -27,13 +27,8 @@ button {
 }
 
 button:not(#logout-button):not(#x-button) {
-    /* background-color: #db9d66; */
-    /* color: black; */
     font-family: 'chirp';
     border: none;
-    /* border-radius: 3em; */
-    /* width: 225px; */
-    /* height: 52px; */
 }
 
 #file-select:disabled {
@@ -55,6 +50,7 @@ button:hover {
     font-family: 'chirpH';
     font-weight: bold;
     display: flex;
+    width: 594px;
     flex-direction: column;
     align-items: flex-end;
 }
@@ -75,12 +71,6 @@ button:hover {
     opacity: .5;
 }
 
-#root {
-    display: flex;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-}
 
 .duck-icon,
 .home-icon {
@@ -88,10 +78,17 @@ button:hover {
     width: 50px;
 }
 
-#entire-app-container {
-    display: grid;
-    grid-template-columns: 27% 650px 1fr;
+#root {
+    display: flex;
+    justify-content: center;
+    height: 100%;
     width: 100%;
+}
+
+#entire-app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
 
 }
 

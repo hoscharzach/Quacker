@@ -12,6 +12,7 @@
 
 .entire-create-post-wrapper {
     display: flex;
+    width: 660px;
     border-bottom: 1px solid white;
 }
 
