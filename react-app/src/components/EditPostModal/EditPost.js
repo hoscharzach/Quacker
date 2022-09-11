@@ -55,13 +55,7 @@ export default function EditPost({ post, setShowModal }) {
         <>
             <div id="edit-post-wrapper">
                 <div id="edit-post-header">
-                    <div>Editing Quack</div>
-
-
-
-
-
-
+                    <div>Editing {post.inReplyTo ? 'Reply' : 'Post'}</div>
                     <div onClick={() => setShowModal(false)} id="edit-post-x-container">
                         <img style={{}} id="edit-post-x" alt="" src={x} ></img>
                     </div>
@@ -79,20 +73,6 @@ export default function EditPost({ post, setShowModal }) {
                     <button onClick={handleSubmit} id="edit-post-submit-button">Submit Changes</button>
                 </div>
             </div>
-            {/* <div className="edit-post-modal-container">
-
-                <div className="edit-post-errors-container">
-
-                    {errors && errors.length > 0 &&
-                        errors.map(err => (
-                            <p className="error-message">{err}</p>
-                        ))}
-                </div>
-                <textarea className="new-post-text" value={content} onChange={updateContent}></textarea>
-                <button onClick={handleSubmit}>Submit Changes</button>
-                <p>UserId {post.user.id} </p>
-                <p>Posted on: {post.createdAt}</p>
-            </div> */}
         </>
     )
 }

@@ -152,7 +152,12 @@ const SignUpForm = () => {
           </div>
         </div>
         <div id="footer-info">
-          <span>LinkedIn</span><span>Github</span>
+          <div id='footer-links'>
+
+            <span>Created by Zach Hoschar:</span>
+            <span ><a className='personal-link' target='_blank' rel="noreferrer" href='https://www.linkedin.com/in/zach-hoschar-3ab403b8/'>LinkedIn</a></span>
+            <span ><a className='personal-link' href='https://github.com/hoscharzach' target='_blank' rel="noreferrer">GitHub</a></span>
+          </div>
         </div>
       </div>
     </>
