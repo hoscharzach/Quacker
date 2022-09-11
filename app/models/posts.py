@@ -28,7 +28,6 @@ class Post(db.Model):
             'user': self.user.to_dict_basic_info(),
             'images': [x.to_dict() for x in self.images],
             'replies': [x.to_dict() for x in self.replies],
-            'replyList': [x.id for x in self.replies],
             'numReplies': len(self.replies),
             'numImages': len(self.images),
             'createdAt': self.created_at,

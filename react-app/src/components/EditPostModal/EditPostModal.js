@@ -5,6 +5,7 @@ import editIcon from '../../images/editpenicon.svg'
 import { useDispatch } from 'react-redux'
 import { clearImages } from '../../store/images'
 import './editpost.css'
+import CreatePost from '../home/CreatePost'
 
 export default function EditPostModal({ post }) {
     const [showModal, setShowModal] = useState(false)
@@ -18,7 +19,7 @@ export default function EditPostModal({ post }) {
             }}> <img src={editIcon} alt="" id='edit-icon'></img><span>Edit</span></button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <EditPost post={post} setShowModal={setShowModal} />
+                    <CreatePost post={post} setShowModal={setShowModal} />
                 </Modal>
             )}
         </>

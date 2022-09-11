@@ -22,14 +22,21 @@ export default function Home() {
     return (
         <>
             <div className="center-column">
+                <div className="home-top-bar" onClick={() => window.scrollTo(0, 0)} style={{ opacity: '.9', position: 'sticky', top: '0', display: 'flex', alignItems: 'center', paddingLeft: '15px', boxSizing: 'border-box', width: '650px', height: '50px', borderTop: '1px solid white', borderBottom: '1px solid white' }}>
+                    <div>
+                        Home
+                    </div>
+                    <div>
 
+                    </div>
+                </div>
                 <CreatePost />
 
                 {!loaded &&
                     <div id="loading"></div>}
                 {loaded && feed &&
                     feed.map(el => (
-                        < ReplyCard key={el.id} replyId={el.id} />
+                        <ReplyCard key={el.id} replyId={el.id} />
                     ))}
             </div>
         </>

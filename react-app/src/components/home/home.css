@@ -17,3 +17,7 @@
         transform: rotate(360deg);
     }
 }
+
+.home-top-bar:hover {
+    cursor: pointer;
+}

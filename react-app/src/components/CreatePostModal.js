@@ -3,29 +3,25 @@ import { useDispatch } from 'react-redux'
 import { Modal } from '../context/Modal'
 import { clearImages } from '../store/images'
 import CreatePost from './home/CreatePost'
+import EditPost from './EditPostModal/EditPost'
 
-export default function CreatePostModal({ location, parentId }) {
+export default function CreatePostModal({ post }) {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
-    let text
-
-    if (location === 'nav' || location === 'main') {
-        text = 'Quack'
-    } else if (location === 'card') {
-        text = 'Reply'
-    }
-
     return (
         <>
-            <button onClick={() => setShowModal(true)}>{text}</button>
+            <button onClick={() => setShowModal(true)}>Quack</button>
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false)
                     dispatch(clearImages())
                 }
                 }>
-                    <CreatePost parentId={parentId} setShowModal={setShowModal} />
+                    {
+                        post ? <EditPost setShowModal={setShowModal} post={post} /> : <CreatePost setShowModal={setShowModal} />
+                    }
+
                 </Modal>
             )}
         </>

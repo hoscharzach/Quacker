@@ -135,21 +135,17 @@
     background-color: #15202b;
     height: 1.2rem;
     width: 98%;
-    max-height: 172px;
+    max-height: 149px;
     overflow-y: auto;
     resize: none;
 
 }
 
-#reply-modal-input::placeholder {
-    position: absolute;
-    top: -12px;
-}
-
 .reply-modal-input-container {
-    padding-top: 12px;
     height: auto;
     margin-bottom: 5px;
+    max-height: 160px;
+    overflow: auto;
 }
 
 #reply-modal-submit-button {

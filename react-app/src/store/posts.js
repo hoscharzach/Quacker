@@ -70,7 +70,7 @@ export const deletePostById = (id) => async (dispatch) => {
     if (response.ok) {
         dispatch(deletePost(id))
     } else {
-        throw response
+        throw ('You are not authorized to delete this')
     }
 }
 

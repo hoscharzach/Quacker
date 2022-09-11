@@ -103,7 +103,7 @@ export default function Reply({ parentId, setShowModal }) {
                             <div className='reply-modal-parent-content'>
                                 {parent.content}
                                 <div>{parent.images.map((img, i) => (
-                                    <a target={"_blank"} href={`${img.url}`}>{`quacker-app.com/${parent.id}/image/${i + 1} `}</a>
+                                    <a key={img.id} target={"_blank"} rel="noreferrer" href={`${img.url}`}>{`quacker-app.com/${parent.id}/image/${i + 1} `}</a>
                                 ))}
                                 </div>
                             </div>
