@@ -63,7 +63,7 @@ export const login = (email, password) => async (dispatch) => {
       return data.errors;
     }
   } else {
-    return ['An error occurred. Please try again.']
+    return ['Error: An error occurred. Please try again.']
   }
 
 }

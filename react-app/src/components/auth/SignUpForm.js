@@ -143,7 +143,7 @@ const SignUpForm = () => {
               </div>
             </form>
             <div className='signup-buttons-container'>
-              <button id='signup-submit-button' type='submit'>Sign Up</button>
+              <button id='signup-submit-button' onClick={onSignUp} type='submit'>Sign Up</button>
 
               <span className='have-account-text'>Already have an account?</span>
               <LoginModal />

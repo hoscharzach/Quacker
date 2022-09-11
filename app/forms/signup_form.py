@@ -24,18 +24,11 @@ def username_exists(form, field):
         raise ValidationError('Username is required')
 
 
-# def displayname_exists(form, field):
-#     display_name = field.data
-#     user = User.query.filter(User.display_name == display_name).first()
-#     if user:
-#         raise ValidationError('Display name is already in use.')
-
-
 def displayname_length(form, field):
     display_name = field.data
     if len(display_name) < 4 or len(display_name) > 30:
         raise ValidationError(
-            'Display name must be between 2 and 15 characters')
+            'Display name must be between 4 and 15 characters')
 
     if len(display_name.strip()) == 0:
         raise ValidationError('Display name is required')

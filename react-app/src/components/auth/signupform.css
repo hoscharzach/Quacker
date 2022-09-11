@@ -8,6 +8,22 @@
     grid-template-rows: 95fr 5fr;
 }
 
+#signup-form input {
+    border: 1px solid rgba(62, 65, 68, .6);
+    margin-bottom: 5px;
+    color: white;
+    height: 25px;
+    width: 180px;
+    border-radius: 3px;
+    font-size: 17px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+#signup-form input::placeholder {
+    color: rgba(156, 156, 156, 0.7);
+}
+
 label {
     margin-right: 5px;
 }
@@ -87,9 +103,13 @@ label {
     margin: 5px 0px;
 }
 
+
 .signup-form-input-div input {
     /* border-radius: 10px; */
     border: 1px solid white;
+    color: black;
+    padding: 0px 5px;
+    border-radius: 3rem;
 }
 
 .have-account-text {
@@ -122,6 +142,7 @@ label {
 
 #signup-form {
     width: 400px;
+    margin-bottom: 20px;
 }
 
 .signupform-container {
