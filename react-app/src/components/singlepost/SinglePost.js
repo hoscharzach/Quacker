@@ -60,7 +60,7 @@ export default function SinglePost() {
             <div className="center-column">
                 <div className="title-container">
                     <button className="back-button" onClick={() => history.goBack()}><img src={backbutton} alt="" ></img></button>
-                    <div>Tweet</div>
+                    <div>Quack</div>
                 </div>
                 {loaded && errors.length > 0 &&
                     <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid white', alignItems: 'center', padding: '0px 10px' }} >
