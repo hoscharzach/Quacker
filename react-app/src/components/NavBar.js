@@ -30,17 +30,17 @@ const NavBar = () => {
         </div>
         <div>
           <div className='navbar-item-container'>
-            <div className='navbar-item-button'>
+            <NavLink to='/home' exact={true} activeClassName='active'>
+              <div className='navbar-item-button'>
 
-              <img style={{ width: '25px;', height: '25px', paddingLeft: '20px', marginRight: '30px' }} className="duck-home-icon" src={duck} alt="" ></img>
-              <NavLink to='/home' exact={true} activeClassName='active'>
+                <img style={{ width: '25px;', height: '25px', paddingLeft: '20px', marginRight: '30px' }} className="duck-home-icon" src={duck} alt="" ></img>
                 {/* <img className='home-icon' src={homeIcon} alt="" ></img>  */}
 
 
                 <span className='navbar-text'>Home</span>
 
-              </NavLink>
-            </div>
+              </div>
+            </NavLink>
           </div>
         </div>
         {/* <div>

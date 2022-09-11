@@ -106,9 +106,9 @@
 
 
 .staging-images-wrapper[data-images='1'] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 450px;
 }
 
 .staging-images-wrapper[data-images='2'] {
