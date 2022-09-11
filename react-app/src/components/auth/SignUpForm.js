@@ -44,7 +44,6 @@ const SignUpForm = () => {
     }
   };
 
-  console.log(errors)
   const updateDisplayname = (e) => {
     setDisplayname(e.target.value);
   };

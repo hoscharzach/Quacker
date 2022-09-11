@@ -24,9 +24,6 @@ export default function SinglePost() {
     const [loaded, setLoaded] = useState(false)
     const [errors, setErrors] = useState('')
 
-    console.log(parentPost)
-    console.log(mainPost)
-
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])

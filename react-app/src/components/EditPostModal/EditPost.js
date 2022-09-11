@@ -9,8 +9,8 @@ export default function EditPost({ post, setShowModal }) {
     const dispatch = useDispatch()
 
     const errors = useSelector(state => state.session.errors)
-    const [content, setContent] = useState(post.content)
-
+    const [content, setContent] = useState(post.content || '')
+    const selectPost = useSelector(state => state.posts.normPosts?.[post?.id])
 
     const updateContent = (e) => {
         setContent(e.target.value)
@@ -36,11 +36,14 @@ export default function EditPost({ post, setShowModal }) {
     return (
         <>
             <div className="edit-post-modal-container">
-                {errors && errors.length > 0 &&
-                    errors.map(err => (
-                        <p className="error-message">{err}</p>
-                    ))}
-                <h3>By: {post.user.username}</h3>
+
+                <div className="edit-post-errors-container">
+
+                    {errors && errors.length > 0 &&
+                        errors.map(err => (
+                            <p className="error-message">{err}</p>
+                        ))}
+                </div>
                 <textarea className="new-post-text" value={content} onChange={updateContent}></textarea>
                 <button onClick={handleSubmit}>Submit Changes</button>
                 <p>UserId {post.user.id} </p>

@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { clearImages } from "../../store/images"
+import { clearImages, removeImage } from "../../store/images"
 import { createNewPost } from "../../store/posts"
 import { Link } from "react-router-dom"
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import UploadPicture from "../UploadPicture"
 import './createpost.css'
 import { addError, removeErrors } from "../../store/session"
+import x from '../../images/imageclose-x.svg'
 
 export default function CreatePost({ parentId, setShowModal }) {
 
@@ -69,11 +70,12 @@ export default function CreatePost({ parentId, setShowModal }) {
             setContent('')
             textInput.current.style.height = '1.2rem'
             dispatch(clearImages())
-            if (setShowModal) setShowModal(false)
         }
 
 
     }
+
+    console.log(images)
 
     return (
         <>
@@ -95,8 +97,9 @@ export default function CreatePost({ parentId, setShowModal }) {
                         {Object.values(images)?.length > 0 &&
                             <div className="staging-images-wrapper" data-images={Object.values(images)?.length} >
                                 {Object.values(images)?.map(el => (
-                                    <div className="staging-image-container" key={el.id} >
-                                        <img className="staging-image" data-images={Object.values(images)?.length} src={el.url}></img>
+                                    <div id="staging-image-div" key={el.id}>
+                                        <button onClick={() => dispatch(removeImage(el.id))} className="staging-x-container"><img className="staging-x-icon" src={x} alt="" ></img></button>
+                                        <img className="staging-image" src={el.url}></img>
                                     </div>
                                 ))}
                             </div>}
