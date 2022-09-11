@@ -49,13 +49,16 @@ class Post(db.Model):
 
     @validates('content')
     def validate_content(self, key, content):
+        post_type = 'Reply' if self.parent_id else 'Quack'
         if not content:
-            raise AssertionError('Post cannot be blank.')
+            raise AssertionError(f'{post_type} cannot be blank')
 
         if len(content.strip()) == 0:
-            raise AssertionError('Post must contain at least one character')
+            raise AssertionError(
+                f'{post_type} must contain at least one character')
 
         if len(content) > 280:
-            raise AssertionError('Post cannot be longer than 280 characters.')
+            raise AssertionError(
+                f'{post_type} cannot be longer than 280 characters.')
 
         return content
