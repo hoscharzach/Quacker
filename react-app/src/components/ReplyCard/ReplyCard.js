@@ -48,7 +48,7 @@ export default function ReplyCard({ replyId }) {
                                     <button style={{ display: 'flex', alignItems: 'center', padding: '0px' }} onClick={() => {
                                         dispatch(deletePostById(reply.id))
                                     }
-                                    }><img src={deleteIcon} alt="" className='delete-icon' ></img>Delete</button>
+                                    }><img src={deleteIcon} alt="" className='delete-icon' ></img></button>
                                 </> :
                                 <ReplyModal parentId={reply.id} text={reply.numReplies} />
                             }

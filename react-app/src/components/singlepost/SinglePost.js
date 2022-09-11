@@ -26,7 +26,7 @@ export default function SinglePost() {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-    }, [])
+    }, [mainPost])
 
     // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
     useEffect(() => {

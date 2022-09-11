@@ -4,6 +4,7 @@ import { Modal } from '../../context/Modal'
 import { clearImages } from '../../store/images'
 import Reply from './Reply'
 import replyIcon from '../../images/replybutton.svg'
+import { removeErrors } from '../../store/session'
 
 
 export default function ReplyModal({ parentId, numReplies, text }) {
@@ -15,6 +16,7 @@ export default function ReplyModal({ parentId, numReplies, text }) {
             <button id='reply-modal-button' onClick={() => {
                 setShowModal(true)
                 dispatch(clearImages())
+                dispatch(removeErrors())
             }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'>{text}</span></button>
             {showModal && (
                 <Modal onClose={() => {

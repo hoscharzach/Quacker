@@ -57,7 +57,7 @@ const NavBar = () => {
         <div>
           <div>
 
-            <CreatePostModal parentId={null} location={'nav'} />
+            <CreatePostModal />
           </div>
         </div>
       </div>
