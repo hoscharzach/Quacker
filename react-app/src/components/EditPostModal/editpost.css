@@ -3,7 +3,7 @@
     border-radius: 15px;
     box-sizing: border-box;
     width: 650px;
-    max-height: 300px;
+    max-height: 350px;
 }
 
 #edit-post-error-and-title {
@@ -25,7 +25,7 @@
 
 #edit-post-x-container {
     position: absolute;
-    top: 0;
+    top: 2px;
     left: 0;
     display: flex;
     justify-content: center;
@@ -45,8 +45,8 @@
 }
 
 #edit-post-body {
-    height: 150px;
-    max-height: 150px;
+    height: 180px;
+    max-height: 200px;
 }
 
 .edit-post-input {

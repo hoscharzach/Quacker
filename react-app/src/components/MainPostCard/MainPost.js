@@ -65,7 +65,7 @@ export default function MainPostCard({ postId }) {
                                             history.push('/home')
                                         }
                                         }><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
-                                        <EditPostModal post={post} />
+                                        <EditPostModal post={post} text={'Edit'} />
                                         <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
                                     </>
                                 }

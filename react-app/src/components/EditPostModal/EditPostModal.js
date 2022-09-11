@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { clearImages } from '../../store/images'
 import './editpost.css'
 
-export default function EditPostModal({ post }) {
+export default function EditPostModal({ post, text }) {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
@@ -15,7 +15,7 @@ export default function EditPostModal({ post }) {
             <button className='edit-post-button' onClick={() => {
                 dispatch(clearImages())
                 setShowModal(true)
-            }}> <img src={editIcon} alt="" id='edit-icon'></img></button>
+            }}> <img src={editIcon} alt="" id='edit-icon'></img>{text && text}</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <EditPost post={post} setShowModal={setShowModal} />

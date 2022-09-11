@@ -55,14 +55,10 @@ export default function EditPost({ post, setShowModal }) {
         <>
             <div id="edit-post-wrapper">
                 <div id="edit-post-header">
+                    <div>Editing Quack</div>
 
 
 
-                    <div id="edit-post-errors-container">
-                        {errors && errors.map(err => (
-                            <div className="error-message">{err}</div>
-                        ))}
-                    </div>
 
 
 
@@ -71,9 +67,15 @@ export default function EditPost({ post, setShowModal }) {
                     </div>
                 </div>
                 <div id="edit-post-body">
-                    <textarea ref={editTextInput} placeholder="Edit Post" onChange={updateContent} value={content} className="edit-post-input"></textarea>
+                    <div style={{ display: 'flex', justifyContent: 'center', margin: '5px 0px' }} id="edit-post-errors-container">
+                        {errors && errors.map(err => (
+                            <div className="error-message">{err}</div>
+                        ))}
+                    </div>
+                    <textarea ref={editTextInput} placeholder="Change your mind...?" onChange={updateContent} value={content} className="edit-post-input"></textarea>
                 </div>
                 <div id="edit-post-footer">
+
                     <button onClick={handleSubmit} id="edit-post-submit-button">Submit Changes</button>
                 </div>
             </div>
