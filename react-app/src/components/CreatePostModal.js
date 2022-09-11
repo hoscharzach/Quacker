@@ -5,23 +5,20 @@ import { clearImages } from '../store/images'
 import CreatePost from './home/CreatePost'
 import EditPost from './EditPostModal/EditPost'
 
-export default function CreatePostModal({ post }) {
+export default function CreatePostModal() {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
     return (
         <>
-            <button onClick={() => setShowModal(true)}>Quack</button>
+            <div style={{ padding: 'none' }} id="quack-modal-button" onClick={() => setShowModal(true)}><span className='navbar-text'>Quack</span></div>
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false)
                     dispatch(clearImages())
                 }
                 }>
-                    {
-                        post ? <EditPost setShowModal={setShowModal} post={post} /> : <CreatePost setShowModal={setShowModal} />
-                    }
-
+                    <CreatePost setShowModal={setShowModal} />
                 </Modal>
             )}
         </>

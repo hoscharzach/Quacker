@@ -1,7 +1,10 @@
 .navbar-text {
-    font-family: 'chirpH';
-    font-size: 1.5rem;
-    color: #415475;
+    font-family: 'chirp';
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    word-spacing: normal;
+    color: white;
 }
 
 #logout-button {
@@ -12,4 +15,49 @@
     width: 225px;
     height: 52px;
     border-radius: 50%;
+}
+
+.navigation {
+    font-family: 'chirpH';
+    font-weight: bold;
+    display: flex;
+    width: 594px;
+    flex-direction: column;
+    align-items: flex-end;
+
+}
+
+.navigation-icons-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 275px;
+    position: fixed;
+    top: 50px;
+}
+
+.navigation-icons-wrapper div {
+    height: 52px;
+    display: flex;
+    align-items: center;
+}
+
+#quack-modal-button {
+    width: 210px;
+    background-color: rgb(29, 155, 240);
+    display: flex;
+    justify-content: center;
+    border-radius: 3rem;
+}
+
+.navbar-item-button {
+    height: 50px;
+    cursor: pointer;
+}
+
+#quack-modal-button:hover {
+    cursor: pointer;
+}
+
+.nav-items {
+    list-style-type: none;
 }

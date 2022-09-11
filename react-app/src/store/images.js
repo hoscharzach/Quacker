@@ -49,7 +49,8 @@ export default function reducer(state = initialState, action) {
         case CLEAR_IMAGES:
             return { staging: {} }
         case REMOVE_IMAGE:
-            newState = { ...state }
+            newState = JSON.parse(JSON.stringify(state))
+            console.log(action)
             delete newState.staging[action.id]
             return newState
         default:

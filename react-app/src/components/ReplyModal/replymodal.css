@@ -3,7 +3,7 @@
     background-color: #15202b;
     width: 600px;
     min-height: auto;
-    max-height: 750px;
+    max-height: 800px;
     border-radius: 20px;
     padding: 0px 16px;
     overflow-y: auto;
@@ -135,7 +135,7 @@
     background-color: #15202b;
     height: 1.2rem;
     width: 98%;
-    max-height: 149px;
+    max-height: 135px;
     overflow-y: auto;
     resize: none;
 
@@ -144,7 +144,7 @@
 .reply-modal-input-container {
     height: auto;
     margin-bottom: 5px;
-    max-height: 160px;
+    max-height: 145px;
     overflow: auto;
 }
 
