@@ -62,6 +62,7 @@ export default function MainPostCard({ postId }) {
                                     <>
                                         <span className='delete-button-span'><button id='delete-post-button' onClick={() => {
                                             dispatch(deletePostById(post.id))
+                                            history.push('/home')
                                         }
                                         }><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
                                         <EditPostModal post={post} />

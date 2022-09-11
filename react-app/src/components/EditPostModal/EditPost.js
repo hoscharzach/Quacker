@@ -1,16 +1,17 @@
-import { useReducer, useState } from "react"
+import { useEffect, useReducer, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { updatePostById } from "../../store/posts"
 import { addError, removeErrors } from "../../store/session"
 import './editpost.css'
+import x from '../../images/imageclose-x.svg'
 
 
 export default function EditPost({ post, setShowModal }) {
     const dispatch = useDispatch()
+    const editTextInput = useRef(null)
 
     const errors = useSelector(state => state.session.errors)
     const [content, setContent] = useState(post.content || '')
-    const selectPost = useSelector(state => state.posts.normPosts?.[post?.id])
 
     const updateContent = (e) => {
         setContent(e.target.value)
@@ -33,9 +34,50 @@ export default function EditPost({ post, setShowModal }) {
 
 
     }
+    useEffect(() => {
+        editTextInput.current.style.height = 'auto'
+        editTextInput.current.style.height = editTextInput.current.scrollHeight + 'px'
+
+        if (content.length > 280) {
+            editTextInput.current.style.backgroundColor = 'red'
+        } else {
+            editTextInput.current.style.backgroundColor = 'inherit'
+        }
+    }, [content])
+
+    useEffect(() => {
+        return () => dispatch(removeErrors())
+    }, [])
+
     return (
+
+
         <>
-            <div className="edit-post-modal-container">
+            <div id="edit-post-wrapper">
+                <div id="edit-post-header">
+
+
+
+                    <div id="edit-post-errors-container">
+                        {errors && errors.map(err => (
+                            <div className="error-message">{err}</div>
+                        ))}
+                    </div>
+
+
+
+                    <div onClick={() => setShowModal(false)} id="edit-post-x-container">
+                        <img style={{}} id="edit-post-x" alt="" src={x} ></img>
+                    </div>
+                </div>
+                <div id="edit-post-body">
+                    <textarea ref={editTextInput} placeholder="Edit Post" onChange={updateContent} value={content} className="edit-post-input"></textarea>
+                </div>
+                <div id="edit-post-footer">
+                    <button onClick={handleSubmit} id="edit-post-submit-button">Submit Changes</button>
+                </div>
+            </div>
+            {/* <div className="edit-post-modal-container">
 
                 <div className="edit-post-errors-container">
 
@@ -48,7 +90,7 @@ export default function EditPost({ post, setShowModal }) {
                 <button onClick={handleSubmit}>Submit Changes</button>
                 <p>UserId {post.user.id} </p>
                 <p>Posted on: {post.createdAt}</p>
-            </div>
+            </div> */}
         </>
     )
 }

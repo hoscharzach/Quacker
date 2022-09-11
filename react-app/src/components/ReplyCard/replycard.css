@@ -12,6 +12,7 @@
 .delete-icon {
     height: 22.5px;
     width: 22.5px;
+    padding-top: 2px;
 }
 
 .reply-card-left {
@@ -77,14 +78,6 @@
     gap: 5px;
 }
 
-.reply-card-images-container[data-images='1'] {}
-
-.reply-card-images-container[data-images='2'] {}
-
-.reply-card-images-container[data-images='3'] {}
-
-.reply-card-images-container[data-images='4'] {}
-
 .reply-card-image {
     object-fit: cover;
     max-height: 500px;
@@ -95,4 +88,5 @@
 .reply-card-buttons {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
 }

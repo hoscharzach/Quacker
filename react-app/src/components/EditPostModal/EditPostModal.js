@@ -15,7 +15,7 @@ export default function EditPostModal({ post }) {
             <button className='edit-post-button' onClick={() => {
                 dispatch(clearImages())
                 setShowModal(true)
-            }}> <img src={editIcon} alt="" id='edit-icon'></img><span>Edit</span></button>
+            }}> <img src={editIcon} alt="" id='edit-icon'></img></button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <EditPost post={post} setShowModal={setShowModal} />

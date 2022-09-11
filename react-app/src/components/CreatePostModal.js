@@ -11,7 +11,7 @@ export default function CreatePostModal() {
 
     return (
         <>
-            <div style={{ padding: 'none' }} id="quack-modal-button" onClick={() => setShowModal(true)}><span className='navbar-text'>Quack</span></div>
+            <div style={{ padding: 'none' }} id="quack-modal-button" onClick={() => setShowModal(true)}><span style={{ fontWeight: '700' }} className='navbar-text'>Quack</span></div>
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false)

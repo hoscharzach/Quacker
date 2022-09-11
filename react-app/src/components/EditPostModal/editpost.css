@@ -1,11 +1,58 @@
-.edit-post-modal-container,
-.edit-post-modal-container * {
-    background-color: #15202b;
+#edit-post-wrapper {
+    padding: 15px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    width: 650px;
+    max-height: 300px;
 }
 
-.edit-post-modal-container {
-    width: 600px;
-    padding: 20px;
+#edit-post-error-and-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+}
+
+#edit-post-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 2em;
+    max-height: 2em;
+}
+
+#edit-post-x-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+}
+
+#edit-post-x {
+    background-color: transparent;
+}
+
+#edit-post-x-container:hover {
+    cursor: pointer;
+    background-color: #3a3c3d;
+    border-radius: 50%;
+}
+
+#edit-post-body {
+    height: 150px;
+    max-height: 150px;
+}
+
+.edit-post-input {
+    width: 100%;
+    overflow: auto;
+    max-height: 140px;
 }
 
 .edit-post-button {
@@ -13,8 +60,26 @@
     align-items: center;
 }
 
+#edit-post-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 #edit-icon {
     height: 20px;
     width: 20px;
     margin-right: 3px;
+}
+
+#edit-post-submit-button {
+    margin: 0px 10px;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    font-family: 'chirpH';
+    background-color: rgb(29, 155, 240);
+    border-radius: 3rem;
+    height: 36px;
+    width: 150px;
 }
