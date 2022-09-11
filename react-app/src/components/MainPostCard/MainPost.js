@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { deletePostById } from '../../store/posts'
 import EditPostModal from '../EditPostModal/EditPostModal'
 import defaultProfile from '../../images/defaultprofilepic.svg'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import './mainpost.css'
 import ReplyModal from '../ReplyModal/ReplyModal'
 import deleteIconSquare from '../../images/deleteiconsquare.svg'
@@ -12,13 +12,12 @@ import { format } from 'date-fns'
 export default function MainPostCard({ postId }) {
 
     const params = useParams()
+    const history = useHistory()
 
     const post = useSelector(state => state.posts.normPosts[postId])
     const sessionUser = useSelector(state => state.session.user)
 
     const dispatch = useDispatch()
-    console.log(params, postId)
-    console.log(params?.postId == postId)
 
     return (
         <>
@@ -61,7 +60,10 @@ export default function MainPostCard({ postId }) {
                             <div className='main-post-buttons-wrapper'>
                                 {sessionUser.id === post.user.id &&
                                     <>
-                                        <span className='delete-button-span'><button id='delete-post-button' onClick={() => dispatch(deletePostById(post.id))}><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
+                                        <span className='delete-button-span'><button id='delete-post-button' onClick={() => {
+                                            dispatch(deletePostById(post.id))
+                                        }
+                                        }><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
                                         <EditPostModal post={post} />
                                         <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
                                     </>

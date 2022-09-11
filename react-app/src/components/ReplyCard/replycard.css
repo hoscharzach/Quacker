@@ -9,6 +9,11 @@
 
 }
 
+.delete-icon {
+    height: 22.5px;
+    width: 22.5px;
+}
+
 .reply-card-left {
     width: 48px;
     display: flex;

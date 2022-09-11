@@ -7,6 +7,7 @@ import twitterIcon from '../../images/bigtwittericon.svg'
 import smallTwitterIcon from '../../images/twittericon.svg'
 import { demoLogin } from './LoginForm'
 import LoginModal from '../LoginModal/LoginModal';
+import { nanoid } from 'nanoid';
 
 
 const SignUpForm = () => {
@@ -84,8 +85,8 @@ const SignUpForm = () => {
 
             <form id='signup-form' onSubmit={onSignUp}>
               <div className='signup-form-error-container'>
-                {errors.map((error, ind) => (
-                  <div className='error-message' key={ind}>{error.split(':')[1]}</div>
+                {errors.map(error => (
+                  <div className='error-message' key={nanoid()}>{error.split(':')[1]}</div>
                 ))}
               </div>
               <div className='signup-form-container'>

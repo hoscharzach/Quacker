@@ -66,8 +66,6 @@ button:hover {
 
 ::placeholder {
     color: white;
-    padding-top: .8rem;
-    padding-left: .2rem;
     opacity: .5;
 }
 

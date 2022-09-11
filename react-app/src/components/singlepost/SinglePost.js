@@ -27,6 +27,10 @@ export default function SinglePost() {
     console.log(parentPost)
     console.log(mainPost)
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
     useEffect(() => {
         (async () => {
@@ -75,7 +79,7 @@ export default function SinglePost() {
                         <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
 
                         <div className="replies-container">
-                            {mainPost?.replies && mainPost.replies.map(reply => (
+                            {mainPost.replies.reverse().map(reply => (
                                 <ReplyCard key={reply.id} replyId={reply.id} />
                             ))}
                         </div>

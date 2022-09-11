@@ -65,7 +65,7 @@ const LoginForm = ({ setShowModal }) => {
           <span className='login-form-title'>Sign in to Quacker</span>
           <div className='login-errors-container'>
             {errors.map(err => (
-              <div className='error-message'>{err.split(":")[1]}</div>
+              <div key={nanoid()} className='error-message'>{err.split(":")[1]}</div>
             ))}
           </div>
           <form id='login-form' onSubmit={onLogin}>

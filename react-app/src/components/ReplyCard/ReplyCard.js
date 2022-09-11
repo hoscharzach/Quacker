@@ -6,7 +6,7 @@ import defaultProfilePic from '../../images/defaultprofilepic.svg'
 import { useEffect } from 'react'
 import { intlFormatDistance } from 'date-fns'
 import ReplyModal from '../ReplyModal/ReplyModal'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import EditPostModal from '../EditPostModal/EditPostModal'
 import { deletePostById } from '../../store/posts'
 import deleteIcon from '../../images/deleteiconsquare.svg'
@@ -16,8 +16,7 @@ export default function ReplyCard({ replyId }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const reply = useSelector(state => state.posts.normPosts[replyId])
-
-    console.log(replyId, "reply inside replycard")
+    const history = useHistory()
     return (
         <>
             {reply &&
@@ -38,7 +37,7 @@ export default function ReplyCard({ replyId }) {
                         <div className='reply-card-content-container'><Link to={`/profile/${reply.user.username}/post/${reply.id}`}>{reply.content}</Link></div>
                         <div className='reply-card-images-container' data-images={reply.images.length}>
                             {reply.images.map(img => (
-                                <Link to={`/profile/${reply.user.username}/post/${reply.id}`}><img key={img.id} className='reply-card-image' alt='' src={img.url}></img></Link>
+                                <Link key={img.id} to={`/profile/${reply.user.username}/post/${reply.id}`}><img className='reply-card-image' alt='' src={img.url}></img></Link>
                             ))}
                         </div>
                         <div className='reply-card-buttons'>
@@ -46,8 +45,12 @@ export default function ReplyCard({ replyId }) {
                                 <>
                                     <ReplyModal parentId={reply.id} text={reply.numReplies} />
                                     <EditPostModal post={reply} />
-                                    <button onClick={() => dispatch(deletePostById(reply.id))}><img src={deleteIcon} ></img></button>
-                                </> : <ReplyModal parentId={reply.id} text={reply.numReplies} />
+                                    <button style={{ display: 'flex', alignItems: 'center', padding: '0px' }} onClick={() => {
+                                        dispatch(deletePostById(reply.id))
+                                    }
+                                    }><img src={deleteIcon} alt="" className='delete-icon' ></img>Delete</button>
+                                </> :
+                                <ReplyModal parentId={reply.id} text={reply.numReplies} />
                             }
                         </div>
                     </div>
