@@ -12,6 +12,7 @@ import './navbar.css'
 import CreatePostModal from './CreatePostModal';
 import origamiBird from '../images/origamibird.svg'
 import duck from '../images/duck.svg'
+import duckLogo from '../images/ducklogo.svg'
 
 const NavBar = () => {
   const history = useHistory()
@@ -25,7 +26,7 @@ const NavBar = () => {
     <div className='navigation'>
       <div className='navigation-icons-wrapper'>
         <div>
-          <img style={{ width: '30px', height: '30px', paddingLeft: '20px' }} className='duck-icon' src={duckIcon} alt=""></img>
+          <img style={{ width: '30px', height: '30px', paddingLeft: '20px' }} className='duck-icon' src={duckLogo} alt=""></img>
           {user && <span style={{ marginLeft: '25px', wordBreak: 'break-all' }} >Welcome, <br></br>{user.username}</span>}
         </div>
         <div>

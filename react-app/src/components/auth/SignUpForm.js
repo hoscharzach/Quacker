@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { login, signUp } from '../../store/session';
 import './signupform.css'
+import duckLogo from '../../images/ducklogo.svg'
 import twitterIcon from '../../images/bigtwittericon.svg'
 import smallTwitterIcon from '../../images/twittericon.svg'
 import { demoLogin } from './LoginForm'
@@ -72,11 +73,11 @@ const SignUpForm = () => {
       <div id='splash-page-body'>
 
         <div id='splash-image-container'>
-          <img id='splash-image-icon' src={twitterIcon} alt="" ></img>
+          <img id='splash-image-icon' src={duckLogo} alt="" ></img>
         </div>
         <div className='splash-right-div'>
           <div className='inner-form-container'>
-            <img src={smallTwitterIcon} className='twitter-right-side-icon'></img>
+            <img src={duckLogo} className='twitter-right-side-icon'></img>
             <div className='splash-big-text-container'>
               <span className='splash-big-text'>Quackening Now</span>
             </div>

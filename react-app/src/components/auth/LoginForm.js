@@ -5,6 +5,7 @@ import { login } from '../../store/session';
 import { nanoid } from 'nanoid';
 import x from '../../images/imageclose-x.svg'
 import twitterIcon from '../../images/twittericon.svg'
+import duckLogo from '../../images/ducklogo.svg'
 
 
 const LoginForm = ({ setShowModal }) => {
@@ -57,7 +58,7 @@ const LoginForm = ({ setShowModal }) => {
           </div>
         </div>
         <div className='header-icon-container'>
-          <img alt='' className='login-icon' src={twitterIcon} ></img>
+          <img alt='' className='login-icon' src={duckLogo} ></img>
         </div>
       </div>
       <div id='login-form-body-container' >
