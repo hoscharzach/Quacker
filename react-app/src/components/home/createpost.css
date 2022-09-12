@@ -114,7 +114,8 @@
 .staging-images-wrapper[data-images='2'] {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3px;
+    grid-template-rows: 285px;
+    gap: 12px;
 
 }
 
@@ -122,12 +123,13 @@
 .staging-images-wrapper[data-images='4'] {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: minmax(1fr, 142px) minmax(1fr, 142px);
-    gap: 3px;
+    grid-template-rows: 135px 135px;
+    gap: 12px;
 }
 
 .staging-image {
     object-fit: cover;
     height: 100%;
     width: 100%;
+    border-radius: 15px;
 }

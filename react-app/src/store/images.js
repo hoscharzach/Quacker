@@ -1,5 +1,14 @@
 import { nanoid } from 'nanoid'
 
+function isImgUrl(url) {
+    const img = new Image();
+    img.src = url;
+    return new Promise((resolve) => {
+        img.onerror = () => resolve(false);
+        img.onload = () => resolve(true);
+    });
+}
+
 const CLEAR_IMAGES = 'session/CLEAR_IMAGES'
 const ADD_IMAGE = 'session/ADD_IMAGE'
 const REMOVE_IMAGE = 'session/REMOVE_IMAGE'
@@ -30,8 +39,13 @@ export const uploadImage = (image) => async (dispatch) => {
     });
     if (res.ok) {
         const data = await res.json();
-        data.id = nanoid()
-        dispatch(addImage(data))
+        const validImg = await isImgUrl(data.url)
+        if (validImg) {
+            data.id = nanoid()
+            dispatch(addImage(data))
+        } else {
+            return 'Invalid Image'
+        }
     }
     else {
         const errors = await res.json()
@@ -50,7 +64,6 @@ export default function reducer(state = initialState, action) {
             return { staging: {} }
         case REMOVE_IMAGE:
             newState = JSON.parse(JSON.stringify(state))
-            console.log(action)
             delete newState.staging[action.id]
             return newState
         default:

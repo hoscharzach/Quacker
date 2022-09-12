@@ -41,11 +41,22 @@ label {
     height: 300px;
 }
 
+#footer-links {
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.personal-link {
+    color: rgb(29, 155, 240);
+    font-weight: 700;
+}
+
 #footer-info {
     grid-column: 1 / -1;
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 }
 

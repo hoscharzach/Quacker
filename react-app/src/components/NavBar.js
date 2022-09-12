@@ -33,7 +33,7 @@ const NavBar = () => {
             <NavLink to='/home' exact={true} activeClassName='active'>
               <div className='navbar-item-button'>
 
-                <img style={{ width: '25px;', height: '25px', paddingLeft: '20px', marginRight: '30px' }} className="duck-home-icon" src={duck} alt="" ></img>
+                <img style={{ width: '25px', height: '25px', paddingLeft: '20px', marginRight: '30px' }} className="duck-home-icon" src={duck} alt="" ></img>
                 {/* <img className='home-icon' src={homeIcon} alt="" ></img>  */}
 
 
