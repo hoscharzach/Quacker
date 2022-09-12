@@ -4,14 +4,14 @@ import uploadImageIcon from '../images/imageuploadsvg.svg'
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../store/images";
 import { addError, removeErrors } from "../store/session";
+import { useRef } from "react";
+import { nanoid } from "nanoid";
 
 
 const UploadPicture = () => {
 
-
     const staging = useSelector(state => state.images.staging)
     const imageGroup = Object.values(staging)
-
 
     const [image, setImage] = useState(null);
     const [hideImageInput, setHideImageInput] = useState(false)
@@ -19,8 +19,8 @@ const UploadPicture = () => {
 
     const dispatch = useDispatch()
 
-
     useEffect(() => {
+
         if (imageGroup.length >= 4) {
             return
         }
@@ -46,6 +46,7 @@ const UploadPicture = () => {
     const updateImage = (e) => {
         const file = e.target.files[0];
         setImage(file);
+        e.target.value = null
     }
 
     const handleFileClick = (e) => {

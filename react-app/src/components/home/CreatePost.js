@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom"
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import UploadPicture from "../UploadPicture"
 import './createpost.css'
+import { nanoid } from "nanoid"
 import { addError, removeErrors } from "../../store/session"
 import x from '../../images/imageclose-x.svg'
 
@@ -87,15 +88,13 @@ export default function CreatePost({ parentId, setShowModal }) {
 
     }
 
-    console.log(images)
-
     return (
         <>
             {errors?.length > 0 &&
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '20px', borderTopRightRadius: '24px', borderTopLeftRadius: '24px' }} className="home-errors-container">
 
                     {errors.map(err => (
-                        <div className="error-message">{err}</div>
+                        <div key={nanoid()} className="error-message">{err}</div>
                     ))}
                 </div>}
             <div style={setShowModal && { boxSizing: 'border-box', padding: '20px', borderRadius: '24px' }} className="entire-create-post-wrapper">
@@ -111,10 +110,7 @@ export default function CreatePost({ parentId, setShowModal }) {
                                 {Object.values(images)?.map(el => (
                                     <div id="staging-image-div" key={el.id}>
                                         <button onClick={() => dispatch(removeImage(el.id))} className="staging-x-container"><img className="staging-x-icon" src={x} alt="" ></img></button>
-                                        <img onError={() => {
-                                            dispatch(removeImage(el.id))
-                                            dispatch(addError('Invalid image'))
-                                        }} className="staging-image" src={el.url}></img>
+                                        <img className="staging-image" src={el.url}></img>
                                     </div>
                                 ))}
                             </div>}
