@@ -27,7 +27,7 @@ export default function ParentCard({ postId }) {
         <>
             {
                 post &&
-                <Link to={`/profile/${post.user.username}/post/${post.id}`}>
+                <Link to={`/post/${post.id}`}>
                     <div className="parent-body-container">
 
                         <div className='parent-post-left'>

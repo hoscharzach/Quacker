@@ -66,7 +66,7 @@ export default function Reply({ parentId, setShowModal }) {
             dispatch(clearImages())
             if (setShowModal) {
                 setShowModal(false)
-                history.push(`/profile/${parent.user.username}/post/${parent.id}`)
+                history.push(`/post/${parent.id}`)
             }
         }
     }
