@@ -111,7 +111,10 @@ export default function CreatePost({ parentId, setShowModal }) {
                                 {Object.values(images)?.map(el => (
                                     <div id="staging-image-div" key={el.id}>
                                         <button onClick={() => dispatch(removeImage(el.id))} className="staging-x-container"><img className="staging-x-icon" src={x} alt="" ></img></button>
-                                        <img className="staging-image" src={el.url}></img>
+                                        <img onError={() => {
+                                            dispatch(removeImage(el.id))
+                                            dispatch(addError('Invalid image'))
+                                        }} className="staging-image" src={el.url}></img>
                                     </div>
                                 ))}
                             </div>}
