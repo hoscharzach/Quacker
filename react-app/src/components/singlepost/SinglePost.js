@@ -32,6 +32,13 @@ export default function SinglePost() {
     useEffect(() => {
         (async () => {
             setErrors('')
+
+            if (Number.isNaN(Number(postId))) {
+                setErrors('404 Resource Not Found')
+                setLoaded(true)
+                return
+            }
+
             if (!mainPost) {
                 const response = await fetch(`/api/posts/${postId}/parent`)
                 if (response.ok) {
