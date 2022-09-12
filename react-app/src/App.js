@@ -38,9 +38,9 @@ function App() {
             <SignUpForm />
             {/* add login form as modal here */}
           </Route>
-          <Route exact path='/login'>
+          {/* <Route exact path='/login'>
             <LoginForm />
-          </Route>
+          </Route> */}
           <ProtectedRoute exact path='/home'>
             <Home />
           </ProtectedRoute>
@@ -48,7 +48,7 @@ function App() {
             <SinglePost />
           </ProtectedRoute>
           <Route>
-            <div style={{ height: '300px', display: 'flex', alignItems: 'center', padding: '0px 10px' }} >
+            <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', }} >
               <h3>Page couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
             </div>
           </Route>
