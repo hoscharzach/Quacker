@@ -124,7 +124,10 @@ export default function Reply({ parentId, setShowModal }) {
                             {Object.values(images) &&
                                 <div className='reply-modal-images-container' data-images={numImages} >
                                     {Object.values(images).map(img => (
-                                        <img className='reply-modal-image' src={img.url} alt="" key={img.id} ></img>
+                                        <div id="staging-image-div" key={img.id}>
+                                            <button onClick={() => dispatch(removeImage(img.id))} className="staging-x-container"><img className="staging-x-icon" src={x} alt="" ></img></button>
+                                            <img className="staging-image" src={img.url}></img>
+                                        </div>
                                     ))}
                                 </div>}
                             <div className='reply-modal-buttons-container'>

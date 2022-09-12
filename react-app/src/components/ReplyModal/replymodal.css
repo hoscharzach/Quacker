@@ -180,8 +180,9 @@
 }
 
 .reply-modal-images-container[data-images='1'] {
-    display: flex;
-    max-height: 270px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 270px;
     border-radius: 15px;
 }
 
