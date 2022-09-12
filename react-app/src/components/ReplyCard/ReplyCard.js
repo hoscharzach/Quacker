@@ -27,17 +27,17 @@ export default function ReplyCard({ replyId }) {
                     </div>
                     <div className='reply-card-right'>
                         <div className='reply-card-user-timestamp-container'>
-                            <Link to={`/profile/${reply.user.username}/post/${reply.id}`}>
+                            <Link to={`/post/${reply.id}`}>
                                 {reply.user.displayName || reply.user.username} <span className='reply-card-dim'>@{reply.user.username} · {intlFormatDistance(Date.parse(reply.createdAt), new Date())} </span>
                             </Link>
                         </div>
                         <div className='reply-card-replying-to'>
                             {reply.inReplyTo && <span className='reply-card-dim'>Replying to @{reply.parent.user.username}</span>}
                         </div>
-                        <div className='reply-card-content-container'><Link to={`/profile/${reply.user.username}/post/${reply.id}`}>{reply.content}</Link></div>
+                        <div className='reply-card-content-container'><Link to={`/post/${reply.id}`}>{reply.content}</Link></div>
                         <div className='reply-card-images-container' data-images={reply.images.length}>
                             {reply.images.map(img => (
-                                <Link key={img.id} to={`/profile/${reply.user.username}/post/${reply.id}`}><img className='reply-card-image' alt='' src={img.url}></img></Link>
+                                <Link key={img.id} to={`/post/${reply.id}`}><img className='reply-card-image' alt='' src={img.url}></img></Link>
                             ))}
                         </div>
                         <div className='reply-card-buttons'>

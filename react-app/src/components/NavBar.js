@@ -43,11 +43,6 @@ const NavBar = () => {
             </NavLink>
           </div>
         </div>
-        {/* <div>
-          <NavLink to={`/profile/${user.username}`} exact={true} activeClassName='active'>
-          Profile
-          </NavLink>
-        </div> */}
         <div className='navbar-item-container'>
           <div onClick={onLogout} className='navbar-item-button'>
             <img alt='' src={origamiBird} style={{ width: '25px;', height: '25px', paddingLeft: '20px', marginRight: '30px' }} ></img>
