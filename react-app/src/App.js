@@ -48,9 +48,17 @@ function App() {
             <SinglePost />
           </ProtectedRoute>
           <Route>
-            <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', }} >
-              <h3>Page couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
-            </div>
+
+            {!user &&
+              <div style={{ height: '300px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', }} >
+                <h3>Page couldn't be found<br></br><Link to={'/'}><span style={{ color: 'rgb(29, 155, 240)' }} >Get outta here!</span></Link></h3>
+              </div>}
+
+            {user &&
+              <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', }} >
+                <h3>Page couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
+              </div>}
+
           </Route>
         </Switch>
       </BrowserRouter>
