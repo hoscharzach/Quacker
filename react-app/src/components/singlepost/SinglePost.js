@@ -70,7 +70,7 @@ export default function SinglePost() {
                     <div>Quack</div>
                 </div>
                 {loaded && errors.length > 0 &&
-                    <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid white', alignItems: 'center', padding: '0px 10px' }} >
+                    <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid rgb(66, 83, 100)', alignItems: 'center', padding: '0px 10px' }} >
                         <h3>Post couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
                     </div>
                 }

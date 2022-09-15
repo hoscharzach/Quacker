@@ -1,6 +1,7 @@
 from .db import db
 from sqlalchemy.sql import func
 from sqlalchemy.orm import validates
+from sqlalchemy.ext.orderinglist import ordering_list
 
 
 class Post(db.Model):
@@ -17,7 +18,13 @@ class Post(db.Model):
     images = db.relationship(
         'Image', backref='post', cascade='all, delete')
     replies = db.relationship(
-        'Post', backref=db.backref('parent', remote_side=[id]), cascade='all, delete')
+        'Post', backref=db.backref(
+            'parent',
+            remote_side=[id]),
+        cascade='all, delete',
+        order_by="desc(Post.created_at)",
+        collection_class=ordering_list('created_at'),
+    )
 
     def to_dict(self):
         return {

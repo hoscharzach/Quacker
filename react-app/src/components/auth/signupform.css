@@ -117,7 +117,7 @@ label {
 
 .signup-form-input-div input {
     /* border-radius: 10px; */
-    border: 1px solid white;
+    border: 1px solid rgb(66, 83, 100);
     color: black;
     padding: 0px 5px;
     border-radius: 3rem;
