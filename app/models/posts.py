@@ -43,10 +43,11 @@ class Post(db.Model):
         return {
             'id': self.id,
             'inReplyTo': self.parent_id,
-            'parent': self.parent.to_dict_basic_info() if self.parent else None,
+            # 'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'content': self.content,
             'user': self.user.to_dict_basic_info(),
             'images': [img.to_dict() for img in self.images],
+            # 'replies': [reply.to_dict_basic_info() for reply in self.replies],
             'numReplies': len(self.replies),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
@@ -56,12 +57,12 @@ class Post(db.Model):
         return {
             'id': self.id,
             'inReplyTo': self.parent_id,
-            'parent': self.parent.to_dict_basic_info() if self.parent else None,
+            # 'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'content': self.content,
             'user': self.user.to_dict_basic_info(),
             'images': [img.to_dict() for img in self.images],
-            'replies': [x.to_dict_basic_info() for x in self.replies],
-            'numReplies': len(self.replies),
+            # 'replies': [x.to_dict_basic_info() for x in self.replies],
+            # 'numReplies': len(self.replies),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -73,7 +74,7 @@ class Post(db.Model):
             'user': self.user.to_dict_basic_info(),
             'inReplyTo': self.parent_id,
             'images': [img.to_dict() for img in self.images],
-            # 'numReplies': len(self.replies),
+            'numReplies': len(self.replies),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
