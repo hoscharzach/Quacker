@@ -9,14 +9,16 @@ post_routes = Blueprint('posts', __name__)
 @post_routes.get('/home')
 @login_required
 def my_home_page():
-    user_posts = Post.query.filter_by(parent=None).order_by(Post.created_at.desc()).limit(
-        10)
-    return {'posts': [post.to_dict() for post in user_posts]}
+
+    posts = Post.query.filter_by(parent_id=None).order_by(Post.created_at.desc()).limit(
+        20)
+
+    return {'posts': [post.to_dict_replies() for post in posts]}
 
 
 # post on user's profile page
-@post_routes.get('/<string:username>')
-@login_required
+@ post_routes.get('/<string:username>')
+@ login_required
 def profile_page(username):
 
     user = User.query.filter_by(
@@ -26,8 +28,8 @@ def profile_page(username):
 
 
 # create new post
-@post_routes.post('/new')
-@login_required
+@ post_routes.post('/new')
+@ login_required
 def create_post():
     data = request.get_json()
     content = data['content']
