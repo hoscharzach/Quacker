@@ -6,6 +6,18 @@ from sqlalchemy.orm import lazyload
 post_routes = Blueprint('posts', __name__)
 
 
+@post_routes.get('/home/new')
+@login_required
+def get_new_posts():
+    data = request.get_json()
+    most_recent = data['date']
+    new_posts = Post.query.filter_by(
+        Post.created_at > most_recent).order_by(Post.created_at.desc())
+
+    return {'posts': [post.to_dict() for post in new_posts]}
+    pass
+
+
 # Do pagination here, loading 10 at a time
 @post_routes.get('/home')
 @login_required
@@ -76,7 +88,7 @@ def create_post():
         )
         db.session.add(new_image)
     db.session.commit()
-
+    print(new_post.to_dict_single())
     return {'post': new_post.to_dict()}
 
 
@@ -125,5 +137,5 @@ def check_if_post_has_parent(id):
 # find post by id
 @ post_routes.get('/<int:id>')
 def find_post_by_id(id):
-    post = Post.query.get_or_404(id)
-    return {'post': post.to_dict()}
+    post = Post.query.get_or_404(id, description="Post does not exist")
+    return {'post': post.to_dict_single()}

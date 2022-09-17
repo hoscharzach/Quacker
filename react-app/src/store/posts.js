@@ -38,9 +38,8 @@ export const getSinglePost = (postId) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json()
         dispatch(loadOnePost(data.post))
-        return data.post
     } else {
-        throw response
+        return new Error('Post not found')
     }
 }
 
@@ -103,23 +102,30 @@ export const createNewPost = (payload) => async (dispatch) => {
     }
 }
 
-const recursiveIterator = (arr, newState) => {
-    arr.forEach(el => {
-        newState.normPosts[el.id] = el
-        if (el.replies.length > 0) {
-            recursiveIterator(el.replies, newState)
-        }
-    })
-}
+// const recursiveIterator = (arr, newState) => {
+//     arr.forEach(el => {
+//         newState.normPosts[el.id] = el
+//         if (el.replies.length > 0) {
+//             recursiveIterator(el.replies, newState)
+//         }
+//     })
+// }
 
 export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
         case LOAD_ONE:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
 
             newState.normPosts[action.post.id] = action.post
-            recursiveIterator(action.post.replies, newState)
+            if (action.post.parent && !newState.normPosts[action.post.inReplyTo]) {
+                newState.normPosts[action.post.inReplyTo] = action.post.parent
+            }
+
+            action.post.replies.forEach(reply => {
+                if (newState.normPosts[reply.id]?.replies) return
+                newState.normPosts[reply.id] = reply
+            })
 
             return newState
 
@@ -128,24 +134,33 @@ export default function reducer(state = initialState, action) {
             newState = { ...state }
 
             // take all of the posts returned and put them into the feed
-            newState.feed = action.posts
+            // newState.feed = action.posts
+            action.posts.forEach(post => {
+                newState.normPosts[post.id] = post
+            })
 
+            newState.feed = action.posts
             // add all replies and the replies' replies to state
-            recursiveIterator(action.posts, newState)
+            // recursiveIterator(action.posts, newState)
             return newState
 
         case ADD_POST:
 
             // deep copy old state (might not need this but doing it just in case)
-            newState = JSON.parse(JSON.stringify(state))
-
+            newState = { ...state }
             // add post to state
             newState.normPosts[action.post.id] = action.post
 
             // if it's a reply, adjust the parents numReplies and replies accordingly
             if (action.post.inReplyTo) {
-                newState.normPosts[action.post.inReplyTo].numReplies++
-                newState.normPosts[action.post.inReplyTo].replies = [action.post, ...newState.normPosts[action.post.inReplyTo].replies]
+                const i = action.post.inReplyTo
+                if (!newState.normPosts[i].replies) {
+                    newState.normPosts[i].replies = [action.post]
+                    newState.normPosts[i].numReplies++
+                } else {
+                    newState.normPosts[action.post.inReplyTo].numReplies++
+                    newState.normPosts[action.post.inReplyTo].replies = [action.post, ...newState.normPosts[action.post.inReplyTo].replies]
+                }
             } else {
                 newState.feed = [action.post, ...newState.feed]
             }
@@ -153,9 +168,14 @@ export default function reducer(state = initialState, action) {
             return newState
 
         case UPDATE_POST:
-            newState = JSON.parse(JSON.stringify(state))
-            newState.normPosts[action.post.id] = action.post
-            newState.feed = newState.feed.map(el => action.post.id === el.id ? action.post : el)
+            newState = { ...state }
+            if (action.post.inReplyTo) {
+                const j = action.post.inReplyTo
+                newState.normPosts[action.post.id] = action.post
+                newState.normPosts[j].replies = newState.normPosts[j].replies.map(post => action.post.id === post.id ? action.post : post)
+            } else {
+                newState.feed = newState.feed.map(el => action.post.id === el.id ? action.post : el)
+            }
             return newState
 
         case DELETE_POST:

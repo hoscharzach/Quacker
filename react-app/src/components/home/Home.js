@@ -12,17 +12,42 @@ export default function Home() {
     const [loaded, setLoaded] = useState(false)
     const feed = useSelector(state => state.posts.feed)
 
+    async function getPosts() {
+        dispatch(getAllPosts())
+            .then(a => setLoaded(true))
+    }
     useEffect(() => {
-        (async () => {
-            await dispatch(getAllPosts());
-            setLoaded(true);
-        })();
+        getPosts()
     }, [dispatch]);
+
+    useEffect(() => {
+        const topReply = document.getElementsByClassName("reply8")[0]
+        if (topReply) {
+            topReply.scrollIntoView({ behavior: 'smooth' })
+            // window.scrollTo({ top: (topReply.scrollHeight + 200), behavior: 'smooth' })
+        }
+    }, [loaded])
 
     return (
         <>
             <div className="center-column">
-                <div className="home-top-bar" onClick={() => window.scrollTo(0, 0)} style={{ zIndex: '2', opacity: '.9', position: 'sticky', top: '0', display: 'flex', alignItems: 'center', paddingLeft: '15px', boxSizing: 'border-box', width: '650px', height: '50px', borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }}>
+                <div className="home-top-bar" onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                    // dispatch(getNewPosts())
+                }} style={{
+                    zIndex: '998',
+                    opacity: '.9',
+                    position: 'sticky',
+                    top: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '15px',
+                    boxSizing: 'border-box',
+                    width: '650px',
+                    height: '50px',
+                    borderTop: '1px solid rgb(66, 83, 100)',
+                    borderBottom: '1px solid rgb(66, 83, 100)'
+                }}>
                     <div>
                         Home
                     </div>
@@ -35,9 +60,12 @@ export default function Home() {
                 {!loaded &&
                     <div id="loading"></div>}
                 {loaded && feed &&
-                    feed.map(el => (
-                        <ReplyCard key={el.id} replyId={el.id} />
-                    ))}
+                    <div className="">
+                        {feed.map((el, i) => (
+                            <ReplyCard name={`reply${i}`} key={el.id} reply={el} />
+                        ))}
+                    </div>
+                }
             </div>
         </>
     )
