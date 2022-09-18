@@ -32,11 +32,7 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <SignUpForm />
-            {/* add login form as modal here */}
           </Route>
-          {/* <Route exact path='/login'>
-            <LoginForm />
-          </Route> */}
           <ProtectedRoute exact path='/home'>
             <Home />
           </ProtectedRoute>
