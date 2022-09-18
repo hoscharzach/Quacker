@@ -19,9 +19,9 @@ export default function Home() {
                 .then(a => setLoaded(true))
                 .catch(a => alert('something went wrong'))
         } else {
-            const scrollPostId = latestPost.id
+            // const scrollPostId = latestPost.id
             // dispatch(getNewestPosts(latestPost.createdAt))
-            const postToScroll = document.getElementsByClassName(`reply${scrollPostId}`)
+            // const postToScroll = document.getElementsByClassName(`reply${scrollPostId}`)
             // window.scrollTo({top: postToScroll.clientHeight})
             setLoaded(true)
         }
@@ -31,13 +31,13 @@ export default function Home() {
         getPosts()
     }, [dispatch]);
 
-    useEffect(() => {
-        const topReply = document.getElementsByClassName("reply8")[0]
-        if (topReply) {
-            topReply.scrollIntoView({ behavior: 'smooth' })
-            // window.scrollTo({ top: (topReply.scrollHeight + 200), behavior: 'smooth' })
-        }
-    }, [loaded])
+    // useEffect(() => {
+    //     const topReply = document.getElementsByClassName("reply8")[0]
+    //     if (topReply) {
+    //         topReply.scrollIntoView({ behavior: 'smooth' })
+    //         // window.scrollTo({ top: (topReply.scrollHeight + 200), behavior: 'smooth' })
+    //     }
+    // }, [loaded])
 
     return (
         <>
