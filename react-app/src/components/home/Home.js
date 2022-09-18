@@ -11,11 +11,22 @@ export default function Home() {
 
     const [loaded, setLoaded] = useState(false)
     const feed = useSelector(state => state.posts.feed)
+    const latestPost = useSelector(state => state.posts.feed[0])
 
     async function getPosts() {
-        dispatch(getAllPosts())
-            .then(a => setLoaded(true))
+        if (feed.length === 0) {
+            dispatch(getAllPosts())
+                .then(a => setLoaded(true))
+                .catch(a => alert('something went wrong'))
+        } else {
+            const scrollPostId = latestPost.id
+            // dispatch(getNewestPosts(latestPost.createdAt))
+            const postToScroll = document.getElementsByClassName(`reply${scrollPostId}`)
+            // window.scrollTo({top: postToScroll.clientHeight})
+            setLoaded(true)
+        }
     }
+
     useEffect(() => {
         getPosts()
     }, [dispatch]);
@@ -58,11 +69,13 @@ export default function Home() {
                 <CreatePost />
 
                 {!loaded &&
-                    <div id="loading"></div>}
+                    <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                        <div id="loading"></div>
+                    </div>}
                 {loaded && feed &&
                     <div className="">
-                        {feed.map((el, i) => (
-                            <ReplyCard name={`reply${i}`} key={el.id} reply={el} />
+                        {feed.map((el) => (
+                            <ReplyCard name={`reply${el.id}`} key={el.id} reply={el} />
                         ))}
                     </div>
                 }

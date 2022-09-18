@@ -21,6 +21,9 @@ export default function CreatePost({ parentId, setShowModal }) {
     const images = useSelector(state => state.images.staging)
     const errors = useSelector(state => state.session.errors)
 
+    console.log(images)
+    console.log("I'm RERENDERING")
+
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
 
@@ -105,9 +108,9 @@ export default function CreatePost({ parentId, setShowModal }) {
                 <div className="new-post-wrapper">
                     <textarea rows={1} ref={textInput} className="new-post-text" onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
                     <>
-                        {Object.values(images)?.length > 0 &&
+                        {images &&
                             <div className="staging-images-wrapper" data-images={Object.values(images)?.length} >
-                                {Object.values(images)?.map(el => (
+                                {Object.values(images).map(el => (
                                     <div id="staging-image-div" key={el.id}>
                                         <button onClick={() => dispatch(removeImage(el.id))} className="staging-x-container"><img className="staging-x-icon" src={x} alt="" ></img></button>
                                         <img className="staging-image" src={el.url}></img>

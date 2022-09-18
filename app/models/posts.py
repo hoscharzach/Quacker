@@ -9,7 +9,7 @@ from sqlalchemy.ext.orderinglist import ordering_list
 class Post(db.Model):
     __tablename__ = 'posts'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, index=True)
     content = db.Column(db.String(280), nullable=False)
     user_id = db.Column(
         db.Integer, db.ForeignKey('users.id'), nullable=False)

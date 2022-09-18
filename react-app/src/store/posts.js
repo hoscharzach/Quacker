@@ -1,11 +1,10 @@
-
 const LOAD_POSTS = '/posts/LOAD'
 const ADD_POST = '/posts/ADD'
 const UPDATE_POST = '/posts/UPDATE'
 const DELETE_POST = '/posts/DELETE'
 const LOAD_ONE = '/posts/SINGLE'
 
-const initialState = { normPosts: {}, feed: [] }
+const initialState = { normPosts: {}, feed: [], users: {} }
 
 const loadPosts = (posts) => ({
     type: LOAD_POSTS,
@@ -117,11 +116,15 @@ export default function reducer(state = initialState, action) {
         case LOAD_ONE:
             newState = { ...state }
 
+            // add new post to state
             newState.normPosts[action.post.id] = action.post
+
+            // if the post has a parent and the parent isn't in state, put it in state
             if (action.post.parent && !newState.normPosts[action.post.inReplyTo]) {
                 newState.normPosts[action.post.inReplyTo] = action.post.parent
             }
 
+            // put all replies into state only if they aren't already in state
             action.post.replies.forEach(reply => {
                 if (newState.normPosts[reply.id]?.replies) return
                 newState.normPosts[reply.id] = reply
@@ -133,21 +136,25 @@ export default function reducer(state = initialState, action) {
         case LOAD_POSTS:
             newState = { ...state }
 
-            // take all of the posts returned and put them into the feed
-            // newState.feed = action.posts
+            // normalize all posts in state along with their
+            // respective users for faster loading of user profile later
             action.posts.forEach(post => {
+                if (!newState[post.user.username]) {
+                    newState[post.user.username] = post.user
+                }
                 newState.normPosts[post.id] = post
             })
 
-            newState.feed = action.posts
-            // add all replies and the replies' replies to state
-            // recursiveIterator(action.posts, newState)
+            // copy all posts into the feed
+            newState.feed = [...action.posts]
+
             return newState
 
         case ADD_POST:
 
             // deep copy old state (might not need this but doing it just in case)
             newState = { ...state }
+
             // add post to state
             newState.normPosts[action.post.id] = action.post
 
@@ -162,24 +169,27 @@ export default function reducer(state = initialState, action) {
                     newState.normPosts[action.post.inReplyTo].replies = [action.post, ...newState.normPosts[action.post.inReplyTo].replies]
                 }
             } else {
+                // if it's not a reply, just prepend it to the feed array
                 newState.feed = [action.post, ...newState.feed]
             }
 
             return newState
 
         case UPDATE_POST:
-            newState = { ...state }
+            newState = JSON.parse(JSON.stringify(state))
+            console.log(action)
             if (action.post.inReplyTo) {
                 const j = action.post.inReplyTo
                 newState.normPosts[action.post.id] = action.post
                 newState.normPosts[j].replies = newState.normPosts[j].replies.map(post => action.post.id === post.id ? action.post : post)
             } else {
                 newState.feed = newState.feed.map(el => action.post.id === el.id ? action.post : el)
+                newState.normPosts[action.post.id] = action.post
             }
             return newState
 
         case DELETE_POST:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
 
             if (newState.normPosts[action.id].inReplyTo) {
                 const i = newState.normPosts[action.id].inReplyTo

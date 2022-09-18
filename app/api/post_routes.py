@@ -15,10 +15,15 @@ def get_new_posts():
         Post.created_at > most_recent).order_by(Post.created_at.desc())
 
     return {'posts': [post.to_dict() for post in new_posts]}
-    pass
 
 
+@post_routes.get('/home/latest')
+@login_required
+def get_latest_posts():
+    data = request.get_json()
 # Do pagination here, loading 10 at a time
+
+
 @post_routes.get('/home')
 @login_required
 def my_home_page():

@@ -27,18 +27,21 @@ export default function SinglePost() {
     const [errors, setErrors] = useState('')
 
     useEffect(() => {
-        const centerPost = document.getElementsByClassName("main-post-container")[0]
-        if (centerPost) {
-            centerPost.scrollIntoView()
-            // window.scrollTo({ top: centerPost.scrollHeight })
+        const topPost = document.getElementsByClassName("parent-body-container")[0]
+        if (topPost) {
+            // centerPost.scrollIntoView()
+            window.scrollTo({ top: topPost.clientHeight })
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
         }
-    }, [mainPostLoaded, mainPost])
+    }, [parentPost, mainPost])
 
-    // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
+
     useEffect(() => {
         (async () => {
             setErrors('')
 
+            // if not valid post id, return and set error
             if (Number.isNaN(Number(postId))) {
                 setErrors('404 Resource Not Found')
                 setMainPostLoaded(true)
@@ -46,8 +49,8 @@ export default function SinglePost() {
                 return
             }
 
-            // console.log(mainPost.replies)
 
+            // if post not in state, fetch it with replies
             if (!mainPost) {
                 await dispatch(getSinglePost(postId))
                     .then(a => {
@@ -60,32 +63,43 @@ export default function SinglePost() {
                     })
             }
 
+            // if post in state, but associated replies are missing, it was fetched as
+            // a reply earlier, and replies need to be fetched
             else if (mainPost && mainPost.replies === undefined) {
                 setMainPostLoaded(true)
                 await dispatch(getSinglePost(postId))
                     .then(a => setRestLoaded(true))
-                    .catch(a => console.log("AN ERROR OCURRED"))
+                    .catch(a => alert("AN ERROR OCURRED"))
             }
 
-
+            // otherwise, if the post and replies are in state, then just set loaded to true
             else if (mainPost && mainPost.replies !== undefined) {
                 setMainPostLoaded(true)
                 setRestLoaded(true)
             }
 
         })();
-    }, [postId, username, dispatch, mainPost])
-
-    console.log(mainPost)
-
-    if (!mainPostLoaded) return null
+    }, [postId, dispatch, mainPost])
 
     return (
         <>
             <div className="center-column">
-                <div className="title-container">
-                    <button className="back-button" onClick={() => history.goBack()}><img src={backbutton} alt="" ></img></button>
-                    <div>Quack</div>
+                <div className="title-container" style={{
+                    zIndex: '998',
+                    opacity: '.9',
+                    position: 'sticky',
+                    top: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '15px',
+                    boxSizing: 'border-box',
+                    width: '650px',
+                    height: '50px',
+                    borderTop: '1px solid rgb(66, 83, 100)',
+                    // borderBottom: '1px solid rgb(66, 83, 100)'
+                }}>
+                    <button className="back-button" onClick={() => history.push(mainPost.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
+                    <div className="scroll-top-button" onClick={() => window.scrollTo(0, 0)} >Quack</div>
                 </div>
                 {mainPostLoaded && errors.length > 0 &&
                     <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid rgb(66, 83, 100)', alignItems: 'center', padding: '0px 10px' }} >
@@ -100,12 +114,18 @@ export default function SinglePost() {
                     <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
                 }
 
-                {mainPostLoaded && restLoaded && replies &&
+                {mainPostLoaded &&
                     <>
                         <div className="replies-container">
-                            {replies.map(reply => (
-                                <ReplyCard key={reply.id} replyId={reply.id} reply={reply} />
-                            ))}
+                            {!restLoaded &&
+                                <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+
+                                    <div id="loading"></div>
+                                </div>}
+                            {restLoaded && replies &&
+                                replies.map(reply => (
+                                    <ReplyCard key={reply.id} replyId={reply.id} reply={reply} />
+                                ))}
                         </div>
                     </>}
 
