@@ -32,7 +32,7 @@ export default function SinglePost() {
             // centerPost.scrollIntoView()
             window.scrollTo({ top: topPost.clientHeight, behavior: 'smooth' })
         } else {
-            window.scrollTo({ top: 0, })
+            window.scrollTo({ top: 0, behavior: 'smooth' })
         }
     }, [parentPost, mainPost])
 
