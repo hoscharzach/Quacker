@@ -5,9 +5,6 @@ import { logout } from '../store/session';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-// import LogoutButton from './auth/LogoutButton';
-import duckIcon from '../images/blackduckicon.svg'
-import homeIcon from '../images/bird-on-an-egg-in-a-nest-svgrepo-com.svg'
 import './navbar.css'
 import CreatePostModal from './CreatePostModal';
 import origamiBird from '../images/origamibird.svg'
@@ -41,6 +38,9 @@ const NavBar = () => {
                 <span className='navbar-text'>Home</span>
 
               </div>
+            </NavLink>
+            <NavLink to={`/profile/${user.username}`}>
+
             </NavLink>
           </div>
         </div>

@@ -45,9 +45,9 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'displayName': self.display_name,
-            # 'bio': self.bio,
+            'bio': self.bio,
             'profilePic': self.profile_pic,
-            # 'profileBackground': self.profile_background
+            'profileBackground': self.profile_background
         }
 
     def to_dict_only_posts(self):

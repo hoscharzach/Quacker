@@ -19,7 +19,6 @@ class Post(db.Model):
 
     images = db.relationship(
         'Image', backref='post', cascade='all, delete')
-    # parent = db.relationship('Post', remote_side=[id])
     replies = db.relationship(
         'Post', backref=db.backref(
             'parent',

@@ -8,6 +8,7 @@ import { authenticate } from './store/session';
 import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
 import bigDuckIcon from './images/ducklogo.svg'
+import ProfilePage from './components/ProfilePage/ProfilePage';
 
 
 function App() {
@@ -44,6 +45,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute exact path='/post/:postId'>
             <SinglePost />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/profile/:username'>
+            <ProfilePage />
           </ProtectedRoute>
           <Route>
 

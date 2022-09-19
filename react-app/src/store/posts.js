@@ -119,15 +119,28 @@ export default function reducer(state = initialState, action) {
             // add new post to state
             newState.normPosts[action.post.id] = action.post
 
+            // if the author of the post is not in state, add them
+            if (!newState.users[action.post.user.username]) {
+                newState.users[action.post.user.username] = action.post.user
+            }
+
+            // if the parent user is not in state, add them
+            if (action.post.parent && !newState.users[action.post.parent.user.username]) {
+                newState.users[action.post.parent.user.username] = action.post.parent.user
+            }
+
             // if the post has a parent and the parent isn't in state, put it in state
             if (action.post.parent && !newState.normPosts[action.post.inReplyTo]) {
                 newState.normPosts[action.post.inReplyTo] = action.post.parent
             }
 
-            // put all replies into state only if they aren't already in state
+            // put all replies into state only if they aren't already in state (aka they have a replies property)
             action.post.replies.forEach(reply => {
                 if (newState.normPosts[reply.id]?.replies) return
                 newState.normPosts[reply.id] = reply
+                if (!newState.users[reply.user.username]) {
+                    newState.users[reply.user.username] = reply.user
+                }
             })
 
             return newState
@@ -139,8 +152,8 @@ export default function reducer(state = initialState, action) {
             // normalize all posts in state along with their
             // respective users for faster loading of user profile later
             action.posts.forEach(post => {
-                if (!newState[post.user.username]) {
-                    newState[post.user.username] = post.user
+                if (!newState.users[post.user.username]) {
+                    newState.users[post.user.username] = post.user
                 }
                 newState.normPosts[post.id] = post
             })
