@@ -13,7 +13,9 @@ export default function Home() {
     const feed = useSelector(state => state.posts.feed)
     const latestPost = useSelector(state => state.posts.feed[0])
 
+
     async function getPosts() {
+
         if (feed.length === 0) {
             dispatch(getAllPosts())
                 .then(a => setLoaded(true))

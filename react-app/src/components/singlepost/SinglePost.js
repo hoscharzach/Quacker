@@ -30,9 +30,9 @@ export default function SinglePost() {
         const topPost = document.getElementsByClassName("parent-body-container")[0]
         if (topPost) {
             // centerPost.scrollIntoView()
-            window.scrollTo({ top: topPost.clientHeight })
+            window.scrollTo({ top: topPost.clientHeight, behavior: 'smooth' })
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            window.scrollTo({ top: 0, })
         }
     }, [parentPost, mainPost])
 
@@ -86,7 +86,7 @@ export default function SinglePost() {
             <div className="center-column">
                 <div className="title-container" style={{
                     zIndex: '998',
-                    opacity: '.9',
+                    // opacity: '.9',
                     position: 'sticky',
                     top: '0',
                     display: 'flex',
@@ -99,7 +99,7 @@ export default function SinglePost() {
                     // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
                     <button className="back-button" onClick={() => history.push(mainPost.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
-                    <div className="scroll-top-button" onClick={() => window.scrollTo(0, 0)} >Quack</div>
+                    <div className="scroll-top-button" >Quack</div>
                 </div>
                 {mainPostLoaded && errors.length > 0 &&
                     <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid rgb(66, 83, 100)', alignItems: 'center', padding: '0px 10px' }} >
@@ -128,7 +128,7 @@ export default function SinglePost() {
                                 ))}
                         </div>
                     </>}
-
+                <div style={{ height: '100vh' }}></div>
 
             </div>
         </>

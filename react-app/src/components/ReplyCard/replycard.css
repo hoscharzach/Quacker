@@ -6,7 +6,15 @@
     padding: 12px;
     border-bottom: 1px solid rgb(66, 83, 100);
     border-top: 1px solid rgb(66, 83, 100);
+    transition: background-color .5s;
+}
 
+#reply-card-wrapper:hover {
+    background-color: rgba(53, 77, 100, .3);
+}
+
+#reply-card-wrapper>* {
+    background: none;
 }
 
 .delete-icon {
