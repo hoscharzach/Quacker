@@ -5,7 +5,7 @@ import { getAllPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
 
-export default function Home() {
+export default function Home({ mainLoaded }) {
 
     const dispatch = useDispatch()
 
@@ -27,11 +27,19 @@ export default function Home() {
             // window.scrollTo({top: postToScroll.clientHeight})
             setLoaded(true)
         }
+
+
     }
 
     useEffect(() => {
-        getPosts()
-    }, [dispatch]);
+        if (feed.length === 0) {
+            dispatch(getAllPosts())
+                .then(a => setLoaded(true))
+                .catch(a => alert('something went wrong'))
+        } else {
+            setLoaded(true)
+        }
+    }, [mainLoaded, dispatch]);
 
     // useEffect(() => {
     //     const topReply = document.getElementsByClassName("reply8")[0]
@@ -81,6 +89,7 @@ export default function Home() {
                         ))}
                     </div>
                 }
+                <div style={{ height: '100vh' }}></div>
             </div>
         </>
     )

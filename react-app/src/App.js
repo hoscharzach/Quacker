@@ -7,22 +7,28 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import { authenticate } from './store/session';
 import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
+import bigDuckIcon from './images/ducklogo.svg'
 
 
 function App() {
-  const [loaded, setLoaded] = useState(false);
+  const [mainLoaded, setMainLoaded] = useState(false);
   const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
-      setLoaded(true);
+      setMainLoaded(true);
     })();
   }, [dispatch]);
 
-  if (!loaded) {
-    return null;
+  if (!mainLoaded) {
+    return (
+      <div style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', }} >
+        <img style={{ marginBottom: '50px', width: '100px', height: '100px' }} src={bigDuckIcon}></img>
+        <div id="loading"></div>
+      </div >
+    );
   }
 
   return (
@@ -34,7 +40,7 @@ function App() {
             <SignUpForm />
           </Route>
           <ProtectedRoute exact path='/home'>
-            <Home />
+            <Home mainLoaded={mainLoaded} />
           </ProtectedRoute>
           <ProtectedRoute exact path='/post/:postId'>
             <SinglePost />
