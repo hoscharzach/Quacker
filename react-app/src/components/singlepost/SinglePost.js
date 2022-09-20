@@ -29,10 +29,9 @@ export default function SinglePost() {
     useEffect(() => {
         const topPost = document.getElementsByClassName("parent-body-container")[0]
         if (topPost) {
-            // centerPost.scrollIntoView()
             window.scrollTo({ top: topPost.clientHeight, behavior: 'smooth' })
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            window.scrollTo({ top: 0, })
         }
     }, [parentPost, mainPost])
 
@@ -110,7 +109,7 @@ export default function SinglePost() {
                 {mainPostLoaded && parentPost &&
                     <ParentCard postId={parentPost.id} />}
 
-                {mainPostLoaded &&
+                {mainPostLoaded && mainPost &&
                     <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
                 }
 

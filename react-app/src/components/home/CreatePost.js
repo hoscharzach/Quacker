@@ -124,7 +124,7 @@ export default function CreatePost({ parentId, setShowModal }) {
                                 <UploadPicture />
 
                                 <div className="char-count-and-quack-button">
-                                    <button className="main-quack-button" onClick={handleSubmit}>Quack</button>
+                                    <button disabled={content.length > 280 || content.trim().length === 0 || (content.length < 1 && Object.values(images)?.length === 0)} className="main-quack-button" onClick={handleSubmit}>Quack</button>
                                 </div>
                             </div>
                         </div>
