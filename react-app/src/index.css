@@ -54,9 +54,12 @@ button:hover {
 
 .center-column {
     /* padding: 10px; */
+    /* height: 120vh; */
+    /* overflow: hidden; */
+    /* margin-top: -2px; */
     border-left: 1px solid rgb(66, 83, 100);
     border-right: 1px solid rgb(66, 83, 100);
-    border-bottom: 1px solid rgb(66, 83, 100);
+    /* border-bottom: 1px solid rgb(66, 83, 100); */
     width: 650px;
     display: flex;
     flex-direction: column;

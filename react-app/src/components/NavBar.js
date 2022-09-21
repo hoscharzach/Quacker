@@ -39,8 +39,11 @@ const NavBar = () => {
 
               </div>
             </NavLink>
-            <NavLink to={`/profile/${user.username}`}>
+          </div>
+          <div className='navbar-item-container'>
 
+            <NavLink to={`/profile/${user.username}`}>
+              Profile
             </NavLink>
           </div>
         </div>

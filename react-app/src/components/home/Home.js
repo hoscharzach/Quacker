@@ -52,7 +52,7 @@ export default function Home({ mainLoaded }) {
     return (
         <>
             <div className="center-column">
-                <div className="hover: cursor-pointer" onClick={() => {
+                <div className="home-top-bar" onClick={() => {
                     window.scrollTo({ top: 0, behavior: 'smooth' })
                     // dispatch(getNewPosts())
                 }} style={{
@@ -67,7 +67,7 @@ export default function Home({ mainLoaded }) {
                     width: '650px',
                     height: '50px',
                     borderTop: '1px solid rgb(66, 83, 100)',
-                    borderBottom: '1px solid rgb(66, 83, 100)'
+                    // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
                     <div>
                         Home
