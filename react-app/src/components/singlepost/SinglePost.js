@@ -15,80 +15,114 @@ export default function SinglePost() {
     const { postId, username } = useParams()
     const history = useHistory()
 
-    const allPosts = useSelector(state => state.normPosts)
+    // const allPosts = useSelector(state => state.normPosts)
     const mainPost = useSelector(state => state.posts.normPosts[postId])
     const parentPost = useSelector(state => state.posts.normPosts[mainPost?.inReplyTo])
+    const replies = useSelector(state => state.posts.normPosts[postId]?.replies)
 
     const dispatch = useDispatch()
 
-    const [loaded, setLoaded] = useState(false)
+    const [mainPostLoaded, setMainPostLoaded] = useState(false)
+    const [restLoaded, setRestLoaded] = useState(false)
     const [errors, setErrors] = useState('')
 
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [mainPost])
+        const topPost = document.getElementsByClassName("parent-body-container")[0]
+        if (topPost) {
+            window.scrollTo({ top: topPost.clientHeight, behavior: 'smooth' })
+        } else {
+            window.scrollTo({ top: 0, })
+        }
+    }, [parentPost, mainPost])
 
-    // if the post isn't in state, or it doesn't have the replies property (meaning it was initially loaded as a parent) then fetch the post and all of its replies and set state to loaded
+
     useEffect(() => {
         (async () => {
             setErrors('')
 
+
             if (Number.isNaN(Number(postId))) {
                 setErrors('404 Resource Not Found')
-                setLoaded(true)
+                setMainPostLoaded(true)
+                setRestLoaded(true)
                 return
             }
 
             if (!mainPost) {
-                const response = await fetch(`/api/posts/${postId}/parent`)
-                if (response.ok) {
-                    const data = await response.json()
-                    if (data.hasParent) {
-                        await dispatch(getSinglePost(data.parent))
-                        setLoaded(true)
-                    } else {
-                        await dispatch(getSinglePost(postId))
-                        setLoaded(true)
-                    }
-                } else {
-                    setErrors('404 Resource Not Found')
-                    setLoaded(true)
-                }
-            } else {
-                setLoaded(true)
+                await dispatch(getSinglePost(postId))
+                    .then(a => {
+                        setMainPostLoaded(true)
+                        setRestLoaded(true)
+                    })
+                    .catch(a => {
+                        setErrors('404 Resource Not Found')
+                        setMainPostLoaded(true)
+                    })
             }
-        })();
-    }, [postId, username, dispatch, mainPost])
 
-    if (!loaded) return null
+            else if (mainPost && mainPost.replies === undefined) {
+                setMainPostLoaded(true)
+                await dispatch(getSinglePost(postId))
+                    .then(a => setRestLoaded(true))
+                    .catch(a => alert("AN ERROR OCURRED"))
+            }
+
+            else if (mainPost && mainPost.replies !== undefined) {
+                setMainPostLoaded(true)
+                setRestLoaded(true)
+            }
+
+        })();
+    }, [postId, dispatch, mainPost])
 
     return (
         <>
             <div className="center-column">
-                <div className="title-container">
-                    <button className="back-button" onClick={() => history.goBack()}><img src={backbutton} alt="" ></img></button>
-                    <div>Quack</div>
+                <div className="title-container" style={{
+                    zIndex: '998',
+                    // opacity: '.9',
+                    position: 'sticky',
+                    top: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '15px',
+                    boxSizing: 'border-box',
+                    width: '650px',
+                    height: '50px',
+                    borderTop: '1px solid rgb(66, 83, 100)',
+                    // borderBottom: '1px solid rgb(66, 83, 100)'
+                }}>
+                    <button className="back-button" onClick={() => history.push(mainPost.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
+                    <div className="scroll-top-button" >Quack</div>
                 </div>
-                {loaded && errors.length > 0 &&
+                {mainPostLoaded && errors.length > 0 &&
                     <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid rgb(66, 83, 100)', alignItems: 'center', padding: '0px 10px' }} >
                         <h3>Post couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
                     </div>
                 }
 
-                {loaded && mainPost && parentPost &&
+                {mainPostLoaded && parentPost &&
                     <ParentCard postId={parentPost.id} />}
 
-                {loaded && mainPost &&
-                    <>
-                        <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
-
-                        <div className="replies-container">
-                            {mainPost.replies.reverse().map(reply => (
-                                <ReplyCard key={reply.id} replyId={reply.id} />
-                            ))}
-                        </div>
-                    </>
+                {mainPostLoaded && mainPost &&
+                    <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />
                 }
+
+                {mainPostLoaded &&
+                    <>
+                        <div className="replies-container">
+                            {!restLoaded &&
+                                <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+
+                                    <div id="loading"></div>
+                                </div>}
+                            {restLoaded && replies &&
+                                replies.map(reply => (
+                                    <ReplyCard key={reply.id} replyId={reply.id} reply={reply} />
+                                ))}
+                        </div>
+                    </>}
+                <div style={{ height: '100vh' }}></div>
 
             </div>
         </>

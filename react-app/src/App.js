@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
 import { authenticate } from './store/session';
 import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
-import Testing from './components/Testing';
-import ReplyCard from './components/ReplyCard/ReplyCard';
+import bigDuckIcon from './images/ducklogo.svg'
+import ProfilePage from './components/ProfilePage/ProfilePage';
 
 
 function App() {
-  const [loaded, setLoaded] = useState(false);
+  const [mainLoaded, setMainLoaded] = useState(false);
   const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
-      setLoaded(true);
+      setMainLoaded(true);
     })();
   }, [dispatch]);
 
-  if (!loaded) {
-    return null;
+  if (!mainLoaded) {
+    return (
+      <div style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', }} >
+        <img style={{ marginBottom: '50px', width: '100px', height: '100px' }} src={bigDuckIcon}></img>
+        <div id="loading"></div>
+      </div >
+    );
   }
 
   return (
@@ -36,16 +39,15 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <SignUpForm />
-            {/* add login form as modal here */}
           </Route>
-          {/* <Route exact path='/login'>
-            <LoginForm />
-          </Route> */}
           <ProtectedRoute exact path='/home'>
-            <Home />
+            <Home mainLoaded={mainLoaded} />
           </ProtectedRoute>
           <ProtectedRoute exact path='/post/:postId'>
             <SinglePost />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/profile/:username'>
+            <ProfilePage />
           </ProtectedRoute>
           <Route>
 

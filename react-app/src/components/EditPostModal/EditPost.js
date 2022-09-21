@@ -70,7 +70,7 @@ export default function EditPost({ post, setShowModal }) {
                 </div>
                 <div id="edit-post-footer">
 
-                    <button onClick={handleSubmit} id="edit-post-submit-button">Submit Changes</button>
+                    <button disabled={content.length > 280 || content.trim().length === 0 || content.length < 1} className="main-quack-button" onClick={handleSubmit}>Submit</button>
                 </div>
             </div>
         </>

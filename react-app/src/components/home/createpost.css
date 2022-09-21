@@ -31,10 +31,25 @@
     line-height: 20px;
     font-weight: 700;
     font-family: 'chirpH';
-    background-color: rgb(29, 155, 240);
+    background-color: rgb(30, 156, 241);
     border-radius: 3rem;
     height: 36px;
     width: 80px;
+    transition: background-color .5s;
+}
+
+.main-quack-button:disabled {
+    /* background-color: rgba(29, 155, 240, .5); */
+    cursor: default;
+    opacity: .5;
+}
+
+.main-quack-button:hover:not([disabled]) {
+    background-color: rgb(24, 120, 184);
+}
+
+.main-quack-button:active:not([disabled]) {
+    transform: scale(0.96);
 }
 
 .create-post-profile-pic-wrapper {

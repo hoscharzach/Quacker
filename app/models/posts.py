@@ -1,4 +1,6 @@
+from venv import create
 from .db import db
+import sqlalchemy
 from sqlalchemy.sql import func
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -7,11 +9,11 @@ from sqlalchemy.ext.orderinglist import ordering_list
 class Post(db.Model):
     __tablename__ = 'posts'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, index=True)
     content = db.Column(db.String(280), nullable=False)
     user_id = db.Column(
         db.Integer, db.ForeignKey('users.id'), nullable=False)
-    parent_id = db.Column(db.ForeignKey('posts.id'))
+    parent_id = db.Column(db.ForeignKey('posts.id'), index=True)
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, onupdate=func.now())
 
@@ -24,19 +26,40 @@ class Post(db.Model):
         cascade='all, delete',
         order_by="desc(Post.created_at)",
         collection_class=ordering_list('created_at'),
+        lazy="joined",
+        join_depth=1
+    )
+
+    __table_args__ = (
+        db.Index(
+            "my_idx",
+            parent_id,
+            created_at,
+        ),
     )
 
     def to_dict(self):
         return {
             'id': self.id,
-            'inReplyTo': self.parent.id if self.parent != None else None,
+            'inReplyTo': self.parent_id,
+            'content': self.content,
+            'user': self.user.to_dict_basic_info(),
+            'images': [img.to_dict() for img in self.images],
+            'numReplies': len(self.replies),
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at
+        }
+
+    def to_dict_single(self):
+        return {
+            'id': self.id,
+            'inReplyTo': self.parent_id,
             'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'content': self.content,
             'user': self.user.to_dict_basic_info(),
-            'images': [x.to_dict() for x in self.images],
-            'replies': [x.to_dict() for x in self.replies],
+            'images': [img.to_dict() for img in self.images],
+            'replies': [x.to_dict_basic_info() for x in self.replies],
             'numReplies': len(self.replies),
-            'numImages': len(self.images),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -45,16 +68,28 @@ class Post(db.Model):
         return {
             'id': self.id,
             'content': self.content,
+            'parent': self.parent.to_dict_parent() if self.parent else None,
             'user': self.user.to_dict_basic_info(),
-            'inReplyTo': self.parent.id if self.parent else None,
-            'images': [x.to_dict() for x in self.images],
+            'inReplyTo': self.parent_id,
+            'images': [img.to_dict() for img in self.images],
             'numReplies': len(self.replies),
-            'numImages': len(self.images),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
 
-    @validates('content')
+    def to_dict_parent(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'user': self.user.to_dict_basic_info(),
+            'inReplyTo': self.parent_id,
+            'images': [img.to_dict() for img in self.images],
+            'numReplies': len(self.replies),
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at
+        }
+
+    @ validates('content')
     def validate_content(self, key, content):
         post_type = 'Reply' if self.parent_id else 'Quack'
         if not content:

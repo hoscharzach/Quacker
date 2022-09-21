@@ -13,7 +13,8 @@ export default function ReplyModal({ parentId, numReplies, text }) {
 
     return (
         <>
-            <button id='reply-modal-button' onClick={() => {
+            <button id='reply-modal-button' onClick={(e) => {
+                e.stopPropagation()
                 setShowModal(true)
                 dispatch(clearImages())
                 dispatch(removeErrors())

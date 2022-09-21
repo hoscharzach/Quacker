@@ -1,4 +1,8 @@
 /* TODO Add site wide styles */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 @font-face {
     font-family: 'chirp';
     src: local('chirp'), url(./fonts/chirp.woff) format('woff');
@@ -20,6 +24,7 @@ html {
     color: white;
     font-family: 'chirp';
     font-size: 18px;
+    line-height: 20px;
 }
 
 button:not(#signin-button) {
@@ -49,8 +54,12 @@ button:hover {
 
 .center-column {
     /* padding: 10px; */
+    /* height: 120vh; */
+    /* overflow: hidden; */
+    /* margin-top: -2px; */
     border-left: 1px solid rgb(66, 83, 100);
     border-right: 1px solid rgb(66, 83, 100);
+    /* border-bottom: 1px solid rgb(66, 83, 100); */
     width: 650px;
     display: flex;
     flex-direction: column;

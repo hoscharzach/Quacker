@@ -7,7 +7,7 @@ import posts from './posts'
 const rootReducer = combineReducers({
   session,
   images,
-  posts
+  posts,
 });
 
 

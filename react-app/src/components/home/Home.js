@@ -5,24 +5,70 @@ import { getAllPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
 
-export default function Home() {
+export default function Home({ mainLoaded }) {
 
     const dispatch = useDispatch()
 
     const [loaded, setLoaded] = useState(false)
     const feed = useSelector(state => state.posts.feed)
+    const latestPost = useSelector(state => state.posts.feed[0])
+
+
+    async function getPosts() {
+
+        if (feed.length === 0) {
+            dispatch(getAllPosts())
+                .then(a => setLoaded(true))
+                .catch(a => alert('something went wrong'))
+        } else {
+            // const scrollPostId = latestPost.id
+            // dispatch(getNewestPosts(latestPost.createdAt))
+            // const postToScroll = document.getElementsByClassName(`reply${scrollPostId}`)
+            // window.scrollTo({top: postToScroll.clientHeight})
+            setLoaded(true)
+        }
+
+
+    }
 
     useEffect(() => {
-        (async () => {
-            await dispatch(getAllPosts());
-            setLoaded(true);
-        })();
-    }, [dispatch]);
+        if (feed.length === 0) {
+            dispatch(getAllPosts())
+                .then(a => setLoaded(true))
+                .catch(a => alert('something went wrong'))
+        } else {
+            setLoaded(true)
+        }
+    }, [mainLoaded, dispatch]);
+
+    // useEffect(() => {
+    //     const topReply = document.getElementsByClassName("reply8")[0]
+    //     if (topReply) {
+    //         topReply.scrollIntoView({ behavior: 'smooth' })
+    //         // window.scrollTo({ top: (topReply.scrollHeight + 200), behavior: 'smooth' })
+    //     }
+    // }, [loaded])
 
     return (
         <>
             <div className="center-column">
-                <div className="home-top-bar" onClick={() => window.scrollTo(0, 0)} style={{ zIndex: '2', opacity: '.9', position: 'sticky', top: '0', display: 'flex', alignItems: 'center', paddingLeft: '15px', boxSizing: 'border-box', width: '650px', height: '50px', borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }}>
+                <div className="home-top-bar" onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                    // dispatch(getNewPosts())
+                }} style={{
+                    zIndex: '998',
+                    opacity: '.9',
+                    position: 'sticky',
+                    top: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '15px',
+                    boxSizing: 'border-box',
+                    width: '650px',
+                    height: '50px',
+                    borderTop: '1px solid rgb(66, 83, 100)',
+                    // borderBottom: '1px solid rgb(66, 83, 100)'
+                }}>
                     <div>
                         Home
                     </div>
@@ -33,11 +79,17 @@ export default function Home() {
                 <CreatePost />
 
                 {!loaded &&
-                    <div id="loading"></div>}
+                    <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                        <div id="loading"></div>
+                    </div>}
                 {loaded && feed &&
-                    feed.map(el => (
-                        <ReplyCard key={el.id} replyId={el.id} />
-                    ))}
+                    <div className="">
+                        {feed.map((el) => (
+                            <ReplyCard name={`reply${el.id}`} key={el.id} reply={el} />
+                        ))}
+                    </div>
+                }
+                <div style={{ height: '100vh' }}></div>
             </div>
         </>
     )

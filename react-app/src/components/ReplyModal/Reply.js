@@ -132,7 +132,7 @@ export default function Reply({ parentId, setShowModal }) {
                                 </div>}
                             <div className='reply-modal-buttons-container'>
                                 <UploadPicture />
-                                <div onClick={handleSubmit} id='reply-modal-submit-button'><span className='reply-modal-button-text'>Reply</span></div>
+                                <button disabled={content.length > 280 || content.trim().length === 0 || (content.length < 1 && Object.values(images)?.length === 0)} className="main-quack-button" onClick={handleSubmit}>Reply</button>
                             </div>
                         </div>
 

@@ -67,7 +67,11 @@ const UploadPicture = () => {
                 style={{ display: 'none' }}
             />
 
-            <button disabled={hideImageInput} id="file-select" onClick={handleFileClick} ><img src={uploadImageIcon} alt="" ></img></button>
+            <button
+                disabled={hideImageInput}
+                id="file-select" onClick={handleFileClick} >
+                <img src={uploadImageIcon} alt="" ></img>
+            </button>
         </>
     )
 }

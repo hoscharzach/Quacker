@@ -47,6 +47,15 @@
     display: flex;
     justify-content: center;
     border-radius: 3rem;
+    transition: background-color .5s;
+}
+
+#quack-modal-button:hover {
+    background-color: rgb(24, 120, 184);
+}
+
+#quack-modal-button * {
+    background: none;
 }
 
 .navbar-item-button {
