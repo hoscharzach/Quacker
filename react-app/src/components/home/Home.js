@@ -52,7 +52,7 @@ export default function Home({ mainLoaded }) {
     return (
         <>
             <div className="center-column">
-                <div className="home-top-bar" onClick={() => {
+                <div className="hover: cursor-pointer" onClick={() => {
                     window.scrollTo({ top: 0, behavior: 'smooth' })
                     // dispatch(getNewPosts())
                 }} style={{

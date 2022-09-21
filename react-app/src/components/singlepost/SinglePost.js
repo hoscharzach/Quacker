@@ -40,7 +40,7 @@ export default function SinglePost() {
         (async () => {
             setErrors('')
 
-            // if not valid post id, return and set error
+
             if (Number.isNaN(Number(postId))) {
                 setErrors('404 Resource Not Found')
                 setMainPostLoaded(true)
@@ -48,8 +48,6 @@ export default function SinglePost() {
                 return
             }
 
-
-            // if post not in state, fetch it with replies
             if (!mainPost) {
                 await dispatch(getSinglePost(postId))
                     .then(a => {
@@ -62,8 +60,6 @@ export default function SinglePost() {
                     })
             }
 
-            // if post in state, but associated replies are missing, it was fetched as
-            // a reply earlier, and replies need to be fetched
             else if (mainPost && mainPost.replies === undefined) {
                 setMainPostLoaded(true)
                 await dispatch(getSinglePost(postId))
@@ -71,7 +67,6 @@ export default function SinglePost() {
                     .catch(a => alert("AN ERROR OCURRED"))
             }
 
-            // otherwise, if the post and replies are in state, then just set loaded to true
             else if (mainPost && mainPost.replies !== undefined) {
                 setMainPostLoaded(true)
                 setRestLoaded(true)

@@ -158,6 +158,8 @@
     height: 36px;
 }
 
+#reply-modal-submit-button:disabled {}
+
 #reply-modal-submit-button:hover {
     cursor: pointer;
 }

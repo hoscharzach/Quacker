@@ -1,4 +1,8 @@
 /* TODO Add site wide styles */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 @font-face {
     font-family: 'chirp';
     src: local('chirp'), url(./fonts/chirp.woff) format('woff');
@@ -20,6 +24,7 @@ html {
     color: white;
     font-family: 'chirp';
     font-size: 18px;
+    line-height: 20px;
 }
 
 button:not(#signin-button) {
