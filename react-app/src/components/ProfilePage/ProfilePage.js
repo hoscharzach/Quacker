@@ -57,14 +57,16 @@ export default function ProfilePage() {
                 </div>
             </div>
             <div style={{ position: 'relative', height: '200px', width: '650px' }}>
-                <div style={{ height: '200px', width: '650px' }} className="profile-background">
-                    <img style={{ width: '100%', height: '100%' }} src="https://pbs.twimg.com/profile_banners/432081885/1448428400/1500x500" alt=""></img>
+                <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: 'url("https://quacker-app.s3.us-east-2.amazonaws.com/0854d09678394bafbcd15d9b4d3be30a.jpg")' }} className="profile-background">
+                    {/* <img style={{ width: '100%', height: '100%' }} src="https://pbs.twimg.com/profile_banners/432081885/1448428400/1500x500" alt=""></img> */}
                 </div>
             </div>
             <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', height: '200px' }} className="below-background-profile-container">
                 <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', height: '70px', width: '630px' }}>
                     <div style={{ width: '141px' }}>
-                        <div style={{ position: 'absolute', height: '133px', width: '133px', backgroundColor: 'white', borderRadius: '50%', left: '15px', top: '-70px' }}></div>
+                        <div style={{ position: 'absolute', height: '133px', width: '133px', backgroundColor: 'white', borderRadius: '50%', left: '15px', top: '-80px' }}>
+                            <img style={{ width: '100%', height: '100%', borderRadius: '50%' }} src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"></img>
+                        </div>
                     </div>
                     <div style={{ width: '110px' }}></div>
                 </div>
