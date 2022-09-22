@@ -89,7 +89,9 @@ export default function Home({ mainLoaded }) {
                         ))}
                     </div>
                 }
-                <div style={{ height: '100vh' }}></div>
+                <div style={{ height: '600px' }}>
+                    { }
+                </div>
             </div>
         </>
     )

@@ -138,13 +138,13 @@
 
 .main-post-buttons-wrapper {
 
-    padding-left: 50px;
+    /* padding-left: 50px; */
     padding-top: 8px;
     display: flex;
     height: 70%;
     width: 100%;
     border-top: 1px solid rgb(255, 255, 255, .4);
-    justify-content: flex-start;
+    justify-content: space-evenly;
     align-items: center;
 }
 

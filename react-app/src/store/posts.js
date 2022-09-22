@@ -101,18 +101,10 @@ export const createNewPost = (payload) => async (dispatch) => {
     }
 }
 
-// const recursiveIterator = (arr, newState) => {
-//     arr.forEach(el => {
-//         newState.normPosts[el.id] = el
-//         if (el.replies.length > 0) {
-//             recursiveIterator(el.replies, newState)
-//         }
-//     })
-// }
-
 export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
+
         case LOAD_ONE:
             newState = { ...state }
 
