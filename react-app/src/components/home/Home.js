@@ -30,13 +30,10 @@ export default function Home({ mainLoaded }) {
     }
 
     useEffect(() => {
-        if (feed.length === 0) {
-            dispatch(getAllPosts())
-                .then(a => setLoaded(true))
-                .catch(a => alert('something went wrong'))
-        } else {
-            setLoaded(true)
-        }
+
+        dispatch(getAllPosts())
+            .then(a => setLoaded(true))
+            .catch(a => alert('something went wrong'))
     }, [mainLoaded, dispatch]);
 
     // useEffect(() => {
