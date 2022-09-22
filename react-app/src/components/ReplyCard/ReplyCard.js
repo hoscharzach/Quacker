@@ -41,7 +41,7 @@ export default function ReplyCard({ reply, name, setShowModal }) {
                                 <>
                                     <ReplyModal parentId={reply.id} text={reply.numReplies} />
                                     <EditPostModal post={reply} />
-                                    <button style={{ position: 'relative', zIndex: 5, display: 'flex', alignItems: 'center', padding: '0px' }} onClick={(e) => {
+                                    <button onClick={(e) => {
                                         e.preventDefault()
                                         e.stopPropagation()
 

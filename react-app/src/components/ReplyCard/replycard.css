@@ -1,7 +1,5 @@
 #reply-card-wrapper {
     box-sizing: border-box;
-    /* position: relative; */
-    /* z-index: 2; */
     width: 650px;
     display: flex;
     max-height: 700px;
@@ -97,6 +95,7 @@
 }
 
 .reply-card-buttons {
+    margin-top: 5px;
     width: 100%;
     display: flex;
     align-items: center;
