@@ -60,13 +60,13 @@ export default function MainPostCard({ postId }) {
                             <div className='main-post-buttons-wrapper'>
                                 {sessionUser.id === post.user.id &&
                                     <>
+                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
                                         <span className='delete-button-span'><button id='delete-post-button' onClick={() => {
                                             dispatch(deletePostById(post.id))
                                             history.push('/home')
                                         }
                                         }><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
                                         <EditPostModal post={post} text={'Edit'} />
-                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
                                     </>
                                 }
                                 {sessionUser.id !== post.user.id &&

@@ -13,14 +13,25 @@ export default function ReplyModal({ parentId, numReplies, text }) {
 
     return (
         <>
-            <button id='reply-modal-button' onClick={(e) => {
-                e.stopPropagation()
-                setShowModal(true)
-                dispatch(clearImages())
-                dispatch(removeErrors())
-            }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'>{text}</span></button>
+            <button id='reply-modal-button'
+                style={{
+                    position: 'relative',
+                    zIndex: '5'
+                }}
+                onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setShowModal(true)
+
+                    dispatch(clearImages())
+                    dispatch(removeErrors())
+                    return
+                }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'>{text}</span></button>
             {showModal && (
-                <Modal onClose={() => {
+                <Modal onClose={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+
                     setShowModal(false)
                     dispatch(clearImages())
                 }}>

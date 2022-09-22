@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Post, User, db, Image
 from sqlalchemy.orm import lazyload
+from sqlalchemy.orm import load_only
 
 post_routes = Blueprint('posts', __name__)
 
@@ -38,33 +39,13 @@ def my_home_page():
 @ login_required
 def profile_page(username):
 
-    user = User.query.filter_by(
-        username=username).first_or_404(description=f'There is no user by the name {username}')
-
-    posts = user.posts.limit(5)
-
-    return {'posts': [post.to_dict() for post in posts if not post.parent]}
-
-
-@post_routes.get('/<string:username>/includereplies')
-@login_required
-def profile_page_includes_replies(username):
-
-    user = User.query.filter_by(username=username).first_or_404(
+    user = User.query.options(load_only('id')).filter_by(username=username).first_or_404(
         description=f'There is no user by the name {username}')
 
-    return {'posts': [post.to_dict() for post in user.posts]}
+    posts = Post.query.filter_by(user_id=user.id).order_by(
+        Post.created_at.desc()).limit(50)
 
-# create new post
-
-
-@post_routes.get('/<string:username>/media')
-@login_required
-def profile_page_show_media(username):
-    user = User.query.filter_by(
-        username=username).first_or_404(description=f'There is no user by the name {username}')
-
-    return {'posts': []}
+    return {'user': user.to_dict_basic_info(), 'posts': [post.to_dict() for post in posts], 'postIds': [post.id for post in posts]}
 
 
 @ post_routes.post('/new')

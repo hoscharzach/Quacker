@@ -74,12 +74,16 @@ export default function Reply({ parentId, setShowModal }) {
     return (
         <>
             {parent &&
-                <div id="reply-modal-container">
+                <div style={{ position: 'relative', zIndex: '990' }} id="reply-modal-container">
                     <div className="reply-modal-header-container">
                         <div className='x-button-container'>
                             <div className='x-button-container'>
 
-                                <button id='x-button' onClick={() => setShowModal(false)}><img id="x-icon" src={x} alt=""></img></button>
+                                <button id='x-button' onClick={(e) => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                    setShowModal(false)
+                                }}><img id="x-icon" src={x} alt=""></img></button>
                             </div>
                         </div>
                         <div className='reply-modal-errors-container'>

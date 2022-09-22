@@ -12,12 +12,17 @@ export default function EditPostModal({ post, text }) {
 
     return (
         <>
-            <button className='edit-post-button' onClick={() => {
+            <button className='edit-post-button' onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
                 dispatch(clearImages())
                 setShowModal(true)
             }}> <img src={editIcon} alt="" id='edit-icon'></img>{text && text}</button>
             {showModal && (
-                <Modal onClose={() => setShowModal(false)}>
+                <Modal onClose={(e) => {
+                    e.stopPropagation()
+                    setShowModal(false)
+                }}>
                     <EditPost post={post} setShowModal={setShowModal} />
                 </Modal>
             )}

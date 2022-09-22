@@ -27,18 +27,13 @@ export default function Home({ mainLoaded }) {
             // window.scrollTo({top: postToScroll.clientHeight})
             setLoaded(true)
         }
-
-
     }
 
     useEffect(() => {
-        if (feed.length === 0) {
-            dispatch(getAllPosts())
-                .then(a => setLoaded(true))
-                .catch(a => alert('something went wrong'))
-        } else {
-            setLoaded(true)
-        }
+
+        dispatch(getAllPosts())
+            .then(a => setLoaded(true))
+            .catch(a => alert('something went wrong'))
     }, [mainLoaded, dispatch]);
 
     // useEffect(() => {
@@ -72,9 +67,7 @@ export default function Home({ mainLoaded }) {
                     <div>
                         Home
                     </div>
-                    <div>
 
-                    </div>
                 </div>
                 <CreatePost />
 
@@ -89,7 +82,8 @@ export default function Home({ mainLoaded }) {
                         ))}
                     </div>
                 }
-                <div style={{ height: '100vh' }}></div>
+                <div style={{ height: '600px' }}>
+                </div>
             </div>
         </>
     )

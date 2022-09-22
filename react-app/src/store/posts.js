@@ -3,6 +3,7 @@ const ADD_POST = '/posts/ADD'
 const UPDATE_POST = '/posts/UPDATE'
 const DELETE_POST = '/posts/DELETE'
 const LOAD_ONE = '/posts/SINGLE'
+const ADD_USER_POSTS = '/posts/USER'
 
 const initialState = { normPosts: {}, feed: [], users: {} }
 
@@ -31,6 +32,11 @@ const editPost = (post) => ({
     post
 })
 
+const addUserPosts = (data) => ({
+    type: ADD_USER_POSTS,
+    data
+})
+
 export const getSinglePost = (postId) => async (dispatch) => {
     const response = await fetch(`/api/posts/${postId}`)
 
@@ -54,6 +60,17 @@ export const updatePostById = (post) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json()
         dispatch(editPost(data.post))
+    } else {
+        const error = await response.json()
+        return error
+    }
+}
+
+export const getUserPosts = (username) => async (dispatch) => {
+    const response = await fetch(`/api/posts/${username}/quacks`)
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(addUserPosts(data))
     } else {
         const error = await response.json()
         return error
@@ -101,18 +118,20 @@ export const createNewPost = (payload) => async (dispatch) => {
     }
 }
 
-// const recursiveIterator = (arr, newState) => {
-//     arr.forEach(el => {
-//         newState.normPosts[el.id] = el
-//         if (el.replies.length > 0) {
-//             recursiveIterator(el.replies, newState)
-//         }
-//     })
-// }
-
 export default function reducer(state = initialState, action) {
     let newState
     switch (action.type) {
+
+        case ADD_USER_POSTS:
+            newState = { ...state }
+            newState.users[action.data.user.username] = action.data.user
+            action.data.posts.forEach(post => {
+                newState.normPosts[post.id] = post
+            })
+            newState.users[action.data.user.username].postIds = action.data.postIds
+
+            return newState
+
         case LOAD_ONE:
             newState = { ...state }
 

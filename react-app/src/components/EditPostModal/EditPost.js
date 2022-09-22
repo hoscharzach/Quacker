@@ -56,7 +56,11 @@ export default function EditPost({ post, setShowModal }) {
             <div id="edit-post-wrapper">
                 <div id="edit-post-header">
                     <div>Editing {post.inReplyTo ? 'Reply' : 'Post'}</div>
-                    <div onClick={() => setShowModal(false)} id="edit-post-x-container">
+                    <div onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        setShowModal(false)
+                    }} id="edit-post-x-container">
                         <img style={{}} id="edit-post-x" alt="" src={x} ></img>
                     </div>
                 </div>

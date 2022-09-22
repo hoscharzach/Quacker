@@ -1,0 +1,52 @@
+.media-profile-button {
+    transition: background-color .5s;
+}
+
+.media-profile-button[data-active='media'] {
+    box-shadow: 0 4px #1D9BF0;
+}
+
+.media-profile-button[data-active='media'] button {
+
+    font-weight: 700;
+}
+
+.media-profile-button:hover {
+    background-color: rgba(85, 89, 94, 0.3);
+}
+
+.tweets-profile-button {
+    transition: background-color .5s;
+}
+
+.tweets-profile-button[data-active='tweets'] {
+    box-shadow: 0 4px #1D9BF0;
+
+}
+
+.tweets-profile-button[data-active='tweets'] button {
+    font-weight: 700;
+}
+
+.tweets-profile-button:hover {
+    background-color: rgba(85, 89, 94, 0.3);
+}
+
+.replies-profile-button {
+    transition: background-color .5s;
+}
+
+.replies-profile-button[data-active='replies'] {
+    box-shadow: 0 4px #1D9BF0;
+    font-weight: 700;
+
+}
+
+.replies-profile-button[data-active='replies'] button {
+    font-weight: 700;
+
+}
+
+.replies-profile-button:hover {
+    background-color: rgba(85, 89, 94, 0.3);
+}

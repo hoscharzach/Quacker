@@ -16,6 +16,10 @@
     justify-content: center;
 }
 
+#reply-modal-button:hover {
+    color: rgb(30, 156, 241);
+}
+
 #reply-modal-reply-icon {
     height: 22.5px;
     widtH: 22.5px;
@@ -157,8 +161,6 @@
     width: 73px;
     height: 36px;
 }
-
-#reply-modal-submit-button:disabled {}
 
 #reply-modal-submit-button:hover {
     cursor: pointer;
