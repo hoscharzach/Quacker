@@ -51,13 +51,10 @@ export default function ProfilePage() {
     if (viewType === 'tweets') {
         posts = selectPosts.filter(post => post.user.username === username && !post.inReplyTo)
     } else if (viewType === 'replies') {
-        posts = selectPosts.filter(post => post.user.username === username)
+        posts = selectPosts.filter(post => post.user.username === username && post.inReplyTo)
     } else if (viewType === 'media') {
         posts = selectPosts.filter(post => post.user.username === username && post.images.length > 0)
     }
-
-
-    console.log(userLoaded, postsLoaded, posts, viewType, "USER AND POST LOADED AND POSTS")
 
     return (
         <div className="center-column">
@@ -116,7 +113,7 @@ export default function ProfilePage() {
                     <div id="loading"></div>
                 </div>
             }
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '15px 40px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
                 <div data-active={viewType === 'tweets' ? 'tweets' : null} className="tweets-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
                     <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
                         setViewType('tweets')
@@ -127,7 +124,7 @@ export default function ProfilePage() {
                     <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
 
                         setViewType('replies')
-                    }}>{'Quacks & Replies'}</button>
+                    }}>{'Replies'}</button>
 
                 </div>
                 <div data-active={viewType === 'media' ? 'media' : null} className="media-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
@@ -139,7 +136,7 @@ export default function ProfilePage() {
                 </div>
 
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', width: '650px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '650px', borderTop: '1px solid rgb(66, 83, 100)' }}>
                 {!postsLoaded &&
                     <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                         <div id="loading"></div>
