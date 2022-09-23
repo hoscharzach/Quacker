@@ -94,7 +94,7 @@ export default function CreatePost({ parentId, setShowModal }) {
     return (
         <>
             {errors?.length > 0 &&
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '20px', borderTopRightRadius: '24px', borderTopLeftRadius: '24px' }} className="home-errors-container">
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '7px', borderTopRightRadius: '24px', borderTopLeftRadius: '24px' }} className="home-errors-container">
 
                     {errors.map(err => (
                         <div key={nanoid()} className="error-message">{err}</div>

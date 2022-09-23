@@ -10,6 +10,7 @@ import CreatePostModal from './CreatePostModal';
 import origamiBird from '../images/origamibird.svg'
 import duck from '../images/duck.svg'
 import duckLogo from '../images/ducklogo.svg'
+import swanIcon from '../images/swan.svg'
 
 const NavBar = () => {
   const history = useHistory()
@@ -40,12 +41,19 @@ const NavBar = () => {
               </div>
             </NavLink>
           </div>
-          <div className='navbar-item-container'>
+        </div>
+        <div className='navbar-item-container'>
+          <NavLink to={`/profile/${user.username}`}>
+            <div className='navbar-item-button'>
 
-            <NavLink to={`/profile/${user.username}`}>
-              Profile
-            </NavLink>
-          </div>
+              <img alt='' src={swanIcon} style={{ width: '25px', height: '25px', paddingLeft: '20px', marginRight: '30px' }}></img>
+              <span className='navbar-text' >
+
+                Profile
+              </span>
+
+            </div>
+          </NavLink>
         </div>
         <div className='navbar-item-container'>
           <div onClick={onLogout} className='navbar-item-button'>

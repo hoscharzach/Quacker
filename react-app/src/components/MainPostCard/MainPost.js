@@ -27,7 +27,7 @@ export default function MainPostCard({ postId }) {
                     <div className='main-post-header'>
 
                         <div className='main-post-header-icon'>
-                            <img className="profile-picture" src={post.user.profilePicture || defaultProfile} alt=""></img>
+                            <img className="profile-picture" src={post.user.profilePic || defaultProfile} alt=""></img>
                         </div>
                         <div className='main-post-header-user'>
                             <div>{post.user.displayName || post.user.username}</div>

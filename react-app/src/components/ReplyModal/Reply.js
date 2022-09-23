@@ -10,7 +10,7 @@ import { clearImages, removeImage } from '../../store/images'
 import { createNewPost } from '../../store/posts'
 import UploadPicture from '../UploadPicture'
 import { nanoid } from 'nanoid'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export default function Reply({ parentId, setShowModal }) {
 
@@ -95,7 +95,7 @@ export default function Reply({ parentId, setShowModal }) {
                     </div>
                     <div className="reply-modal-body-container">
                         <div className='reply-modal-parent-left'>
-                            <img className='reply-modal-parent-profile-pic' src={defaultProfilePic} alt=""></img>
+                            <img className='reply-modal-parent-profile-pic' src={parent.user.profilePic || defaultProfilePic} alt=""></img>
                             <div className='reply-modal-connecting-line-container'>
                                 <div className='reply-modal-connecting-line'></div>
                             </div>
@@ -112,7 +112,7 @@ export default function Reply({ parentId, setShowModal }) {
                                 </div>
                             </div>
                             <div className='reply-modal-replying-to-text'>
-                                <span className='reply-modal-username-timestamp'>Replying to </span><span className='reply-modal-at'>@{parent.user.username}</span>
+                                <span className='reply-modal-username-timestamp'>Replying to </span><Link onClick={() => setShowModal(false)} style={{ color: 'rgb(29, 155, 240)' }} to={`/profile/${parent.user.username}`}>@{parent.user.username}</Link>
                             </div>
                         </div>
                     </div>
