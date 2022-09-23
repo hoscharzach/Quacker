@@ -20,7 +20,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
             {reply &&
                 <div id="reply-card-wrapper" className={name} style={borderTop ? { borderTop: 'none' } : null}>
                     <div className='reply-card-left'>
-                        <img className='reply-card-profile-pic' src={defaultProfilePic} alt="" ></img>
+                        <img className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img>
                     </div>
                     <div className='reply-card-right'>
                         <div className='reply-card-user-timestamp-container'>

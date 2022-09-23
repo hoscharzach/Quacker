@@ -95,7 +95,7 @@ export default function Reply({ parentId, setShowModal }) {
                     </div>
                     <div className="reply-modal-body-container">
                         <div className='reply-modal-parent-left'>
-                            <img className='reply-modal-parent-profile-pic' src={defaultProfilePic} alt=""></img>
+                            <img className='reply-modal-parent-profile-pic' src={parent.user.profilePic || defaultProfilePic} alt=""></img>
                             <div className='reply-modal-connecting-line-container'>
                                 <div className='reply-modal-connecting-line'></div>
                             </div>
