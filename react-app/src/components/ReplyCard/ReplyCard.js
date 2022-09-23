@@ -20,14 +20,14 @@ export default function ReplyCard({ reply, name, borderTop }) {
             {reply &&
                 <div id="reply-card-wrapper" className={name} style={borderTop ? { borderTop: 'none' } : null}>
                     <div className='reply-card-left'>
-                        <img className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img>
+                        <Link to={`/profile/${reply.user.username}`}><img className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img></Link>
                     </div>
                     <div className='reply-card-right'>
-                        <div className='reply-card-user-timestamp-container'>
+                        <Link to={`/profile/${reply.user.username}`}><div className='reply-card-user-timestamp-container'>
                             {reply.user.displayName || reply.user.username} <span className='reply-card-dim'>@{reply.user.username} · {intlFormatDistance(Date.parse(reply.createdAt), new Date())} </span>
-                        </div>
+                        </div></Link>
                         <div className='reply-card-replying-to'>
-                            {reply.parent && <span className='reply-card-dim'>Replying to @{reply.parent.user.username}</span>}
+                            {reply.parent && <span className='reply-card-dim'>Replying to <Link style={{ color: 'rgb(24, 120, 184)' }} to={`/profile/${reply.parent.user.username}`}>@{reply.parent.user.username}</Link></span>}
                         </div>
                         <div className='reply-card-content-container'><Link to={`/post/${reply.id}`} >{reply.content}</Link></div>
                         <Link to={`/post/${reply.id}`}><div className='reply-card-images-container' data-images={reply.images.length}>

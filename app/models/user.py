@@ -38,6 +38,7 @@ class User(db.Model, UserMixin):
             'profilePic': self.profile_pic,
             'profileBackground': self.profile_background,
             'posts': [x.to_dict() for x in self.posts],
+            'numPosts': len(self.posts)
         }
 
     def to_dict_basic_info(self):
@@ -47,7 +48,8 @@ class User(db.Model, UserMixin):
             'displayName': self.display_name,
             'bio': self.bio,
             'profilePic': self.profile_pic,
-            'profileBackground': self.profile_background
+            'profileBackground': self.profile_background,
+            'numPosts': len(self.posts)
         }
 
     def to_dict_only_posts(self):

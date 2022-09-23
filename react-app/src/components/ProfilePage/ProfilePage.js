@@ -85,28 +85,28 @@ export default function ProfilePage() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}>
 
-                    <div style={{ fontSize: '20px', fontWeight: '700', lineHeight: '24px', spacing: 'normal' }}>User's username</div>
-                    <div><span style={{ fontSize: '13px', color: '#8B98AF' }}>Number of tweets</span></div>
+                    <div style={{ fontSize: '20px', fontWeight: '700', lineHeight: '24px', spacing: 'normal' }}>{user && user.displayName || username}</div>
+                    <div><span style={{ fontSize: '13px', color: '#8B98AF' }}>{user && user.numPosts} Tweets</span></div>
                 </div>
             </div>
             {userLoaded &&
                 <>
                     <div style={{ position: 'relative', height: '200px', width: '650px' }}>
-                        <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: 'url("https://quacker-app.s3.us-east-2.amazonaws.com/0854d09678394bafbcd15d9b4d3be30a.jpg")' }} className="profile-background">
+                        <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: `url(${user.profileBackground || null})` }} className="profile-background">
                         </div>
                     </div>
-                    <div style={{ padding: '15px', display: 'flex', flexDirection: 'column', height: '200px' }} className="below-background-profile-container">
+                    <div style={{ padding: '15px', paddingBottom: '0', display: 'flex', flexDirection: 'column', height: '200px' }} className="below-background-profile-container">
                         <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', height: '70px', width: '630px' }}>
                             <div style={{ width: '141px' }}>
                                 <div style={{ position: 'absolute', height: '133px', width: '133px', backgroundColor: 'white', borderRadius: '50%', left: '15px', top: '-80px' }}>
-                                    <img style={{ width: '100%', height: '100%', borderRadius: '50%' }} src={defaultUserIcon}></img>
+                                    <img style={{ width: '100%', height: '100%', borderRadius: '50%', border: '1px solid rgba(0, 0, 0, 0)' }} src={user.profilePic || defaultUserIcon}></img>
                                 </div>
                             </div>
                             <div style={{ width: '110px' }}></div>
                         </div>
-                        <div style={{ marginTop: '10px' }} className="profile-name-username">NAME AND</div>
-                        <div>Username</div>
-                        <div style={{ fontSize: '15px' }} className="profile-bio">LOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUMLOREM IPSUM LOREM IPSUM</div>
+                        <div style={{ marginTop: '10px', fontWeight: '700' }} className="profile-name-username">{user.displayName}</div>
+                        <div className="reply-card-dim" style={{ marginBottom: '5px' }}>@{user.username}</div>
+                        <div style={{ fontSize: '15px', marginTop: '5px' }} className="profile-bio">{user.bio}</div>
 
                     </div>
                 </>
