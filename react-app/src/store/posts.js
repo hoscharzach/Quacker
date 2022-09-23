@@ -214,7 +214,6 @@ export default function reducer(state = initialState, action) {
 
         case UPDATE_POST:
             newState = JSON.parse(JSON.stringify(state))
-            console.log(action)
             if (action.post.inReplyTo) {
                 const j = action.post.inReplyTo
                 newState.normPosts[action.post.id] = action.post

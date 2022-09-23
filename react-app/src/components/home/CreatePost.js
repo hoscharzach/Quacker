@@ -21,9 +21,6 @@ export default function CreatePost({ parentId, setShowModal }) {
     const images = useSelector(state => state.images.staging)
     const errors = useSelector(state => state.session.errors)
 
-    console.log(images)
-    console.log("I'm RERENDERING")
-
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
 
