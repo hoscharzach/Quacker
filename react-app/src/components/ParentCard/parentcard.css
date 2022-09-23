@@ -24,13 +24,15 @@
 }
 
 .connecting-line {
+    /* position: relative;
+    z-index: 2; */
     width: 4px;
     height: 94%;
     background-color: rgb(66, 83, 100);
 }
 
 .parent-post-left {
-    padding-left: 10px;
+    padding-left: 12px;
     min-height: 90%;
 }
 

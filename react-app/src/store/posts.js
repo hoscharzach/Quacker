@@ -32,9 +32,9 @@ const editPost = (post) => ({
     post
 })
 
-const addUserPosts = (data) => ({
+const addUserPosts = (posts) => ({
     type: ADD_USER_POSTS,
-    data
+    posts
 })
 
 export const getSinglePost = (postId) => async (dispatch) => {
@@ -70,7 +70,7 @@ export const getUserPosts = (username) => async (dispatch) => {
     const response = await fetch(`/api/posts/${username}/quacks`)
     if (response.ok) {
         const data = await response.json()
-        dispatch(addUserPosts(data))
+        dispatch(addUserPosts(data.posts))
     } else {
         const error = await response.json()
         return error
@@ -124,11 +124,16 @@ export default function reducer(state = initialState, action) {
 
         case ADD_USER_POSTS:
             newState = { ...state }
-            newState.users[action.data.user.username] = action.data.user
-            action.data.posts.forEach(post => {
+            if (!newState.users[action.posts[0].user.username]) {
+                newState.users[action.posts[0].user.username] = action.posts[0].user
+            }
+
+            action.posts.forEach(post => {
                 newState.normPosts[post.id] = post
+                if (post.inReplyTo && !newState.normPosts[post.inReplyTo]) {
+                    newState.normPosts[post.inReplyTo] = post.parent
+                }
             })
-            newState.users[action.data.user.username].postIds = action.data.postIds
 
             return newState
 
@@ -213,7 +218,9 @@ export default function reducer(state = initialState, action) {
             if (action.post.inReplyTo) {
                 const j = action.post.inReplyTo
                 newState.normPosts[action.post.id] = action.post
-                newState.normPosts[j].replies = newState.normPosts[j].replies.map(post => action.post.id === post.id ? action.post : post)
+                if (newState.normPosts[j].replies) {
+                    newState.normPosts[j].replies = newState.normPosts[j].replies.map(post => action.post.id === post.id ? action.post : post)
+                }
             } else {
                 newState.feed = newState.feed.map(el => action.post.id === el.id ? action.post : el)
                 newState.normPosts[action.post.id] = action.post

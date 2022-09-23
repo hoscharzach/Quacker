@@ -7,6 +7,7 @@ import defaultUserIcon from '../../images/defaultprofilepic.svg'
 import './profilepage.css'
 import { getUserPosts } from "../../store/posts"
 import ReplyCard from "../ReplyCard/ReplyCard"
+import ParentCard from "../ParentCard/ParentCard"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -16,19 +17,25 @@ export default function ProfilePage() {
 
     const user = useSelector(state => state.posts.users[username])
     const sessionUser = useSelector(state => state.session.user)
-    const selectPosts = useSelector(state => state.posts.normPosts)
-    const postIds = useSelector(state => state.posts.users[username]?.postIds)
+    const selectPosts = Object.values(useSelector(state => state.posts.normPosts))
 
     const [viewType, setViewType] = useState('tweets')
     const [userLoaded, setUserLoaded] = useState(false)
     const [postsLoaded, setPostsLoaded] = useState(false)
-    const [posts, setPosts] = useState([])
+
+
+
+    let posts
 
     async function fetchPosts() {
 
-        const data = await dispatch(getUserPosts(username))
-        if (!data) {
+        if (!user) {
+            await dispatch(getUserPosts(username))
             setUserLoaded(true)
+            setPostsLoaded(true)
+        } else {
+            setUserLoaded(true)
+            await dispatch(getUserPosts(username))
             setPostsLoaded(true)
         }
     }
@@ -38,20 +45,19 @@ export default function ProfilePage() {
     }, [username])
 
     useEffect(() => {
-        if (selectPosts)
-            if (viewType === 'tweets') {
-                setPosts(Object.values(selectPosts).filter(post => !post.inReplyTo))
-                setPostsLoaded(true)
-            } else if (viewType === 'replies') {
-                setPosts(Object.values(selectPosts))
-                setPostsLoaded(true)
-            } else if (viewType === 'media') {
-                setPosts(Object.values(selectPosts).filter(post => post.images.length > 0))
-                setPostsLoaded(true)
-            }
-    }, [viewType, selectPosts])
+        window.scrollTo(0, 0)
+    }, [])
 
-    console.log(userLoaded, postsLoaded, selectPosts, "USER AND POST LOADED AND POSTS")
+    if (viewType === 'tweets') {
+        posts = selectPosts.filter(post => post.user.username === username && !post.inReplyTo)
+    } else if (viewType === 'replies') {
+        posts = selectPosts.filter(post => post.user.username === username)
+    } else if (viewType === 'media') {
+        posts = selectPosts.filter(post => post.user.username === username && post.images.length > 0)
+    }
+
+
+    console.log(userLoaded, postsLoaded, posts, viewType, "USER AND POST LOADED AND POSTS")
 
     return (
         <div className="center-column">
@@ -105,17 +111,21 @@ export default function ProfilePage() {
                     </div>
                 </>
             }
+            {!userLoaded &&
+                <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                    <div id="loading"></div>
+                </div>
+            }
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '15px 40px' }}>
                 <div data-active={viewType === 'tweets' ? 'tweets' : null} className="tweets-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
                     <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
-                        setPostsLoaded(false)
                         setViewType('tweets')
                     }}>Quacks</button>
 
                 </div>
                 <div data-active={viewType === 'replies' ? 'replies' : null} className="replies-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
                     <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
-                        setPostsLoaded(false)
+
                         setViewType('replies')
                     }}>{'Quacks & Replies'}</button>
 
@@ -123,7 +133,7 @@ export default function ProfilePage() {
                 <div data-active={viewType === 'media' ? 'media' : null} className="media-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
 
                     <button style={{ width: '100%' }} onClick={(e) => {
-                        setPostsLoaded(false)
+
                         setViewType('media')
                     }}>Media</button>
                 </div>
@@ -135,9 +145,16 @@ export default function ProfilePage() {
                         <div id="loading"></div>
                     </div>
                 }
-                {postsLoaded && postIds && selectPosts &&
-                    postIds.map(el => (
-                        <ReplyCard name={`profilereply${el}`} key={el} reply={selectPosts[el]} />
+                {postsLoaded && posts &&
+                    posts.map(post => (
+                        post.inReplyTo ?
+                            <>
+                                <ParentCard postId={post.parent.id} />
+                                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+                            </> :
+                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
+
+
                     ))}
             </div>
         </div>

@@ -43,9 +43,9 @@ def profile_page(username):
         description=f'There is no user by the name {username}')
 
     posts = Post.query.filter_by(user_id=user.id).order_by(
-        Post.created_at.desc()).limit(50)
+        Post.created_at.desc()).limit(30)
 
-    return {'user': user.to_dict_basic_info(), 'posts': [post.to_dict() for post in posts], 'postIds': [post.id for post in posts]}
+    return {'posts': [post.to_dict_single() for post in posts]}
 
 
 @ post_routes.post('/new')
