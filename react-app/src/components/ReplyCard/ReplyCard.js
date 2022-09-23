@@ -10,7 +10,7 @@ import EditPostModal from '../EditPostModal/EditPostModal'
 import { deletePostById } from '../../store/posts'
 import deleteIcon from '../../images/deleteiconsquare.svg'
 
-export default function ReplyCard({ reply, name, setShowModal }) {
+export default function ReplyCard({ reply, name, borderTop }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const history = useHistory()
@@ -18,7 +18,7 @@ export default function ReplyCard({ reply, name, setShowModal }) {
     return (
         <>
             {reply &&
-                <div id="reply-card-wrapper" className={name}>
+                <div id="reply-card-wrapper" className={name} style={borderTop ? { borderTop: 'none' } : null}>
                     <div className='reply-card-left'>
                         <img className='reply-card-profile-pic' src={defaultProfilePic} alt="" ></img>
                     </div>
