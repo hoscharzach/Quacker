@@ -83,7 +83,7 @@ export default function ProfilePage() {
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}>
 
                     <div style={{ fontSize: '20px', fontWeight: '700', lineHeight: '24px', spacing: 'normal' }}>{user && user.displayName || username}</div>
-                    <div><span style={{ fontSize: '13px', color: '#8B98AF' }}>{user && user.numPosts} Tweets</span></div>
+                    <div><span style={{ fontSize: '13px', color: '#8B98AF' }}>{user && user.numPosts} Quacks</span></div>
                 </div>
             </div>
             {userLoaded &&
