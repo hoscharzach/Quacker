@@ -5,7 +5,7 @@ import { getAllPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
 
-export default function Home({ mainLoaded }) {
+export default function Home() {
 
     const dispatch = useDispatch()
 
@@ -34,11 +34,11 @@ export default function Home({ mainLoaded }) {
     }, [])
 
     useEffect(() => {
-
-        dispatch(getAllPosts())
-            .then(a => setLoaded(true))
-            .catch(a => alert('something went wrong'))
-    }, [mainLoaded, dispatch]);
+        (async () => {
+            await dispatch(getAllPosts());
+            setLoaded(true);
+        })();
+    }, [dispatch]);
 
     // useEffect(() => {
     //     const topReply = document.getElementsByClassName("reply8")[0]
