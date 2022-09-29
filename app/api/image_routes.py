@@ -7,12 +7,6 @@ from app.api.s3_image_upload import (
 image_routes = Blueprint("images", __name__)
 
 
-@image_routes.get('')
-def show_images():
-    all_images = Image.query.all()
-    return {'images': [x.to_dict() for x in all_images]}
-
-
 @image_routes.post("")
 @login_required
 def upload_image():
