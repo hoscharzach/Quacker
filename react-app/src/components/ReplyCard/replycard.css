@@ -33,13 +33,20 @@
 .reply-card-profile-pic {
     width: 48px;
     height: 48px;
-    background-color: white;
+    /* background-color: white; */
     border-radius: 50%;
 }
 
 .reply-card-content-container {
     word-break: break-all;
     margin-bottom: 10px;
+}
+
+.reply-card-top-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .reply-card-right {

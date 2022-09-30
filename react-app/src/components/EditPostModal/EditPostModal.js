@@ -6,9 +6,29 @@ import { useDispatch } from 'react-redux'
 import { clearImages } from '../../store/images'
 import './editpost.css'
 
-export default function EditPostModal({ post, text }) {
+export default function EditPostModal({ post, text, variant }) {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
+    let innerText
+
+    switch (variant) {
+        case "menu":
+            innerText = (
+                <></>
+            )
+
+        case "single-post":
+            innerText = (
+                <></>
+            )
+
+        case 'reply-card':
+            innerText = (
+                <></>
+            )
+
+    }
+
 
     return (
         <>

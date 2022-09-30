@@ -9,6 +9,7 @@ import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
 import bigDuckIcon from './images/ducklogo.svg'
 import ProfilePage from './components/ProfilePage/ProfilePage';
+import BasicMenu from './components/MenuDropdown';
 
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
           <ProtectedRoute exact path='/profile/:username'>
             <ProfilePage />
           </ProtectedRoute>
+          <Route exact path="/testing" >
+            <BasicMenu />
+          </Route>
           <Route>
 
             {!user &&

@@ -20,8 +20,8 @@ html {
 }
 
 * {
-    background-color: inherit;
-    color: white;
+    /* background-color: inherit; */
+    /* color: white; */
     font-family: 'chirp';
     font-size: 18px;
     line-height: 20px;
@@ -63,7 +63,7 @@ button:hover {
 }
 
 ::placeholder {
-    color: white;
+    /* color: white; */
     opacity: .5;
 }
 
