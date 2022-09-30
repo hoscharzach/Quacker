@@ -7,10 +7,10 @@ const ADD_USER_POSTS = '/posts/USER'
 const ADD_NEW_POSTS = '/posts/NEW'
 const ADD_OLD_POSTS = 'posts/OLD'
 
-const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, lastFetch: null }
+const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, page: 1 }
 
 
-const loadPosts = (data) => ({
+export const loadPosts = (data) => ({
     type: LOAD_POSTS,
     data
 })
@@ -45,7 +45,7 @@ const loadNewPosts = (posts) => ({
     posts
 })
 
-const loadOldPosts = (data) => ({
+export const loadOldPosts = (data) => ({
     type: ADD_OLD_POSTS,
     data
 })

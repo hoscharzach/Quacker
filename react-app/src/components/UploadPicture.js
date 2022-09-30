@@ -27,7 +27,9 @@ const UploadPicture = () => {
         else if (image) {
             (async () => {
                 dispatch(removeErrors())
+                setHideImageInput(true)
                 const errors = await dispatch(uploadImage(image));
+                setHideImageInput(false)
                 if (errors) {
                     dispatch(addError(errors))
                 }
