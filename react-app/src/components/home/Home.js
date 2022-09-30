@@ -1,93 +1,83 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import CreatePost from "./CreatePost";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../../store/posts";
+import { getAllPosts, getNewPosts, getOldPosts, loadOldPosts, loadPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Loading from "../Loading";
 
 export default function Home() {
 
     const dispatch = useDispatch()
-
-    const [loaded, setLoaded] = useState(false)
     const feed = useSelector(state => state.posts.feed)
-    const latestPost = useSelector(state => state.posts.feed[0])
+    const fetched = useSelector(state => state.posts.fetched)
+    const page = useSelector(state => state.posts.page)
+    const latestPost = useSelector(state => state.posts.latestPost)
+
+    // const [page, setPage] = useState(1)
+    const [loaded, setLoaded] = useState(false)
+    const [newLoaded, setNewLoaded] = useState(true)
+    // const [feed, setFeed] = useState([])
 
 
-    async function getPosts() {
-
-        if (feed.length === 0) {
-            dispatch(getAllPosts())
-                .then(a => setLoaded(true))
-                .catch(a => alert('something went wrong'))
-        } else {
-            // const scrollPostId = latestPost.id
-            // dispatch(getNewestPosts(latestPost.createdAt))
-            // const postToScroll = document.getElementsByClassName(`reply${scrollPostId}`)
-            // window.scrollTo({top: postToScroll.clientHeight})
-            setLoaded(true)
-        }
+    function scrollTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        getFeed()
     }, [])
 
-    useEffect(() => {
-        (async () => {
-            await dispatch(getAllPosts());
-            setLoaded(true);
-        })();
-    }, [dispatch]);
+    async function getFeed() {
+        if (!fetched) {
+            await dispatch(getAllPosts())
+            setLoaded(true)
+        } else {
+            setLoaded(true)
+            setNewLoaded(false)
+            await dispatch(getNewPosts(latestPost))
+            setNewLoaded(true)
+        }
+    }
 
-    // useEffect(() => {
-    //     const topReply = document.getElementsByClassName("reply8")[0]
-    //     if (topReply) {
-    //         topReply.scrollIntoView({ behavior: 'smooth' })
-    //         // window.scrollTo({ top: (topReply.scrollHeight + 200), behavior: 'smooth' })
-    //     }
-    // }, [loaded])
+    async function getMorePosts() {
+        await dispatch(getOldPosts(page + 1))
+    }
+
+    const endMessage = (
+        <div>Hello, I put the cap on infinite scroll to 10 pages just in case a bug caused too many renders. You've reached the end!</div>
+    )
 
     return (
         <>
-            <div className="center-column">
-                <div className="home-top-bar" onClick={() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
-                    // dispatch(getNewPosts())
-                }} style={{
-                    zIndex: '998',
-                    opacity: '.9',
-                    position: 'sticky',
-                    top: '0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    paddingLeft: '15px',
-                    boxSizing: 'border-box',
-                    width: '650px',
-                    height: '50px',
-                    borderTop: '1px solid rgb(66, 83, 100)',
-                    // borderBottom: '1px solid rgb(66, 83, 100)'
-                }}>
-                    <div>
-                        Home
-                    </div>
-
+            <div className="center-column" style={!loaded ? { height: '110vh' } : null}>
+                <div
+                    className="home-top-bar"
+                    onClick={scrollTop}
+                >
+                    <div>Home</div>
                 </div>
                 <CreatePost />
-
-                {!loaded &&
-                    <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                        <div id="loading"></div>
-                    </div>}
-                {loaded && feed &&
-                    <div className="">
+                {loaded &&
+                    <InfiniteScroll
+                        dataLength={feed.length}
+                        next={getMorePosts}
+                        hasMore={page <= 10}
+                        loader={<Loading />}
+                        endMessage={endMessage}
+                    >
                         {feed.map((el) => (
                             <ReplyCard name={`reply${el.id}`} key={el.id} reply={el} />
                         ))}
-                    </div>
+                    </InfiniteScroll>
                 }
-                <div style={{ height: '600px' }}>
-                </div>
+                {!newLoaded &&
+                    <Loading />}
+                {!loaded &&
+                    <Loading />}
+
             </div>
         </>
     )

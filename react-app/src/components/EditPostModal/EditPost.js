@@ -61,7 +61,7 @@ export default function EditPost({ post, setShowModal }) {
                         e.stopPropagation()
                         setShowModal(false)
                     }} id="edit-post-x-container">
-                        <img style={{}} id="edit-post-x" alt="" src={x} ></img>
+                        <img id="edit-post-x" alt="" src={x} ></img>
                     </div>
                 </div>
                 <div id="edit-post-body">

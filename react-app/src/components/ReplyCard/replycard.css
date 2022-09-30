@@ -1,4 +1,4 @@
-#reply-card-wrapper {
+.reply-card-wrapper {
     box-sizing: border-box;
     width: 650px;
     display: flex;
@@ -9,11 +9,11 @@
     transition: background-color .5s;
 }
 
-#reply-card-wrapper:hover {
+.reply-card-wrapper:hover {
     background-color: rgba(53, 77, 100, .3);
 }
 
-#reply-card-wrapper>* {
+.reply-card-wrapper>* {
     background: none;
 }
 

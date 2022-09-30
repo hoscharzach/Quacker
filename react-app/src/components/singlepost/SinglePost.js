@@ -10,12 +10,9 @@ import ReplyCard from "../ReplyCard/ReplyCard"
 
 export default function SinglePost() {
 
-    // const mainView = useRef(null)
-
-    const { postId, username } = useParams()
+    const { postId } = useParams()
     const history = useHistory()
 
-    // const allPosts = useSelector(state => state.normPosts)
     const mainPost = useSelector(state => state.posts.normPosts[postId])
     const parentPost = useSelector(state => state.posts.normPosts[mainPost?.inReplyTo])
     const replies = useSelector(state => state.posts.normPosts[postId]?.replies)
@@ -29,9 +26,9 @@ export default function SinglePost() {
     useEffect(() => {
         const topPost = document.getElementsByClassName("parent-body-container")[0]
         if (topPost) {
-            window.scrollTo({ top: topPost.clientHeight, })
+            window.scrollTo({ top: topPost.clientHeight })
         } else {
-            window.scrollTo({ top: 0, })
+            window.scrollTo({ top: 0 })
         }
     }, [parentPost, mainPost])
 
@@ -93,7 +90,7 @@ export default function SinglePost() {
                     // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
                     <button className="back-button" onClick={() => history.push(mainPost.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
-                    <div className="scroll-top-button" >Quack</div>
+                    <div className="scroll-top-button" style={{ paddingLeft: '10px' }} >Quack</div>
                 </div>
                 {mainPostLoaded && errors.length > 0 &&
                     <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid rgb(66, 83, 100)', alignItems: 'center', padding: '0px 10px' }} >

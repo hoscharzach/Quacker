@@ -4,12 +4,15 @@ const UPDATE_POST = '/posts/UPDATE'
 const DELETE_POST = '/posts/DELETE'
 const LOAD_ONE = '/posts/SINGLE'
 const ADD_USER_POSTS = '/posts/USER'
+const ADD_NEW_POSTS = '/posts/NEW'
+const ADD_OLD_POSTS = 'posts/OLD'
 
-const initialState = { normPosts: {}, feed: [], users: {} }
+const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, page: 1 }
 
-const loadPosts = (posts) => ({
+
+export const loadPosts = (data) => ({
     type: LOAD_POSTS,
-    posts
+    data
 })
 
 const loadOnePost = (post) => ({
@@ -36,6 +39,17 @@ const addUserPosts = (posts) => ({
     type: ADD_USER_POSTS,
     posts
 })
+
+const loadNewPosts = (posts) => ({
+    type: ADD_NEW_POSTS,
+    posts
+})
+
+export const loadOldPosts = (data) => ({
+    type: ADD_OLD_POSTS,
+    data
+})
+
 
 export const getSinglePost = (postId) => async (dispatch) => {
     const response = await fetch(`/api/posts/${postId}`)
@@ -90,16 +104,46 @@ export const deletePostById = (id) => async (dispatch) => {
 }
 
 export const getAllPosts = () => async (dispatch) => {
-    const response = await fetch('/api/posts/home')
+    const response = await fetch(`/api/posts/home/1`)
 
     if (response.ok) {
         const data = await response.json()
-        dispatch(loadPosts(data.posts))
+        dispatch(loadPosts(data))
     } else {
         const errors = await response.json()
         return errors
     }
 }
+
+export const getNewPosts = (payload) => async (dispatch) => {
+    const response = await fetch('/api/posts/home/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(loadNewPosts(data.posts))
+    } else {
+        const errors = await response.json()
+        return errors
+    }
+}
+export const getOldPosts = (page) => async (dispatch) => {
+    const response = await fetch(`/api/posts/home/${page}`)
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(loadOldPosts(data))
+    } else {
+        const errors = await response.json()
+        return errors
+    }
+}
+
+
 
 export const createNewPost = (payload) => async (dispatch) => {
     const response = await fetch('/api/posts/new', {
@@ -114,13 +158,40 @@ export const createNewPost = (payload) => async (dispatch) => {
         dispatch(addPost(data.post))
     } else {
         const errors = await response.json()
+
         return errors
     }
 }
 
 export default function reducer(state = initialState, action) {
     let newState
+
     switch (action.type) {
+
+        case ADD_NEW_POSTS:
+            newState = { ...state }
+
+            let feed = []
+            action.posts.forEach(post => {
+                if (!newState.normPosts[post.id]) {
+                    feed.push(post)
+                }
+                newState.normPosts[post.id] = post
+            })
+            newState.feed = [...feed, ...newState.feed]
+            return newState
+
+        case ADD_OLD_POSTS:
+            newState = { ...state }
+            action.data.posts.forEach(post => {
+                if (!newState.normPosts[post.id]) {
+                    newState.normPosts[post.id] = post
+                    newState.feed.push(post)
+                }
+            })
+
+            newState.page = action.data.page
+            return newState
 
         case ADD_USER_POSTS:
             newState = { ...state }
@@ -175,7 +246,7 @@ export default function reducer(state = initialState, action) {
 
             // normalize all posts in state along with their
             // respective users for faster loading of user profile later
-            action.posts.forEach(post => {
+            action.data.posts.forEach(post => {
                 if (!newState.users[post.user.username]) {
                     newState.users[post.user.username] = post.user
                 }
@@ -183,13 +254,14 @@ export default function reducer(state = initialState, action) {
             })
 
             // copy all posts into the feed
-            newState.feed = [...action.posts]
+            newState.feed = [...action.data.posts]
+            newState.fetched = true
 
+            newState.page = action.data.page
+            newState.latestPost = newState.feed[0].id
             return newState
 
         case ADD_POST:
-
-            // deep copy old state (might not need this but doing it just in case)
             newState = { ...state }
 
             // add post to state
@@ -208,7 +280,9 @@ export default function reducer(state = initialState, action) {
             } else {
                 // if it's not a reply, just prepend it to the feed array
                 newState.feed = [action.post, ...newState.feed]
+                newState.latestPost = newState.feed[0].id
             }
+
 
             return newState
 

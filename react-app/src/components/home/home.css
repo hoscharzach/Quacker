@@ -18,6 +18,19 @@
     }
 }
 
+.home-top-bar {
+    z-index: 998;
+    opacity: .9;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    box-sizing: border-box;
+    width: 650px;
+    height: 50px;
+}
+
 .home-top-bar:hover {
     cursor: pointer;
 }

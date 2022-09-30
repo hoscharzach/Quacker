@@ -77,6 +77,11 @@ class Post(db.Model):
             'updatedAt': self.updated_at
         }
 
+    def get_date(self):
+        return {
+            'date': self.created_at
+        }
+
     def to_dict_parent(self):
         return {
             'id': self.id,

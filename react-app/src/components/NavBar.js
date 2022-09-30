@@ -19,6 +19,13 @@ const NavBar = () => {
     await dispatch(logout());
     history.push('/')
   };
+
+  async function dummyPosts() {
+    const response = await fetch('/api/posts/dummy')
+    if (response.ok) {
+      window.alert('New posts created!')
+    }
+  }
   const user = useSelector(state => state.session.user)
   return (
     <div className='navigation'>
@@ -57,7 +64,7 @@ const NavBar = () => {
         </div>
         <div className='navbar-item-container'>
           <div onClick={onLogout} className='navbar-item-button'>
-            <img alt='' src={origamiBird} style={{ width: '25px;', height: '25px', paddingLeft: '20px', marginRight: '30px' }} ></img>
+            <img alt='' src={origamiBird} style={{ width: '25px', height: '25px', paddingLeft: '20px', marginRight: '30px' }} ></img>
             <span className='navbar-text' >Logout</span>
           </div>
         </div>
@@ -66,6 +73,9 @@ const NavBar = () => {
 
             <CreatePostModal />
           </div>
+        </div>
+        <div className='navbar-item-container'>
+          <button className='dummy-button' onClick={dummyPosts}>Click to simulate new posts!</button>
         </div>
       </div>
     </div>
