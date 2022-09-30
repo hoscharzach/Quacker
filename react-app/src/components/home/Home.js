@@ -14,7 +14,7 @@ export default function Home() {
     const feed = useSelector(state => state.posts.feed)
     const fetched = useSelector(state => state.posts.fetched)
     const page = useSelector(state => state.posts.page)
-    // const latestPost = useSelector(state => state.posts.latestPost)
+    const latestPost = useSelector(state => state.posts.latestPost)
 
     // const [page, setPage] = useState(1)
     const [loaded, setLoaded] = useState(false)
@@ -36,6 +36,9 @@ export default function Home() {
             setLoaded(true)
         } else {
             setLoaded(true)
+            setNewLoaded(false)
+            await dispatch(getNewPosts(latestPost))
+            setNewLoaded(true)
         }
     }
 
@@ -49,7 +52,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="center-column">
+            <div className="center-column" style={!loaded ? { height: '110vh' } : null}>
                 <div
                     className="home-top-bar"
                     onClick={scrollTop}

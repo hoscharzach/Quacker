@@ -165,24 +165,24 @@ export const createNewPost = (payload) => async (dispatch) => {
 
 export default function reducer(state = initialState, action) {
     let newState
-    // const currTime = new Date()
-    // const currTimeUTC = new Date(Date.UTC(currTime)).toUTCString()
-    // console.log(currTimeUTC, "CURR TIME IN REDUCER")
 
     switch (action.type) {
 
         case ADD_NEW_POSTS:
-            newState = JSON.parse(JSON.stringify(state))
-            newState.feed = [...action.posts, ...newState.feed]
+            newState = { ...state }
+
+            let feed = []
             action.posts.forEach(post => {
+                if (!newState.normPosts[post.id]) {
+                    feed.push(post)
+                }
                 newState.normPosts[post.id] = post
             })
-
-            newState.page = 1
+            newState.feed = [...feed, ...newState.feed]
             return newState
 
         case ADD_OLD_POSTS:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
             action.data.posts.forEach(post => {
                 if (!newState.normPosts[post.id]) {
                     newState.normPosts[post.id] = post
