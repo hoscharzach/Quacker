@@ -18,7 +18,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
     return (
         <>
             {reply &&
-                <div id="reply-card-wrapper" className={name} style={borderTop ? { borderTop: 'none' } : null}>
+                <div className={`reply-card-wrapper ${name}`} style={borderTop ? { borderTop: 'none' } : null}>
                     <div className='reply-card-left'>
                         <Link to={`/profile/${reply.user.username}`}><img className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img></Link>
                     </div>

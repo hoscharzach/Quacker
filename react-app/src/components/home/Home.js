@@ -1,25 +1,57 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import CreatePost from "./CreatePost";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts, getNewPosts } from "../../store/posts";
+import { getAllPosts, getNewPosts, getOldPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
 
 export default function Home() {
 
+    // add small div to bottom of page, when its in view SPAWN IN LOADING DIV to get small div out of view,
+    // then fetch posts
+
+    const containerToWatch = useRef(null)
     const dispatch = useDispatch()
     const feed = useSelector(state => state.posts.feed)
     const fetched = useSelector(state => state.posts.fetched)
     const latestPost = useSelector(state => state.posts.latestPost)
+    const page = useSelector(state => state.posts.page)
 
     const [loaded, setLoaded] = useState(false)
     const [newLoaded, setNewLoaded] = useState(true)
     const [oldLoaded, setOldLoaded] = useState(true)
 
+    const test = document.getElementsByClassName("center-column")[0]?.height
+    useEffect(() => {
+        console.log(test)
+    }, [test])
+
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [])
+
+    async function observerCallback(entries) {
+        const [entry] = entries
+
+        if (entry.isIntersecting) {
+            setOldLoaded(false)
+            await dispatch(getOldPosts(page + 1))
+            setOldLoaded(true)
+        }
+    }
+    const options = {
+        root: null,
+        rootMargin: "0px",
+        threshhold: .8
+    }
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(observerCallback, options)
+        if (containerToWatch.current) observer.observe(containerToWatch.current)
+
+    }, [containerToWatch, options])
 
     useEffect(() => {
         (async () => {
@@ -39,14 +71,6 @@ export default function Home() {
         })();
     }, [dispatch]);
 
-
-    // useEffect(() => {
-    //     const topReply = document.getElementsByClassName("reply8")[0]
-    //     if (topReply) {
-    //         topReply.scrollIntoView({ behavior: 'smooth' })
-    //
-    //     }
-    // }, [loaded])
 
     return (
         <>
@@ -83,18 +107,20 @@ export default function Home() {
                         <div id="loading"></div>
                     </div>}
                 {loaded && feed &&
-                    <div className="">
+                    <div className="feed-container">
                         {feed.map((el) => (
                             <ReplyCard name={`reply${el.id}`} key={el.id} reply={el} />
                         ))}
                     </div>
+                }{
+                    loaded &&
+                    <div id="bottom-feed-box" ref={containerToWatch} data-access={oldLoaded ? 1 : 0} style={{ height: '600px' }}>
+                        {!oldLoaded &&
+                            <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                                <div id="loading"></div>
+                            </div>}
+                    </div>
                 }
-                <div style={{ height: '600px' }}>
-                    {!oldLoaded &&
-                        <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                            <div id="loading"></div>
-                        </div>}
-                </div>
             </div>
         </>
     )

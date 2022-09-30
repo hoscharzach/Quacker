@@ -85,24 +85,25 @@ def get_new_posts():
     return {'posts': [post.to_dict() for post in new_posts]}
 
 
-@post_routes.post('/home/old')
+# @post_routes.post('/home/old')
+# @login_required
+# def get_older_posts():
+#     oldest_post_id = request.get_json()
+#     oldest_post = Post.query.get(oldest_post_id)
+
+#     old_posts = Post.query.filter(
+#         Post.id < oldest_post.id).order_by(Post.created_at.desc(), Post.id.desc()).limit(10).all()
+
+#     return {'posts': [post.to_dict() for post in old_posts]}
+
+
+@post_routes.get('/home/<int:page>')
 @login_required
-def get_older_posts():
-    data = request.get_json()
-    oldest = data['date']
-    old_posts = Post.query.filter_by(
-        Post.created_at < oldest).order_by(Post.created_at.desc())
+def my_home_page(page):
 
-    return {'posts': [post.to_dict() for post in old_posts]}
-
-
-@post_routes.get('/home')
-@login_required
-def my_home_page():
-
-    posts = Post.query.filter_by(parent_id=None).order_by(Post.created_at.desc()).limit(
-        20)
-    return {'posts': [post.to_dict() for post in posts]}
+    posts = Post.query.filter_by(parent_id=None).order_by(
+        Post.created_at.desc()).paginate(page=page, per_page=10)
+    return {'posts': [post.to_dict() for post in posts.items], 'page': page}
 
 
 # post on user's profile page
