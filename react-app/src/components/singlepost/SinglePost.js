@@ -29,9 +29,9 @@ export default function SinglePost() {
     useEffect(() => {
         const topPost = document.getElementsByClassName("parent-body-container")[0]
         if (topPost) {
-            window.scrollTo({ top: topPost.clientHeight, })
+            window.scrollTo({ top: topPost.clientHeight })
         } else {
-            window.scrollTo({ top: 0, })
+            window.scrollTo({ top: 0 })
         }
     }, [parentPost, mainPost])
 

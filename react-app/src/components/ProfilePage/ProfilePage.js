@@ -146,7 +146,7 @@ export default function ProfilePage() {
                     posts.map(post => (
                         post.inReplyTo ?
                             <>
-                                <ParentCard postId={post.parent.id} />
+                                <ParentCard key={post.parent.id} postId={post.parent.id} />
                                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                             </> :
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />

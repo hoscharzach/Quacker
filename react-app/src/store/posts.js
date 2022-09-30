@@ -4,8 +4,9 @@ const UPDATE_POST = '/posts/UPDATE'
 const DELETE_POST = '/posts/DELETE'
 const LOAD_ONE = '/posts/SINGLE'
 const ADD_USER_POSTS = '/posts/USER'
+const ADD_NEW_POSTS = '/posts/NEW'
 
-const initialState = { normPosts: {}, feed: [], users: {} }
+const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, lastFetch: null }
 
 const loadPosts = (posts) => ({
     type: LOAD_POSTS,
@@ -34,6 +35,11 @@ const editPost = (post) => ({
 
 const addUserPosts = (posts) => ({
     type: ADD_USER_POSTS,
+    posts
+})
+
+const loadNewPosts = (posts) => ({
+    type: ADD_NEW_POSTS,
     posts
 })
 
@@ -101,6 +107,27 @@ export const getAllPosts = () => async (dispatch) => {
     }
 }
 
+export const getNewPosts = (payload) => async (dispatch) => {
+    const response = await fetch('/api/posts/home/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        console.log(data)
+        dispatch(loadNewPosts(data.posts))
+    } else {
+        const errors = await response.json()
+        return errors
+    }
+}
+
+
+
 export const createNewPost = (payload) => async (dispatch) => {
     const response = await fetch('/api/posts/new', {
         method: 'POST',
@@ -114,13 +141,29 @@ export const createNewPost = (payload) => async (dispatch) => {
         dispatch(addPost(data.post))
     } else {
         const errors = await response.json()
+
         return errors
     }
 }
 
 export default function reducer(state = initialState, action) {
     let newState
+    // const currTime = new Date()
+    // const currTimeUTC = new Date(Date.UTC(currTime)).toUTCString()
+    // console.log(currTimeUTC, "CURR TIME IN REDUCER")
+
     switch (action.type) {
+
+        case ADD_NEW_POSTS:
+            newState = JSON.parse(JSON.stringify(state))
+            newState.feed = [...action.posts, ...newState.feed]
+            action.posts.forEach(post => {
+                newState.normPosts[post.id] = post
+            })
+
+            newState.latestPost = newState.feed[0].id
+            newState.oldestPost = newState.feed[newState.feed.length - 1].id
+            return newState
 
         case ADD_USER_POSTS:
             newState = { ...state }
@@ -184,12 +227,14 @@ export default function reducer(state = initialState, action) {
 
             // copy all posts into the feed
             newState.feed = [...action.posts]
+            newState.fetched = true
+
+            newState.latestPost = newState.feed[0].id
+            newState.oldestPost = newState.feed[newState.feed.length - 1].id
 
             return newState
 
         case ADD_POST:
-
-            // deep copy old state (might not need this but doing it just in case)
             newState = { ...state }
 
             // add post to state

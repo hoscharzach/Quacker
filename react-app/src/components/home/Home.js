@@ -1,33 +1,21 @@
 import { useState, useEffect } from "react";
 import CreatePost from "./CreatePost";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../../store/posts";
+import { getAllPosts, getNewPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
 
 export default function Home() {
 
     const dispatch = useDispatch()
+    const feed = useSelector(state => state.posts.feed)
+    const fetched = useSelector(state => state.posts.fetched)
+    const latestPost = useSelector(state => state.posts.latestPost)
 
     const [loaded, setLoaded] = useState(false)
-    const feed = useSelector(state => state.posts.feed)
-    const latestPost = useSelector(state => state.posts.feed[0])
+    const [newLoaded, setNewLoaded] = useState(true)
+    const [oldLoaded, setOldLoaded] = useState(true)
 
-
-    async function getPosts() {
-
-        if (feed.length === 0) {
-            dispatch(getAllPosts())
-                .then(a => setLoaded(true))
-                .catch(a => alert('something went wrong'))
-        } else {
-            // const scrollPostId = latestPost.id
-            // dispatch(getNewestPosts(latestPost.createdAt))
-            // const postToScroll = document.getElementsByClassName(`reply${scrollPostId}`)
-            // window.scrollTo({top: postToScroll.clientHeight})
-            setLoaded(true)
-        }
-    }
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -35,16 +23,28 @@ export default function Home() {
 
     useEffect(() => {
         (async () => {
-            await dispatch(getAllPosts());
-            setLoaded(true);
+
+            // if feed hasn't been fetched for the first time or if it's empty, get all feed posts
+            if (!fetched) {
+                await dispatch(getAllPosts());
+                // set loaded to true
+                setLoaded(true);
+            } else {
+                // otherwise set loaded to true and just add new posts to the top
+                setLoaded(true)
+                setNewLoaded(false)
+                await dispatch(getNewPosts(latestPost))
+                setNewLoaded(true)
+            }
         })();
     }, [dispatch]);
+
 
     // useEffect(() => {
     //     const topReply = document.getElementsByClassName("reply8")[0]
     //     if (topReply) {
     //         topReply.scrollIntoView({ behavior: 'smooth' })
-    //         // window.scrollTo({ top: (topReply.scrollHeight + 200), behavior: 'smooth' })
+    //
     //     }
     // }, [loaded])
 
@@ -74,7 +74,10 @@ export default function Home() {
 
                 </div>
                 <CreatePost />
-
+                {!newLoaded &&
+                    <div style={{ width: '650px', height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                        <div id="loading"></div>
+                    </div>}
                 {!loaded &&
                     <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                         <div id="loading"></div>
@@ -87,6 +90,10 @@ export default function Home() {
                     </div>
                 }
                 <div style={{ height: '600px' }}>
+                    {!oldLoaded &&
+                        <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                            <div id="loading"></div>
+                        </div>}
                 </div>
             </div>
         </>

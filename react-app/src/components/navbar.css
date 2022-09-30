@@ -17,6 +17,10 @@
     border-radius: 50%;
 }
 
+.dummy-button:hover {
+    background-color: rgba(29, 155, 240, .3);
+}
+
 .navigation {
     font-family: 'chirpH';
     font-weight: bold;

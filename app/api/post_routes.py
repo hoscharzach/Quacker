@@ -1,28 +1,99 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Post, User, db, Image
+from app.models import Post, User, db, Image, user
 from sqlalchemy.orm import lazyload
 from sqlalchemy.orm import load_only
+from app.seeds.posts import post_list
+from app.seeds.images import image_list
+from random import randint
+import time
+from datetime import datetime
+import ciso8601
 
 post_routes = Blueprint('posts', __name__)
 
 
-@post_routes.get('/home/new')
+@post_routes.get('/dummy')
+@login_required
+def create_dummy_posts():
+    for i in range(1, 4):
+        if i == 1:
+            post = Post(
+                user_id=randint(1, 3),
+                content=post_list[(randint(0, 12))]
+            )
+            db.session.add(post)
+            db.session.commit()
+        if i == 2:
+            post1 = Post(
+                user_id=randint(1, 3),
+                content=post_list[randint(0, 12)]
+            )
+            db.session.add(post1)
+            image1 = Image(
+                url=image_list[(randint(0, 17))],
+                post_id=post.id
+            )
+            image2 = Image(
+                url=image_list[(randint(0, 17))],
+                post_id=post.id
+            )
+            image3 = Image(
+                url=image_list[(randint(0, 17))],
+                post_id=post.id
+            )
+            image4 = Image(
+                url=image_list[(randint(0, 17))],
+                post_id=post.id
+            )
+
+            db.session.add(image1)
+            db.session.add(image2)
+            db.session.add(image3)
+            db.session.add(image4)
+            db.session.commit()
+        if i == 3:
+            post2 = Post(
+                content=post_list[randint(0, 12)],
+                user_id=randint(1, 3)
+            )
+            db.session.add(post2)
+            image5 = Image(
+                url=image_list[randint(0, 15)],
+                post_id=post2.id
+            )
+            db.session.add(image5)
+            db.session.commit()
+
+    oldest_posts = Post.query.filter(Post.created_at).limit(3)
+    for post in oldest_posts:
+        db.session.delete(post)
+        db.session.commit()
+
+    return {'message': 'success'}
+
+
+@post_routes.post('/home/new')
 @login_required
 def get_new_posts():
-    data = request.get_json()
-    most_recent = data['date']
-    new_posts = Post.query.filter_by(
-        Post.created_at > most_recent).order_by(Post.created_at.desc())
+    latest_post_id = request.get_json()
+    latest_post = Post.query.get(latest_post_id)
+    # print(post.created_at.strftime("%Y-%m-%d %H:%M:%S"))
+    new_posts = Post.query.filter(Post.created_at > latest_post.created_at).order_by(
+        Post.created_at.desc()).limit(10)
 
     return {'posts': [post.to_dict() for post in new_posts]}
 
 
-@post_routes.get('/home/latest')
+@post_routes.post('/home/old')
 @login_required
-def get_latest_posts():
+def get_older_posts():
     data = request.get_json()
-# Do pagination here, loading 10 at a time
+    oldest = data['date']
+    old_posts = Post.query.filter_by(
+        Post.created_at < oldest).order_by(Post.created_at.desc())
+
+    return {'posts': [post.to_dict() for post in old_posts]}
 
 
 @post_routes.get('/home')
@@ -108,16 +179,6 @@ def update_post(id):
 
     db.session.commit()
     return {'post': post.to_dict()}
-
-
-# check if post has parent
-@ post_routes.get('/<int:id>/parent')
-def check_if_post_has_parent(id):
-    post = Post.query.get_or_404(id)
-    if post.parent:
-        return {'hasParent': True, 'parent': post.parent.id}
-    else:
-        return {'hasParent': False}
 
 
 # find post by id
