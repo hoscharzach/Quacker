@@ -184,9 +184,9 @@ export default function reducer(state = initialState, action) {
         case ADD_OLD_POSTS:
             newState = JSON.parse(JSON.stringify(state))
             action.data.posts.forEach(post => {
-                newState.normPosts[post.id] = post
                 if (!newState.normPosts[post.id]) {
-                    newState.feed.concat(post)
+                    newState.normPosts[post.id] = post
+                    newState.feed.push(post)
                 }
             })
 
@@ -280,7 +280,9 @@ export default function reducer(state = initialState, action) {
             } else {
                 // if it's not a reply, just prepend it to the feed array
                 newState.feed = [action.post, ...newState.feed]
+                newState.latestPost = newState.feed[0].id
             }
+
 
             return newState
 

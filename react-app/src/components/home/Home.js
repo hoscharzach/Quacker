@@ -22,11 +22,6 @@ export default function Home() {
     const [newLoaded, setNewLoaded] = useState(true)
     const [oldLoaded, setOldLoaded] = useState(true)
 
-    const test = document.getElementsByClassName("center-column")[0]?.height
-    useEffect(() => {
-        console.log(test)
-    }, [test])
-
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -36,6 +31,7 @@ export default function Home() {
         const [entry] = entries
 
         if (entry.isIntersecting) {
+            console.log("I'm intersecting")
             setOldLoaded(false)
             await dispatch(getOldPosts(page + 1))
             setOldLoaded(true)
@@ -44,7 +40,7 @@ export default function Home() {
     const options = {
         root: null,
         rootMargin: "0px",
-        threshhold: .8
+        threshhold: 1
     }
 
     useEffect(() => {
@@ -89,7 +85,7 @@ export default function Home() {
                     boxSizing: 'border-box',
                     width: '650px',
                     height: '50px',
-                    borderTop: '1px solid rgb(66, 83, 100)',
+                    // borderTop: '1px solid rgb(66, 83, 100)',
                     // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
                     <div>
@@ -114,12 +110,22 @@ export default function Home() {
                     </div>
                 }{
                     loaded &&
-                    <div id="bottom-feed-box" ref={containerToWatch} data-access={oldLoaded ? 1 : 0} style={{ height: '600px' }}>
-                        {!oldLoaded &&
-                            <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                                <div id="loading"></div>
-                            </div>}
-                    </div>
+                    <>
+                        <div>
+                            <button onClick={() => {
+                                setOldLoaded(false)
+                                dispatch(getOldPosts(page + 1))
+                                setOldLoaded(true)
+                            }}>Click for older posts</button>
+                        </div>
+                        <div id="bottom-feed-box" ref={containerToWatch} style={{ height: '600px' }}>
+                            {!oldLoaded &&
+                                <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                                    <div id="loading"></div>
+                                </div>}
+                        </div>
+
+                    </>
                 }
             </div>
         </>

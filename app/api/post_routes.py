@@ -79,11 +79,12 @@ def get_new_posts():
     latest_post_id = request.get_json()
     latest_post = Post.query.get(latest_post_id)
     # print(post.created_at.strftime("%Y-%m-%d %H:%M:%S"))
-    new_posts = Post.query.filter(Post.created_at > latest_post.created_at).order_by(
+    new_posts = Post.query.filter(Post.id > latest_post.id).order_by(
         Post.created_at.desc()).limit(10)
 
     return {'posts': [post.to_dict() for post in new_posts]}
 
+# should work in theory as well
 
 # @post_routes.post('/home/old')
 # @login_required
