@@ -26,6 +26,7 @@ export default function Reply({ parentId, setShowModal }) {
 
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
+    const [imageLoading, setImageLoading] = useState(false)
 
     function changeContent(e) {
         setContent(e.target.value)
@@ -135,7 +136,8 @@ export default function Reply({ parentId, setShowModal }) {
                                     ))}
                                 </div>}
                             <div className='reply-modal-buttons-container'>
-                                <UploadPicture />
+                                {imageLoading && <span>Uploading image...</span>}
+                                <UploadPicture imageLoading={imageLoading} setImageLoading={setImageLoading} />
                                 <button disabled={content.length > 280 || content.trim().length === 0 || (content.length < 1 && Object.values(images)?.length === 0)} className="main-quack-button" onClick={handleSubmit}>Reply</button>
                             </div>
                         </div>

@@ -27,10 +27,16 @@ export default function MainPostCard({ postId }) {
                     <div className='main-post-header'>
 
                         <div className='main-post-header-icon'>
-                            <img className="profile-picture" src={post.user.profilePic || defaultProfile} alt=""></img>
+                            <Link to={`/profile/${post.user.username}`}>
+                                <img className="profile-picture" src={post.user.profilePic || defaultProfile} alt=""></img>
+                            </Link>
                         </div>
                         <div className='main-post-header-user'>
-                            <div>{post.user.displayName || post.user.username}</div>
+                            <div>
+                                <Link to={`/profile/${post.user.username}`}>
+                                    <span className='underline-white'>{post.user.displayName || post.user.username}</span>
+                                </Link>
+                            </div>
                             <div className='main-post-user-timestamp'>
                                 <span className='main-post-username'>@{post.user.username}</span>
                             </div>

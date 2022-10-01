@@ -21,16 +21,25 @@ export default function ReplyCard({ reply, name, borderTop }) {
             {reply &&
                 <div className={`reply-card-wrapper ${name}`} style={borderTop ? { borderTop: 'none' } : null}>
                     <div className='reply-card-left'>
+                        <div style={{ height: '12px', marginBottom: '4px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        </div>
                         <Link to={`/profile/${reply.user.username}`}>
                             <img className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img>
                         </Link>
                     </div>
                     <div className='reply-card-right'>
-                        <div className='reply-card-top-row'>
-                            <Link to={`/profile/${reply.user.username}`}><div className='reply-card-user-timestamp-container'>
-                                {reply.user.displayName || reply.user.username} <span className='reply-card-dim'>@{reply.user.username} · {intlFormatDistance(Date.parse(reply.createdAt), new Date())} </span>
-                            </div></Link>
-                            <BasicMenu />
+                        <div style={{ boxSizing: 'border-box', height: '12px', padding: '12px 0px 0px', width: '100%' }}></div>
+                        <div style={{ height: '20px' }} className='reply-card-top-row'>
+                            <div className='reply-card-user-timestamp-container'>
+                                <Link to={`/profile/${reply.user.username}`}>
+                                    <span className='underline-white'>{reply.user.displayName || reply.user.username}</span>
+                                    <span className='reply-card-dim'> @{reply.user.username} · </span>
+                                </Link>
+                                <Link to={`/post/${reply.id}`}>
+                                    <span className='underline-dim'>{intlFormatDistance(Date.parse(reply.createdAt), new Date())}</span>
+                                </Link>
+                            </div>
+                            <BasicMenu className="basic-menu" />
                         </div>
                         <div className='reply-card-replying-to'>
                             {reply.parent && <span className='reply-card-dim'>Replying to <Link style={{ color: 'rgb(24, 120, 184)' }} to={`/profile/${reply.parent.user.username}`}>@{reply.parent.user.username}</Link></span>}

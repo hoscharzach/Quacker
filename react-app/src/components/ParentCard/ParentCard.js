@@ -31,7 +31,10 @@ export default function ParentCard({ postId }) {
                     <div className="parent-body-container">
 
                         <div className='parent-post-left'>
-                            <img className='reply-modal-parent-profile-pic' src={post.user.profilePic || defaultProfilePic} alt=""></img>
+                            <div>
+                                <img className='reply-modal-parent-profile-pic' src={post.user.profilePic || defaultProfilePic} alt=""></img>
+
+                            </div>
                             <div className='parent-reply-connecting-line'>
                                 <div className='connecting-line'></div>
                             </div>

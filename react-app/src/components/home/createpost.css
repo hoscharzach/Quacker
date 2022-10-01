@@ -16,6 +16,7 @@
 }
 
 .entire-create-post-wrapper {
+    background-color: #15202b;
     display: flex;
     width: 650px;
     border-bottom: 1px solid rgb(66, 83, 100);
@@ -41,8 +42,8 @@
 
 .main-quack-button:disabled {
     /* background-color: rgba(29, 155, 240, .5); */
-    cursor: default;
     opacity: .5;
+    cursor: default;
 }
 
 .main-quack-button:hover:not([disabled]) {
@@ -92,10 +93,6 @@
     width: 25px;
     border-radius: 50%;
 }
-
-/* .staging-x-icon:hover {
-    background-color: rgb(62, 65, 68);
-} */
 
 .staging-x-container {
     position: absolute;

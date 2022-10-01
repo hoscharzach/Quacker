@@ -13,18 +13,27 @@
     src: local('chirpH'), url(./fonts/chirpH.woff) format('woff');
 }
 
-
 html {
     background-color: #15202b;
 
 }
 
+button {
+
+    background-color: #15202b;
+}
+
 * {
     /* background-color: inherit; */
-    /* color: white; */
+    color: white;
     font-family: 'chirp';
     font-size: 18px;
     line-height: 20px;
+}
+
+img {
+    background-color: transparent;
+    background: none;
 }
 
 button:not(#signin-button) {
@@ -62,11 +71,6 @@ button:hover {
     flex-direction: column;
 }
 
-::placeholder {
-    /* color: white; */
-    opacity: .5;
-}
-
 
 .duck-icon,
 .home-icon {
@@ -85,15 +89,15 @@ button:hover {
     display: flex;
     width: 100%;
     height: 100%;
+    background-color: #15202b;
 
 }
 
 
 a {
     text-decoration: none;
-    color: white;
-    opacity: 1;
     cursor: pointer;
+
 }
 
 textarea {

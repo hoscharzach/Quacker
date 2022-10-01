@@ -129,7 +129,7 @@ export default function ProfilePage() {
                 </div>
                 <div data-active={viewType === 'media' ? 'media' : null} className="media-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
 
-                    <button style={{ width: '100%' }} onClick={(e) => {
+                    <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
 
                         setViewType('media')
                     }}>Media</button>
