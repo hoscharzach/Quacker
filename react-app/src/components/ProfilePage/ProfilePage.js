@@ -10,6 +10,7 @@ import ReplyCard from "../ReplyCard/ReplyCard"
 import ParentCard from "../ParentCard/ParentCard"
 import Loading from "../Loading"
 import { Box, Button, Modal } from "@mui/material"
+import EditProfile from "./EditProfile"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -48,15 +49,16 @@ export default function ProfilePage() {
 
     const profileModalStyle = {
         position: 'absolute',
+        boxSizing: 'border-box',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         height: 'auto',
+        width: '600px',
         borderRadius: '15px',
         bgcolor: '#15202b',
         border: '2px solid #000',
         boxShadow: 24,
-        p: 2,
     };
 
     async function fetchPosts() {
@@ -168,7 +170,7 @@ export default function ProfilePage() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={profileModalStyle}>
-                    Hello from Edit profile modal
+                    <EditProfile setProfileModalOpen={setProfileModalOpen} user={user} />
                 </Box>
 
             </Modal>
