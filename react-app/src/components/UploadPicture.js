@@ -4,8 +4,6 @@ import uploadImageIcon from '../images/imageuploadsvg.svg'
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../store/images";
 import { addError, removeErrors } from "../store/session";
-import { useRef } from "react";
-import { nanoid } from "nanoid";
 
 
 const UploadPicture = () => {
@@ -16,11 +14,9 @@ const UploadPicture = () => {
     const [image, setImage] = useState(null);
     const [hideImageInput, setHideImageInput] = useState(false)
 
-
     const dispatch = useDispatch()
 
     useEffect(() => {
-
         if (imageGroup.length >= 4) {
             return
         }

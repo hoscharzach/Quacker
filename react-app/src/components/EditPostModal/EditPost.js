@@ -6,7 +6,7 @@ import './editpost.css'
 import x from '../../images/imageclose-x.svg'
 
 
-export default function EditPost({ post, setShowModal }) {
+export default function EditPost({ post, setEditModalOpen }) {
     const dispatch = useDispatch()
     const editTextInput = useRef(null)
 
@@ -29,7 +29,7 @@ export default function EditPost({ post, setShowModal }) {
         if (data) {
             dispatch(addError(data.error))
         } else {
-            setShowModal(false)
+            setEditModalOpen(false)
         }
 
 
@@ -55,11 +55,11 @@ export default function EditPost({ post, setShowModal }) {
         <>
             <div id="edit-post-wrapper">
                 <div id="edit-post-header">
-                    <div>Editing {post.inReplyTo ? 'Reply' : 'Post'}</div>
+                    <div>Editing {post.inReplyTo ? 'Reply' : 'Quack'}</div>
                     <div onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
-                        setShowModal(false)
+                        setEditModalOpen(false)
                     }} id="edit-post-x-container">
                         <img id="edit-post-x" alt="" src={x} ></img>
                     </div>

@@ -19,6 +19,7 @@
 }
 
 .home-top-bar {
+    background-color: #15202b;
     z-index: 998;
     opacity: .9;
     position: sticky;

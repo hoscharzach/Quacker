@@ -5,25 +5,22 @@ import editIcon from '../../images/editpenicon.svg'
 import { useDispatch } from 'react-redux'
 import { clearImages } from '../../store/images'
 import './editpost.css'
+import { MenuItem } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit';
 
-export default function EditPostModal({ post, text }) {
+export default function EditPostModal({ anchorEl, setAnchorEl, post }) {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
     return (
         <>
-            <button className='edit-post-button' onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                dispatch(clearImages())
-                setShowModal(true)
-            }}> <img src={editIcon} alt="" id='edit-icon'></img>{text && text}</button>
+            <button onClick={() => setShowModal(true)}></button>
             {showModal && (
                 <Modal onClose={(e) => {
                     e.stopPropagation()
                     setShowModal(false)
                 }}>
-                    <EditPost post={post} setShowModal={setShowModal} />
+                    <EditPost post={post} showModal={true} setShowModal={setShowModal} />
                 </Modal>
             )}
         </>

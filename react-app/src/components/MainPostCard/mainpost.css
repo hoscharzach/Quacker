@@ -12,7 +12,9 @@
 }
 
 .main-post-container {
-    padding: 10px;
+    padding: 12px;
+    padding-top: 4px;
+    margin-top: 2px;
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgb(66, 83, 100);
@@ -38,11 +40,12 @@
 }
 
 .main-post-header-icon {
-    margin-right: 12px;
+    /* margin-right: 12px; */
 }
 
 .main-post-content-text {
-    word-break: break-all;
+    overflow-wrap: break-word;
+    /* word-break: break-all; */
     margin-bottom: 8px;
     padding-left: 5px;
 }

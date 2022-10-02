@@ -142,6 +142,11 @@ label {
     width: 300px;
     margin-top: 5px;
     margin-bottom: 30px;
+    transition: background-color .5s;
+}
+
+#signup-submit-button:hover {
+    background-color: rgb(24, 120, 184);
 }
 
 .signup-buttons-container {

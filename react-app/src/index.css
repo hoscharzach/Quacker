@@ -13,18 +13,27 @@
     src: local('chirpH'), url(./fonts/chirpH.woff) format('woff');
 }
 
-
 html {
-    background-color: #15202b;
+    background-color: rgb(21, 32, 43);
 
 }
 
+button {
+
+    background-color: #15202b;
+}
+
 * {
-    background-color: inherit;
+    /* background-color: inherit; */
     color: white;
     font-family: 'chirp';
     font-size: 18px;
     line-height: 20px;
+}
+
+img {
+    background-color: transparent;
+    background: none;
 }
 
 button:not(#signin-button) {
@@ -41,8 +50,6 @@ button:not(#logout-button):not(#x-button):not(#signin-button) {
     cursor: default;
 }
 
-
-
 button:hover {
     cursor: pointer;
 }
@@ -53,18 +60,12 @@ button:hover {
     border: none;
 }
 
-
 .center-column {
     border-left: 1px solid rgb(66, 83, 100);
     border-right: 1px solid rgb(66, 83, 100);
     width: 650px;
     display: flex;
     flex-direction: column;
-}
-
-::placeholder {
-    color: white;
-    opacity: .5;
 }
 
 
@@ -85,15 +86,19 @@ button:hover {
     display: flex;
     width: 100%;
     height: 100%;
+    background-color: #15202b;
 
 }
 
 
 a {
     text-decoration: none;
-    color: white;
-    opacity: 1;
     cursor: pointer;
+
+}
+
+.MuiList-root {
+    background-color: #15202b;
 }
 
 textarea {

@@ -7,6 +7,7 @@ import MainPost from "../MainPostCard/MainPost"
 import backbutton from '../../images/backbutton.svg'
 import ParentCard from "../ParentCard/ParentCard"
 import ReplyCard from "../ReplyCard/ReplyCard"
+import Loading from "../Loading"
 
 export default function SinglePost() {
 
@@ -25,7 +26,7 @@ export default function SinglePost() {
 
     useEffect(() => {
         const topPost = document.getElementsByClassName("parent-body-container")[0]
-        if (topPost) {
+        if (topPost && mainPost && mainPost.inReplyTo) {
             window.scrollTo({ top: topPost.clientHeight })
         } else {
             window.scrollTo({ top: 0 })
@@ -77,6 +78,7 @@ export default function SinglePost() {
             <div className="center-column">
                 <div className="title-container" style={{
                     zIndex: '998',
+                    backgroundColor: '#15202b',
                     // opacity: '.9',
                     position: 'sticky',
                     top: '0',
@@ -86,7 +88,9 @@ export default function SinglePost() {
                     boxSizing: 'border-box',
                     width: '650px',
                     height: '50px',
-                    borderTop: '1px solid rgb(66, 83, 100)',
+                    opacity: '.9',
+                    fontWeight: 700
+                    // borderTop: '1px solid rgb(66, 83, 100)',
                     // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
                     <button className="back-button" onClick={() => history.push(mainPost.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
@@ -109,10 +113,7 @@ export default function SinglePost() {
                     <>
                         <div className="replies-container">
                             {!restLoaded &&
-                                <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-
-                                    <div id="loading"></div>
-                                </div>}
+                                <Loading />}
                             {restLoaded && replies &&
                                 replies.map(reply => (
                                     <ReplyCard key={reply.id} replyId={reply.id} reply={reply} />
