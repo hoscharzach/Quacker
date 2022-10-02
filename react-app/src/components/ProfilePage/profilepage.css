@@ -7,7 +7,7 @@
 .tweets-profile-button[data-active='tweets'],
 .media-profile-button[data-active='media'],
 .replies-profile-button[data-active='replies'] {
-    box-shadow: 0 4px #1D9BF0;
+    box-shadow: 0 4px rgb(29, 155, 240);
     font-weight: 700;
 }
 
@@ -27,4 +27,8 @@
 
 .profile-top-bar:hover {
     cursor: pointer;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    color: white;
 }
