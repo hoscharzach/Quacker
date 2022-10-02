@@ -9,7 +9,7 @@
     margin-top: 5px;
     padding-bottom: 12px;
     font-size: .8rem;
-    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 .parent-card-right {

@@ -74,9 +74,9 @@ const NavBar = () => {
             <CreatePostModal />
           </div>
         </div>
-        <div className='navbar-item-container'>
+        {/* <div className='navbar-item-container'>
           <button className='dummy-button' onClick={dummyPosts}>Click to simulate new posts!</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

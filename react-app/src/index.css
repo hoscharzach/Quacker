@@ -14,7 +14,7 @@
 }
 
 html {
-    background-color: #15202b;
+    background-color: rgb(21, 32, 43);
 
 }
 
@@ -50,8 +50,6 @@ button:not(#logout-button):not(#x-button):not(#signin-button) {
     cursor: default;
 }
 
-
-
 button:hover {
     cursor: pointer;
 }
@@ -61,7 +59,6 @@ button:hover {
     height: 35px;
     border: none;
 }
-
 
 .center-column {
     border-left: 1px solid rgb(66, 83, 100);
@@ -98,6 +95,10 @@ a {
     text-decoration: none;
     cursor: pointer;
 
+}
+
+.MuiList-root {
+    background-color: #15202b;
 }
 
 textarea {

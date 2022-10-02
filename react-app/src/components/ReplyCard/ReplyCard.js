@@ -39,7 +39,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                                     <span className='underline-dim'>{intlFormatDistance(Date.parse(reply.createdAt), new Date())}</span>
                                 </Link>
                             </div>
-                            <BasicMenu className="basic-menu" />
+                            <BasicMenu post={reply} className="basic-menu" />
                         </div>
                         <div className='reply-card-replying-to'>
                             {reply.parent && <span className='reply-card-dim'>Replying to <Link style={{ color: 'rgb(24, 120, 184)' }} to={`/profile/${reply.parent.user.username}`}>@{reply.parent.user.username}</Link></span>}

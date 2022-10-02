@@ -44,7 +44,8 @@
 }
 
 .main-post-content-text {
-    word-break: break-all;
+    overflow-wrap: break-word;
+    /* word-break: break-all; */
     margin-bottom: 8px;
     padding-left: 5px;
 }

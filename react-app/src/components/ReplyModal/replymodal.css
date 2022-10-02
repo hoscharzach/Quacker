@@ -86,8 +86,8 @@
 }
 
 .reply-modal-connecting-line {
-    width: 4px;
-    height: 98%;
+    width: 2px;
+    height: 100%;
     background-color: rgb(66, 83, 100);
 }
 
@@ -112,6 +112,7 @@
     margin-top: 5px;
     padding-bottom: 12px;
     font-size: 1rem;
+    overflow-wrap: break-word;
     word-break: break-all;
 }
 

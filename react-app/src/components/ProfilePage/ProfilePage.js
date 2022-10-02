@@ -8,6 +8,7 @@ import './profilepage.css'
 import { getUserPosts } from "../../store/posts"
 import ReplyCard from "../ReplyCard/ReplyCard"
 import ParentCard from "../ParentCard/ParentCard"
+import { blue } from "@mui/material/colors"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -17,15 +18,13 @@ export default function ProfilePage() {
 
     const user = useSelector(state => state.posts.users[username])
     const sessionUser = useSelector(state => state.session.user)
-    const selectPosts = Object.values(useSelector(state => state.posts.normPosts))
+    const quacks = Object.values(useSelector(state => state.posts.normPosts)).filter(post => post.user.username === username)
+    const replies = quacks?.filter(post => post.inReplyTo)
+    const media = quacks?.filter(post => post.images.length > 0)
 
     const [viewType, setViewType] = useState('tweets')
     const [userLoaded, setUserLoaded] = useState(false)
     const [postsLoaded, setPostsLoaded] = useState(false)
-
-
-
-    let posts
 
     async function fetchPosts() {
 
@@ -40,6 +39,10 @@ export default function ProfilePage() {
         }
     }
 
+    console.log(media, "MEDIA")
+    console.log(replies, "REPLIES")
+    console.log(viewType, "Viewtype")
+
     useEffect(() => {
         fetchPosts()
     }, [username])
@@ -48,13 +51,13 @@ export default function ProfilePage() {
         window.scrollTo(0, 0)
     }, [])
 
-    if (viewType === 'tweets') {
-        posts = selectPosts.filter(post => post.user.username === username && !post.inReplyTo)
-    } else if (viewType === 'replies') {
-        posts = selectPosts.filter(post => post.user.username === username && post.inReplyTo)
-    } else if (viewType === 'media') {
-        posts = selectPosts.filter(post => post.user.username === username && post.images.length > 0)
-    }
+    // if (viewType === 'tweets') {
+    //     posts = selectPosts.filter(post => post.user.username === username && !post.inReplyTo)
+    // } else if (viewType === 'replies') {
+    //     posts = selectPosts.filter(post => post.user.username === username && post.inReplyTo)
+    // } else if (viewType === 'media') {
+    //     posts = selectPosts.filter(post => post.user.username === username && post.images.length > 0)
+    // }
 
     return (
         <div className="center-column">
@@ -65,11 +68,12 @@ export default function ProfilePage() {
             }}
                 style={{
                     zIndex: '998',
-                    opacity: '.9',
                     position: 'sticky',
                     top: '0',
                     display: 'flex',
-
+                    backgroundColor: 'rgba(21, 32, 43, .9)',
+                    opacity: 1,
+                    blur: '10px',
                     alignItems: 'flex-start',
                     paddingLeft: '15px',
                     boxSizing: 'border-box',
@@ -142,16 +146,20 @@ export default function ProfilePage() {
                         <div id="loading"></div>
                     </div>
                 }
-                {postsLoaded && posts &&
-                    posts.map(post => (
-                        post.inReplyTo ?
-                            <>
-                                <ParentCard key={post.parent.id} postId={post.parent.id} />
-                                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-                            </> :
-                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
-
-
+                {postsLoaded && quacks && viewType === 'tweets' &&
+                    quacks.map(post => (
+                        <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
+                    ))}
+                {postsLoaded && replies && viewType === 'replies' &&
+                    replies.map(post => (
+                        <>
+                            <ParentCard key={post.parent.id} postId={post.parent.id} />
+                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+                        </>
+                    ))}
+                {postsLoaded && media && viewType === 'media' &&
+                    media.map(post => (
+                        <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                     ))}
             </div>
         </div>
