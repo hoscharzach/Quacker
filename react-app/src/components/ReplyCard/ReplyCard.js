@@ -52,20 +52,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                         </div>
                         </Link>
                         <div className='reply-card-buttons'>
-                            {sessionUser?.id === reply.user.id ?
-                                <>
-                                    <ReplyModal parentId={reply.id} text={reply.numReplies} />
-                                    <EditPostModal post={reply} />
-                                    <button onClick={(e) => {
-                                        e.preventDefault()
-                                        e.stopPropagation()
-
-                                        dispatch(deletePostById(reply.id))
-                                    }
-                                    }><img src={deleteIcon} alt="" className='delete-icon' ></img></button>
-                                </> :
-                                <ReplyModal parentId={reply.id} text={reply.numReplies} />
-                            }
+                            <ReplyModal parentId={reply.id} text={reply.numReplies} />
                         </div>
                     </div>
                 </div>
