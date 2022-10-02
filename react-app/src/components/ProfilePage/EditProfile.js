@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, ImageListItem, Paper, Stack, TextField } from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 import { useState } from "react";
 
@@ -8,8 +8,11 @@ export default function EditProfile({ user, setProfileModalOpen }) {
 
     const [backgroundImage, setBackgroundImage] = useState(user.profileBackground || '')
     const [name, setName] = useState(user.displayName || '')
-    const [userBio, setUserBio] = useState(user.bio || '')
+    const [bio, setBio] = useState(user.bio || '')
     const [profilePhoto, setProfilePhoto] = useState(user.profilePic || '')
+
+    const formBorderColor = 'rgb(66, 83, 100)'
+    const formHighlightColor = 'rgb(29, 155, 240)'
 
     return (
         <Stack
@@ -30,13 +33,11 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     <IconButton
                         sx={{
                             transition: 'background-color .5s',
-
                             '&:hover': {
                                 backgroundColor: `${backgroundHover}`
                             }
                         }}
-                        onClick={() => setProfileModalOpen(false)}
-                    >
+                        onClick={() => setProfileModalOpen(false)}>
                         <Close sx={{
                             width: '20px',
                             height: '20px'
@@ -93,8 +94,31 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                 </Box>
 
             </Box>
-            <TextField sx={{ width: '95%', color: 'white' }} label="Name" variant="outlined" />
-            <TextField sx={{ width: '95%', color: 'white' }} variant="outlined" />
+            <Box
+                component="form"
+                sx={{
+                    color: 'white',
+                    borderRadius: '5px',
+                    '& > :not(style)': { m: 2, width: '95%' }
+                }}
+                autoComplete="off"
+                noValidate>
+
+                <TextField
+                    value={name}
+                    label="Display Name"
+                    variant="outlined"
+                    maxlength="25"
+                    onChange={(e) => setName(e.target.value)} />
+                <TextField
+                    value={bio}
+                    sx={{ width: '95%' }}
+                    multiline
+                    maxRows={4}
+                    label="Bio"
+                    onChange={(e) => setBio(e.target.value)}
+                    variant="outlined" />
+            </Box>
 
         </Stack>
 

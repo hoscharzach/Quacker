@@ -111,8 +111,8 @@ export default function ProfilePage() {
                         <div style={{ padding: '15px', paddingBottom: '0', display: 'flex', flexDirection: 'column', height: '200px' }} className="below-background-profile-container">
                             <div className="profile-top-relative" style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', height: '70px', width: '630px' }}>
                                 <div style={{ width: '141px' }}>
-                                    <div style={{ position: 'absolute', height: '133px', width: '133px', backgroundColor: 'white', borderRadius: '50%', left: '15px', top: '-80px' }}>
-                                        <img style={{ width: '100%', height: '100%', borderRadius: '50%', border: '1px solid rgba(0, 0, 0, 0)' }} src={user.profilePic || defaultUserIcon}></img>
+                                    <div style={{ position: 'absolute', height: '133px', width: '133px', borderRadius: '50%', left: '15px', top: '-80px' }}>
+                                        <img style={{ width: '100%', height: '100%', borderRadius: '50%', border: "4px solid #15202b" }} src={user.profilePic || defaultUserIcon}></img>
                                     </div>
                                 </div>
                                 <div style={{ width: '110px' }}>
