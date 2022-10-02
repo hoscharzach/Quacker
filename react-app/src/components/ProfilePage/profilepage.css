@@ -24,3 +24,7 @@
     font-weight: 700;
 
 }
+
+.profile-top-bar:hover {
+    cursor: pointer;
+}

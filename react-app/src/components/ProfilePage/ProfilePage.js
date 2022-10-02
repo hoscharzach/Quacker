@@ -8,7 +8,7 @@ import './profilepage.css'
 import { getUserPosts } from "../../store/posts"
 import ReplyCard from "../ReplyCard/ReplyCard"
 import ParentCard from "../ParentCard/ParentCard"
-import { blue } from "@mui/material/colors"
+import Loading from "../Loading"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -26,6 +26,24 @@ export default function ProfilePage() {
     const [userLoaded, setUserLoaded] = useState(false)
     const [postsLoaded, setPostsLoaded] = useState(false)
 
+    const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
+    const tabs = [['tweets', 'Quacks'], ['replies', 'Replies'], ['media', 'Media']]
+    const topBarStyle = {
+        zIndex: '998',
+        position: 'sticky',
+        top: '0',
+        display: 'flex',
+        backgroundColor: 'rgba(21, 32, 43, .9)',
+        opacity: 1,
+        blur: '10px',
+        alignItems: 'flex-start',
+        paddingLeft: '15px',
+        boxSizing: 'border-box',
+        width: '650px',
+        height: '53px',
+        marginBottom: '10px'
+    }
+
     async function fetchPosts() {
 
         if (!user) {
@@ -39,10 +57,6 @@ export default function ProfilePage() {
         }
     }
 
-    console.log(media, "MEDIA")
-    console.log(replies, "REPLIES")
-    console.log(viewType, "Viewtype")
-
     useEffect(() => {
         fetchPosts()
     }, [username])
@@ -51,36 +65,16 @@ export default function ProfilePage() {
         window.scrollTo(0, 0)
     }, [])
 
-    // if (viewType === 'tweets') {
-    //     posts = selectPosts.filter(post => post.user.username === username && !post.inReplyTo)
-    // } else if (viewType === 'replies') {
-    //     posts = selectPosts.filter(post => post.user.username === username && post.inReplyTo)
-    // } else if (viewType === 'media') {
-    //     posts = selectPosts.filter(post => post.user.username === username && post.images.length > 0)
-    // }
+    function scrollTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 
     return (
         <div className="center-column">
-
-
-            <div className="profile-top-bar" onClick={() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
-                style={{
-                    zIndex: '998',
-                    position: 'sticky',
-                    top: '0',
-                    display: 'flex',
-                    backgroundColor: 'rgba(21, 32, 43, .9)',
-                    opacity: 1,
-                    blur: '10px',
-                    alignItems: 'flex-start',
-                    paddingLeft: '15px',
-                    boxSizing: 'border-box',
-                    width: '650px',
-                    height: '53px',
-                    marginBottom: '10px'
-                }}>
+            <div
+                className="profile-top-bar"
+                onClick={scrollTop}
+                style={topBarStyle}>
                 <div style={{ display: 'flex', alignItems: 'center', height: '100%', marginRight: '20px' }}>
                     <button style={{ background: 'none' }} className="back-button" onClick={() => history.push('/home')}><img src={backbutton} alt="" ></img></button>
                 </div>
@@ -113,38 +107,21 @@ export default function ProfilePage() {
                 </>
             }
             {!userLoaded &&
-                <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                    <div id="loading"></div>
-                </div>
+                <Loading />
             }
+
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
-                <div data-active={viewType === 'tweets' ? 'tweets' : null} className="tweets-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
-                    <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
-                        setViewType('tweets')
-                    }}>Quacks</button>
-
-                </div>
-                <div data-active={viewType === 'replies' ? 'replies' : null} className="replies-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
-                    <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
-
-                        setViewType('replies')
-                    }}>{'Replies'}</button>
-
-                </div>
-                <div data-active={viewType === 'media' ? 'media' : null} className="media-profile-button" style={{ flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }}>
-
-                    <button style={{ background: 'none', width: '100%' }} onClick={(e) => {
-
-                        setViewType('media')
-                    }}>Media</button>
-                </div>
+                {tabs.map(tab => (
+                    <div data-active={viewType === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button`} style={tabStyle}>
+                        <button style={{ background: 'none', width: '100%' }} onClick={(e) => setViewType(`${tab[0]}`)} >{`${tab[1]}`}</button>
+                    </div>
+                ))}
 
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '650px', borderTop: '1px solid rgb(66, 83, 100)' }}>
+
                 {!postsLoaded &&
-                    <div style={{ width: '650px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                        <div id="loading"></div>
-                    </div>
+                    <Loading />
                 }
                 {postsLoaded && quacks && viewType === 'tweets' &&
                     quacks.map(post => (
@@ -162,6 +139,6 @@ export default function ProfilePage() {
                         <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                     ))}
             </div>
-        </div>
+        </div >
     )
 }
