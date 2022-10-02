@@ -13,6 +13,7 @@ import { nanoid } from 'nanoid';
 
 const SignUpForm = () => {
 
+
   // const history = useHistory()
   const demoLogin = async (e) => {
     e.preventDefault()
@@ -32,6 +33,8 @@ const SignUpForm = () => {
   const [displayname, setDisplayname] = useState('')
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+
+
 
   const onSignUp = async (e) => {
     e.preventDefault();
@@ -64,6 +67,35 @@ const SignUpForm = () => {
     setRepeatPassword(e.target.value);
   };
 
+  const inputs = [
+    {
+      value: username,
+      placeholder: 'Username',
+      onChange: updateUsername
+    },
+    {
+      value: displayname,
+      placeholder: 'Display Name',
+      onChange: updateDisplayname
+    },
+    {
+      value: email,
+      placeholder: 'Email',
+      onChange: updateEmail
+    },
+    {
+      value: password,
+      placeholder: 'Password',
+      onChange: updatePassword
+    },
+    {
+      value: repeatPassword,
+      placeholder: 'Repeat Password',
+      onChange: updateRepeatPassword
+    }
+
+  ]
+
   if (user) {
     return <Redirect to='/home' ></Redirect>;
   }
@@ -89,7 +121,10 @@ const SignUpForm = () => {
                   <div className='error-message' key={nanoid()}>{error.split(':')[1]}</div>
                 ))}
               </div>
-              <div className='signup-form-container'>
+              {inputs.map((input, i) => (
+                <input type="text" onChange={inputs[i].onChange} placeholder={inputs[i].placeholder} value={inputs[i].value}></input>
+              ))}
+              {/* <div className='signup-form-container'>
                 <div className='signup-form-input-div'>
 
                   <span>User Name</span>
@@ -141,7 +176,7 @@ const SignUpForm = () => {
                   onChange={updateRepeatPassword}
                   value={repeatPassword}
                 ></input>
-              </div>
+              </div> */}
             </form>
             <div className='signup-buttons-container'>
               <button id='signup-submit-button' onClick={onSignUp} type='submit'>Sign Up</button>

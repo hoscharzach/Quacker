@@ -7,6 +7,10 @@
      background-color: black;
  }
 
+ #login-form input {
+     color: black;
+ }
+
  #login-form-header-container {
      position: relative;
      z-index: 0;
