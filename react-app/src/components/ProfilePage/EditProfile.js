@@ -1,5 +1,4 @@
-import { Box, Button, Fab, IconButton, ImageListItem, Paper, Stack } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, Button, IconButton, ImageListItem, Paper, Stack, TextField } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 import { useState } from "react";
 
@@ -74,9 +73,29 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                 </Box>
 
             </Box>
-            <ImageListItem>
-                <img sx={{ width: '100%' }} src={user.profileBackground}></img>
-            </ImageListItem>
+            <Box
+                sx={{
+                    width: '596px',
+                    height: '193px',
+                    backgroundPosition: 'center center',
+                    backgroundImage: `url(${user.profileBackground})`
+                }}>
+            </Box>
+            <Box
+                height="84px"
+                width="100%">
+                <Box
+                    height="112px"
+                    width="112px"
+                    borderRadius="50%"
+                    position="relative">
+                    <img style={{ border: "4px solid #15202b", width: '100%', height: '100%', borderRadius: '50%', position: 'absolute', top: -70, left: 15 }} alt="" src={user.profilePic || ''} ></img>
+                </Box>
+
+            </Box>
+            <TextField sx={{ width: '95%', color: 'white' }} label="Name" variant="outlined" />
+            <TextField sx={{ width: '95%', color: 'white' }} variant="outlined" />
+
         </Stack>
 
     )
