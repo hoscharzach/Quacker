@@ -8,10 +8,16 @@
     grid-template-rows: 95fr 5fr;
 }
 
+#signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #signup-form input {
     border: 1px solid rgba(62, 65, 68, .6);
     margin-bottom: 5px;
-    color: white;
+    color: black;
     height: 25px;
     width: 180px;
     border-radius: 3px;
