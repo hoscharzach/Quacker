@@ -1,10 +1,15 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserInfo } from "../../store/posts";
 
 export default function EditProfile({ user, setProfileModalOpen }) {
 
-    const backgroundHover = 'rgba(239,243,244,.1)'
+    const dispatch = useDispatch()
+
+
+    const sessionUser = useSelector(state => state.session.user)
 
     const [backgroundImage, setBackgroundImage] = useState(user.profileBackground || '')
     const [name, setName] = useState(user.displayName || '')
@@ -16,27 +21,25 @@ export default function EditProfile({ user, setProfileModalOpen }) {
     const formBorderColor = 'rgb(66, 83, 100)'
     const formHighlightColor = 'rgb(29, 155, 240)'
     const errorColor = 'rgb(244, 33, 46)'
+    const backgroundHover = 'rgba(239,243,244,.1)'
 
     const nameInputStyles = {
         '& .MuiInputLabel-root:focused': { color: 'white' },
         '& .MuiInputLabel-root': { color: `${formBorderColor}` },
-        '& label.Mui-focused': {
-            color: 'white',
-        },
-        border: 'white',
-
+        '& .MuiInputLabel-root.Mui-disabled': { color: `${formBorderColor}` },
+        '& .MuiInputLabel-root:disabled': { color: `${formBorderColor}` },
+        '& label.Mui-focused': { color: 'white' },
         '& .MuiOutlinedInput-root': {
+            color: 'white',
             '&:hover fieldset': {
                 borderColor: nameErrorText ? `${errorColor}` : `${formHighlightColor}`,
             },
-            color: 'white',
             '& fieldset': {
                 borderColor: nameErrorText ? `${errorColor}` : `${formBorderColor}`,
             },
-            '& fieldset:hover': {
-                borderColor: nameErrorText ? `${errorColor}` : `${formBorderColor}`,
-            },
+            '& fieldset:hover': { borderColor: nameErrorText ? `${errorColor}` : `${formBorderColor}`, },
         },
+
     }
 
     const bioInputStyles = {
@@ -61,13 +64,26 @@ export default function EditProfile({ user, setProfileModalOpen }) {
         },
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
+        const payload = {
+            username: user.username,
+            displayName: name,
+            bio
+        }
+
+        const errors = await dispatch(updateUserInfo(payload))
+        if (!errors) {
+            setProfileModalOpen(false)
+        } else {
+            window.alert("Something went wrong, please try again")
+        }
+
     }
 
 
     useEffect(() => {
         if (name.length === 0) {
-            setNameErrorText('Display name is required')
+            setNameErrorText("Display name can't be blank")
         } else {
             setNameErrorText('')
         }
@@ -123,7 +139,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                 <Box>
                     <Button
                         onClick={handleSubmit}
-                        disabled={nameErrorText || bioErrorText}
+                        disabled={nameErrorText === false || bioErrorText === false}
                         sx={{
                             backgroundColor: 'rgb(239,243,244)',
                             color: 'black',
@@ -187,7 +203,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     value={name}
                     label="Display Name"
                     variant="outlined"
-                    maxlength="25"
+                    inputProps={{ maxLength: 20 }}
                     sx={nameInputStyles}
                     onChange={(e) => setName(e.target.value)} />
                 <TextField
@@ -196,6 +212,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     helperText={bioErrorText}
                     sx={bioInputStyles}
                     multiline
+                    minRows={2}
                     maxRows={4}
                     label="Bio"
                     onChange={(e) => setBio(e.target.value)}

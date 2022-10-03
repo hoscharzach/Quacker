@@ -10,14 +10,14 @@ user_routes = Blueprint('users', __name__)
 @user_routes.post('/<string:username>/edit')
 @login_required
 def user(username):
+    print(request.get_json(), "request ***********************")
     user = User.query.filter_by(username=username).first_or_404(
         description="User does not exist")
     data = request.get_json()
-
+    print(data, "DATA **********************")
     display_name = data['displayName']
     bio = data['bio']
 
-    print(user, current_user)
     if user == current_user:
         user.display_name = display_name
         user.bio = bio
