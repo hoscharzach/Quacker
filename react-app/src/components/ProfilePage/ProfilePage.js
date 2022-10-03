@@ -115,23 +115,16 @@ export default function ProfilePage() {
                                         <img style={{ width: '100%', height: '100%', borderRadius: '50%', border: "4px solid #15202b" }} src={user.profilePic || defaultUserIcon}></img>
                                     </div>
                                 </div>
-                                <div style={{ width: '110px' }}>
-                                    <Button
-                                        variant="outlined"
-                                        sx={{
-                                            '&.MuiButton-root': { border: '1px solid rgb(83, 100, 113)' },
-                                            '&.MuiButton-outlined': { color: 'white' },
-                                            color: 'white',
-                                            fontFamily: 'chirpH',
-                                            fontSize: '15px',
-                                            borderRadius: '999px',
-                                            width: '112px',
-                                            textTransform: 'none'
-                                        }}
-                                        onClick={() => setProfileModalOpen(true)} >
-                                        Edit Profile
-                                    </Button>
-                                </div>
+                                {
+                                    sessionUser.id === user.id &&
+                                    <div style={{ width: '110px' }}>
+                                        <button
+                                            id="edit-profile-button"
+                                            onClick={() => setProfileModalOpen(true)} >
+                                            Edit Profile
+                                        </button>
+                                    </div>
+                                }
                             </div>
                             <div style={{ marginTop: '10px', fontWeight: '700' }} className="profile-name-username">{user.displayName}</div>
                             <div className="reply-card-dim" style={{ marginBottom: '5px' }}>@{user.username}</div>

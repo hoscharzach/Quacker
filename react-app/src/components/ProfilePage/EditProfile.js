@@ -17,6 +17,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
     const [profilePhoto, setProfilePhoto] = useState(user.profilePic || '')
     const [nameErrorText, setNameErrorText] = useState('')
     const [bioErrorText, setBioErrorText] = useState('')
+    const [isError, setIsError] = useState(false)
 
     const formBorderColor = 'rgb(66, 83, 100)'
     const formHighlightColor = 'rgb(29, 155, 240)'
@@ -97,6 +98,10 @@ export default function EditProfile({ user, setProfileModalOpen }) {
         }
     }, [bio])
 
+    useEffect(() => {
+        bioErrorText || nameErrorText ? setIsError(true) : setIsError(false)
+    }, [nameErrorText, bioErrorText])
+
     return (
         <Stack
             alignItems="center"
@@ -137,30 +142,12 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     <span style={{ fontWeight: 700, fontSize: '20px' }}>Edit Profile</span>
                 </Box>
                 <Box>
-                    <Button
+                    <button
+                        id="edit-profile-submit-button"
                         onClick={handleSubmit}
-                        disabled={nameErrorText === false || bioErrorText === false}
-                        sx={{
-                            backgroundColor: 'rgb(239,243,244)',
-                            color: 'black',
-                            width: '65px',
-                            height: '32px',
-                            borderRadius: '999px',
-                            textTransform: 'none',
-                            fontFamily: 'chirp',
-                            fontWeight: '700',
-                            fontSize: '14px',
-                            transition: 'background-color .5s',
-                            '&:hover': {
-                                backgroundColor: 'rgb(215,219,220)'
-                            },
-                            '&:disabled': {
-                                opacity: .5
-                            }
-                        }}
-                    >
+                        disabled={isError}>
                         Save
-                    </Button>
+                    </button>
                 </Box>
 
             </Box>
@@ -198,7 +185,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                 noValidate>
 
                 <TextField
-                    error={nameErrorText}
+                    error={Boolean(nameErrorText)}
                     helperText={nameErrorText}
                     value={name}
                     label="Display Name"
@@ -208,7 +195,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     onChange={(e) => setName(e.target.value)} />
                 <TextField
                     value={bio}
-                    error={bioErrorText}
+                    error={Boolean(bioErrorText)}
                     helperText={bioErrorText}
                     sx={bioInputStyles}
                     multiline
