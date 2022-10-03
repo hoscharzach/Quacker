@@ -51,15 +51,36 @@ Here, the user can either sign up using the provided form, or log in with a demo
 
 ### Home Feed
 
-Here, all of the most recent quacks are displayed. The user can click on the large blue button on the left to open a new quack modal or use the form at the top of hte page. Also, the user can reply to quacks that interest them by clicking the reply icon underneath a specific quack. If the user wrote that one, they can also delete or edit the quack.
+Here, all of the most recent quacks are displayed. The user can click on the large blue button on the left to open a new quack modal or use the form at the top of the page. The user can reply to quacks that interest them by clicking the reply icon underneath a specific quack. This opens up a modal containig the quack they're replying to as well as an input form for thier reply. Here, images can be added to a quack just like at the top of the feed page. Clicking on the ellipsis icon on the top right of a quack will drop down a menu giving the user the option to delete the quack, edit the quack or copy the quacks's link to their clipboard.
 
-![Home](https://res.cloudinary.com/dpjpitop6/image/upload/v1662955665/mainfeedpage_nbhvuf.png)
+#### Infinite Scroll
+
+A minor feature that I wanted to implement in my project is infinite scroll. The home feed is paginated and upon hitting the bottom of the page, another query is made for the next page of results, which are appended to the end of the feed. Currently limited to 10 pages.
+
+![Home](https://i.imgur.com/KoQiZh9.png)
+
+![Reply](https://i.imgur.com/MWoQlUP.png)
+
+![Delete](https://i.imgur.com/a1V9osF.png)
+
+![Delete2](https://i.imgur.com/o0uZWdT.png)
+
 
 ### Single Quack Page
 
-After clicking on a quack that interests them, the user is redirected to the single quack display where they can see all replies and the parent post (if there is one). The user can follow nested reply chains and navigate between them freely.
+After clicking on a quack that interests them, the user is redirected to the single quack display where they can see all replies and the parent post (if there is one). The user can follow nested reply chains and navigate between them freely as well as open up the same reply modal as shown above. Replies on the main feed will redirect to this page.
 
-![SinglePost](https://res.cloudinary.com/dpjpitop6/image/upload/v1662955665/postwithparent_r1hsnv.png)
+![SinglePost](https://i.imgur.com/de19kbq.png)
+
+### Profile Page
+
+Here, the user can view all of their quacks, sorted by main posts, replies or those that contain media (only images for now). Likes will be added soon.
+
+![ProfilePage](https://i.imgur.com/66a6wmP.png)
+
+Clicking on the edit profile button will open up a modal allowing the user to adjust their display name (required) and bio.
+
+![EditProfile](https://i.imgur.com/htNzhVk.png)
 
 
 
