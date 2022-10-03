@@ -1,19 +1,30 @@
-from flask import Blueprint, jsonify
-from flask_login import login_required
-from app.models import User
+from email import message
+from flask import Blueprint, jsonify, request
+from flask_login import current_user, login_required
+from app.models import User, db
 
 user_routes = Blueprint('users', __name__)
 
 
-@user_routes.route('/')
-@login_required
-def users():
-    users = User.query.all()
-    return {'users': [user.to_dict() for user in users]}
-
-
-@user_routes.route('/<string:username>')
+# Edit user information
+@user_routes.post('/<string:username>/edit')
 @login_required
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return user.to_dict()
+    user = User.query.filter_by(username=username).first_or_404(
+        description="User does not exist")
+    data = request.get_json()
+
+    display_name = data['displayName']
+    bio = data['bio']
+
+    print(user, current_user)
+    if user == current_user:
+        user.display_name = display_name
+        user.bio = bio
+        db.session.commit()
+        return {
+            'message': 'Successfully updated user information.',
+            'user': user.to_dict()
+        }
+
+    return {'Message': 'You are not authorized to edit this information.'}, 401
