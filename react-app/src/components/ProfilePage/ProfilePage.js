@@ -102,7 +102,7 @@ export default function ProfilePage() {
                         <div><span style={{ fontSize: '13px', color: '#8B98AF' }}>{user && user.numPosts} Quacks</span></div>
                     </div>
                 </div>
-                {userLoaded &&
+                {user &&
                     <>
                         <div style={{ position: 'relative', height: '200px', width: '650px' }}>
                             <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: `url(${user.profileBackground || null})` }} className="profile-background">
@@ -116,7 +116,19 @@ export default function ProfilePage() {
                                     </div>
                                 </div>
                                 <div style={{ width: '110px' }}>
-                                    <Button onClick={() => setProfileModalOpen(true)} >
+                                    <Button
+                                        variant="outlined"
+                                        sx={{
+                                            '&.MuiButton-root': { border: '1px solid rgb(83, 100, 113)' },
+                                            '&.MuiButton-outlined': { color: 'white' },
+                                            color: 'white',
+                                            fontFamily: 'chirpH',
+                                            fontSize: '15px',
+                                            borderRadius: '999px',
+                                            width: '112px',
+                                            textTransform: 'none'
+                                        }}
+                                        onClick={() => setProfileModalOpen(true)} >
                                         Edit Profile
                                     </Button>
                                 </div>

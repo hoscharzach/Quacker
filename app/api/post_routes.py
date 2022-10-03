@@ -6,9 +6,6 @@ from sqlalchemy.orm import load_only
 from app.seeds.posts import post_list
 from app.seeds.images import image_list
 from random import randint
-import time
-from datetime import datetime
-import ciso8601
 
 post_routes = Blueprint('posts', __name__)
 

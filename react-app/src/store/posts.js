@@ -6,6 +6,7 @@ const LOAD_ONE = '/posts/SINGLE'
 const ADD_USER_POSTS = '/posts/USER'
 const ADD_NEW_POSTS = '/posts/NEW'
 const ADD_OLD_POSTS = 'posts/OLD'
+const UPDATE_USER_INFO = '/users/EDIT'
 
 const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, page: 1 }
 
@@ -43,6 +44,11 @@ const addUserPosts = (posts) => ({
 const loadNewPosts = (posts) => ({
     type: ADD_NEW_POSTS,
     posts
+})
+
+const updateUser = (user) => ({
+    type: UPDATE_USER_INFO,
+    user
 })
 
 export const loadOldPosts = (data) => ({
@@ -99,7 +105,7 @@ export const deletePostById = (id) => async (dispatch) => {
     if (response.ok) {
         dispatch(deletePost(id))
     } else {
-        throw ('You are not authorized to delete this')
+        throw Error('You are not authorized to delete this')
     }
 }
 
@@ -142,8 +148,23 @@ export const getOldPosts = (page) => async (dispatch) => {
         return errors
     }
 }
+export const updateUserInfo = (payload) => async (dispatch) => {
+    const response = await fetch(`/api/users/${payload.username}/edit`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
 
-
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(updateUser(data.user))
+    } else {
+        const errors = await response.json()
+        return errors
+    }
+}
 
 export const createNewPost = (payload) => async (dispatch) => {
     const response = await fetch('/api/posts/new', {
@@ -167,6 +188,12 @@ export default function reducer(state = initialState, action) {
     let newState
 
     switch (action.type) {
+
+        case UPDATE_USER_INFO:
+            newState = { ...state }
+            newState.users[action.user.username] = action.user
+
+            return newState
 
         case ADD_NEW_POSTS:
             newState = { ...state }
