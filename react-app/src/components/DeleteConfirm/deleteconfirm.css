@@ -1,0 +1,34 @@
+#cancel-delete-button {
+    font-size: 15px;
+    line-height: 20px;
+    font-family: 'chirp';
+    font-weight: 700;
+    color: white;
+    background-color: #15202b;
+    outline: 1px solid rgb(83, 100, 113);
+    border-radius: 999px;
+    height: 44px;
+    width: 256px;
+    transition: background-color .5s;
+}
+
+#cancel-delete-button:hover {
+    background-color: rgb(215, 219, 220, .1);
+}
+
+#confirm-delete {
+    font-size: 15px;
+    line-height: 20px;
+    font-family: 'chirp';
+    font-weight: 700;
+    color: white;
+    background-color: rgb(244, 33, 46);
+    border-radius: 999px;
+    height: 44px;
+    width: 256px;
+    transition: background-color .5s;
+}
+
+#confirm-delete:hover {
+    background-color: rgb(220, 40, 31);
+}

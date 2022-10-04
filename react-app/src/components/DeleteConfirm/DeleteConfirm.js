@@ -1,7 +1,8 @@
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deletePostById } from '../../store/posts';
+import './deleteconfirm.css'
 
 
 export default function DeleteConfirm({ post, setDeleteModalOpen }) {
@@ -41,28 +42,10 @@ export default function DeleteConfirm({ post, setDeleteModalOpen }) {
                         fontFamily: 'chirp'
                     }}>
                     This can't be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Twitter search results.</Typography>
-                <Button sx={{
-                    backgroundColor: 'rgb(244, 33, 46)',
-                    transition: 'background-color .2s',
-                    borderRadius: '999px',
-                    width: '256px',
-                    textTransform: 'none',
-                    '&:hover': {
-                        backgroundColor: 'rgb(220, 40, 31)'
-                    }
-                }} variant="contained" onClick={handleDelete}>Delete</Button>
-                <Button sx={{
-                    width: '256px',
-                    backgroundColor: '#15202B',
-                    borderRadius: '999px',
-                    border: 1,
-                    textTransform: 'none',
-                    '&:hover': {
-                        backgroundColor: 'rgba(239, 243, 244, .1)'
-                    }
-                }} variant="outlined" onClick={() => setDeleteModalOpen(false)}>Cancel</Button>
+                <button id="confirm-delete" onClick={handleDelete}>Delete</button>
+                <button id="cancel-delete-button" onClick={() => setDeleteModalOpen(false)}>Cancel</button>
             </Stack>
-        </Box>
+        </Box >
     )
 
 }

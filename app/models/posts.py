@@ -5,6 +5,13 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.orderinglist import ordering_list
 
+likes = db.Table('likes',
+                 db.Column('user_id', db.Integer, db.ForeignKey(
+                     'users.id'), primary_key=True),
+                 db.Column('post_id', db.Integer, db.ForeignKey(
+                     'posts.id'), primary_key=True)
+                 )
+
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -30,6 +37,10 @@ class Post(db.Model):
         join_depth=1
     )
 
+    post_likes = db.relationship(
+        'User', secondary=likes, lazy='subquery', backref=db.backref('user_likes', lazy=True)
+    )
+
     __table_args__ = (
         db.Index(
             "my_idx",
@@ -46,6 +57,7 @@ class Post(db.Model):
             'user': self.user.to_dict_basic_info(),
             'images': [img.to_dict() for img in self.images],
             'numReplies': len(self.replies),
+            'numLikes': len(self.post_likes),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -59,6 +71,7 @@ class Post(db.Model):
             'user': self.user.to_dict_basic_info(),
             'images': [img.to_dict() for img in self.images],
             'replies': [x.to_dict_basic_info() for x in self.replies],
+            'numLikes': len(self.post_likes),
             'numReplies': len(self.replies),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
