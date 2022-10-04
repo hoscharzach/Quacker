@@ -86,6 +86,8 @@ class Post(db.Model):
             'parent': self.parent.to_dict_parent() if self.parent else None,
             'user': self.user.to_dict_basic_info(),
             'inReplyTo': self.parent_id,
+            'numLikes': len(self.post_likes),
+            'userLikes': [x.id for x in self.post_likes],
             'images': [img.to_dict() for img in self.images],
             'numReplies': len(self.replies),
             'createdAt': self.created_at,
