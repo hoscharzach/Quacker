@@ -167,7 +167,7 @@ export default function ProfilePage() {
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                         ))}
                     {postsLoaded && viewType === 'likes' &&
-                        <div style={{ textAlign: 'center' }}>Likes</div>}
+                        <Loading />}
                 </div>
             </div >
             <Modal

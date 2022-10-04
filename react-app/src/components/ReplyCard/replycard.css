@@ -148,7 +148,3 @@
     align-items: center;
     justify-content: space-evenly;
 }
-
-.reply-card-buttons>* {
-    /* margin-right: 30%; */
-}
