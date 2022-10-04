@@ -10,6 +10,29 @@ from random import randint
 post_routes = Blueprint('posts', __name__)
 
 
+# show all likes for post
+@post_routes.get('/<int:id>/showlikes')
+def get_likes_for_post(id):
+    post = Post.query.get_or_404(id, description="Post does not exist")
+    return {'likes': [x.to_dict() for x in post.post_likes]}
+
+
+# toggle like on post by post id
+@post_routes.post('/<int:id>/like')
+@login_required
+def like_post(id):
+    post = Post.query.get_or_404(id, description="Post does not exist")
+
+    if current_user not in post.post_likes:
+        post.post_likes.append(current_user)
+        db.session.commit()
+        return {'Message': 'Successfully liked post', 'post': post.to_dict_single()}
+    elif current_user in post.post_likes:
+        post.post_likes.remove(current_user)
+        db.session.commit()
+        return {'Message': 'Successfully unliked the post', 'post': post.to_dict_single()}
+
+
 @post_routes.get('/dummy')
 @login_required
 def create_dummy_posts():
