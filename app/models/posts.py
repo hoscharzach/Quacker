@@ -58,6 +58,7 @@ class Post(db.Model):
             'images': [img.to_dict() for img in self.images],
             'numReplies': len(self.replies),
             'numLikes': len(self.post_likes),
+            'userLikes': [x.id for x in self.post_likes],
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -72,6 +73,7 @@ class Post(db.Model):
             'images': [img.to_dict() for img in self.images],
             'replies': [x.to_dict_basic_info() for x in self.replies],
             'numLikes': len(self.post_likes),
+            'userLikes': [x.id for x in self.post_likes],
             'numReplies': len(self.replies),
             'createdAt': self.created_at,
             'updatedAt': self.updated_at

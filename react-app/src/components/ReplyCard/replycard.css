@@ -146,9 +146,5 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-}
-
-.reply-card-buttons>* {
-    margin-right: 30%;
+    justify-content: space-evenly;
 }

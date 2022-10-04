@@ -7,6 +7,7 @@ const ADD_USER_POSTS = '/posts/USER'
 const ADD_NEW_POSTS = '/posts/NEW'
 const ADD_OLD_POSTS = 'posts/OLD'
 const UPDATE_USER_INFO = '/users/EDIT'
+const TOGGLE_POST_LIKE = '/post/like'
 
 const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, page: 1 }
 
@@ -49,6 +50,11 @@ const loadNewPosts = (posts) => ({
 const updateUser = (user) => ({
     type: UPDATE_USER_INFO,
     user
+})
+
+const togglePostLike = (updatedPost) => ({
+    type: TOGGLE_POST_LIKE,
+    updatedPost
 })
 
 export const loadOldPosts = (data) => ({
@@ -166,6 +172,16 @@ export const updateUserInfo = (payload) => async (dispatch) => {
     }
 }
 
+export const likePostToggle = (id) => async (dispatch) => {
+    const response = await fetch(`/api/posts/${id}/like`, {
+        method: 'POST'
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(togglePostLike(data.updatedPost))
+    }
+}
 export const createNewPost = (payload) => async (dispatch) => {
     const response = await fetch('/api/posts/new', {
         method: 'POST',
@@ -189,6 +205,12 @@ export default function reducer(state = initialState, action) {
 
     switch (action.type) {
 
+        case TOGGLE_POST_LIKE:
+            newState = JSON.parse(JSON.stringify(state))
+            newState.normPosts[action.updatedPost.id] = action.updatedPost
+            newState.feed = newState.feed.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
+
+            return newState
         case UPDATE_USER_INFO:
             newState = { ...state }
             newState.users[action.user.username] = action.user
