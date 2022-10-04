@@ -21,6 +21,9 @@ export default function Home() {
     const [newLoaded, setNewLoaded] = useState(true)
     // const [feed, setFeed] = useState([])
 
+    useEffect(() => {
+        scrollTop()
+    }, [])
 
     function scrollTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' })

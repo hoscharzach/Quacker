@@ -6,11 +6,13 @@ import defaultProfilePic from '../../images/defaultprofilepic.svg'
 import { intlFormatDistance } from 'date-fns'
 import ReplyModal from '../ReplyModal/ReplyModal'
 import { Link, useHistory } from 'react-router-dom'
-import EditPostModal from '../EditPostModal/EditPostModal'
-import { deletePostById } from '../../store/posts'
-import deleteIcon from '../../images/deleteiconsquare.svg'
 import BasicMenu from '../MenuDropdown'
-import { Box, Modal } from '@mui/material'
+import { Box, IconButton, Modal, SvgIcon } from '@mui/material'
+import likeButton from '../../images/likebutton.svg'
+import LikeButton from '../LikeButton'
+import LikeButtonFilled from '../LikeButtonFilled'
+import { likePostToggle } from '../../store/posts'
+
 
 export default function ReplyCard({ reply, name, borderTop }) {
     const dispatch = useDispatch()
@@ -19,6 +21,20 @@ export default function ReplyCard({ reply, name, borderTop }) {
 
     const [imageModalOpen, setImageModalOpen] = useState(false)
     const [image, setImage] = useState('')
+    const [like, setLike] = useState(false)
+
+    const likeButtonStyles = {
+        '&:hover': {
+            backgroundColor: 'rgb(249, 24, 128, .1)',
+        },
+        '&:hover *': {
+            fill: 'rgb(249, 24, 128)'
+        }
+    }
+
+    async function handleLike() {
+        await dispatch(likePostToggle(reply.id))
+    }
 
     const style = {
         position: 'absolute',
@@ -73,6 +89,23 @@ export default function ReplyCard({ reply, name, borderTop }) {
 
                         <div className='reply-card-buttons'>
                             <ReplyModal parentId={reply.id} text={reply.numReplies} />
+                            <Box
+                                sx={{
+                                    currentColor: 'rgba(249, 24, 128, .1)',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}>
+                                {sessionUser &&
+                                    reply.userLikes.includes(sessionUser.id) ?
+                                    <IconButton color='secondary' sx={likeButtonStyles} onClick={handleLike}>
+                                        <LikeButtonFilled width={'22.25'} height={'22.25'} />
+                                    </IconButton> :
+                                    <IconButton sx={likeButtonStyles} onClick={handleLike}>
+                                        <LikeButton height={'22.25'} width={'22.25'} />
+                                    </IconButton>
+                                }
+                                <span>{reply.numLikes}</span>
+                            </Box>
                         </div>
                     </div>
                 </div>

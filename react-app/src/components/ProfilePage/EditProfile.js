@@ -3,6 +3,7 @@ import Close from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../store/posts";
+import PhotoCameraRoundedIcon from '@mui/icons-material/PhotoCameraRounded';
 
 export default function EditProfile({ user, setProfileModalOpen }) {
 
