@@ -1,12 +1,14 @@
 .media-profile-button,
 .tweets-profile-button,
-.replies-profile-button {
+.replies-profile-button,
+.likes-profile-button {
     transition: background-color .5s;
 }
 
 .tweets-profile-button[data-active='tweets'],
 .media-profile-button[data-active='media'],
-.replies-profile-button[data-active='replies'] {
+.replies-profile-button[data-active='replies'],
+.likes-profile-button[data-active='likes'] {
     box-shadow: 0 4px rgb(29, 155, 240);
     font-weight: 700;
 }
@@ -14,13 +16,15 @@
 
 .tweets-profile-button:hover,
 .replies-profile-button:hover,
-.media-profile-button:hover {
+.media-profile-button:hover,
+.likes-profile-button:hover {
     background-color: rgba(85, 89, 94, 0.3);
 }
 
 .replies-profile-button[data-active='replies'] button,
 .media-profile-button[data-active='media'] button,
-.tweets-profile-button[data-active='tweets'] button {
+.tweets-profile-button[data-active='tweets'] button,
+.likes-profile-button[data-active='likes'] button {
     font-weight: 700;
 
 }

@@ -30,7 +30,7 @@ export default function ProfilePage() {
     const [profileModalOpen, setProfileModalOpen] = useState(false)
 
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
-    const tabs = [['tweets', 'Quacks'], ['replies', 'Replies'], ['media', 'Media']]
+    const tabs = [['tweets', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
     const topBarStyle = {
         zIndex: '998',
         position: 'sticky',
