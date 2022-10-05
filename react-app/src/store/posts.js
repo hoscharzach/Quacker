@@ -206,9 +206,9 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
 
         case TOGGLE_POST_LIKE:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
 
-            if (action.updatedPost.inReplyTo) {
+            if (action.updatedPost.inReplyTo && newState.normPosts[action.updatedPost.inReplyTo].replies) {
                 newState.normPosts[action.updatedPost.inReplyTo].replies = newState.normPosts[action.updatedPost.inReplyTo].replies.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
             }
 

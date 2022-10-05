@@ -53,6 +53,7 @@ class Post(db.Model):
         return {
             'id': self.id,
             'inReplyTo': self.parent_id,
+            'parent': self.parent.to_dict_basic_info() if self.parent else None,
             'content': self.content,
             'user': self.user.to_dict_basic_info(),
             'images': [img.to_dict() for img in self.images],

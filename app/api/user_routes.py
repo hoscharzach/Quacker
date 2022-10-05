@@ -6,15 +6,21 @@ from app.models import User, db
 user_routes = Blueprint('users', __name__)
 
 
+@user_routes.get('/<string:username>')
+def get_user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return {'user': user.to_dict()}
+
 # Edit user information
+
+
 @user_routes.post('/<string:username>/edit')
 @login_required
 def user(username):
-    print(request.get_json(), "request ***********************")
     user = User.query.filter_by(username=username).first_or_404(
         description="User does not exist")
     data = request.get_json()
-    print(data, "DATA **********************")
+
     display_name = data['displayName']
     bio = data['bio']
 

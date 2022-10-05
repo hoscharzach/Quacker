@@ -99,8 +99,6 @@ def get_user_liked_posts(username, query):
     user = User.query.filter_by(username=username).first_or_404(
         description=f'There is no user by the name {username}')
 
-    user_likes = [x.id for x in user.user_likes]
-
     if (query == 'tweets'):
         posts = Post.query.filter_by(user_id=user.id, parent_id=None).order_by(
             Post.created_at.desc()).limit(15)
@@ -114,9 +112,7 @@ def get_user_liked_posts(username, query):
             Post).having(func.count(Image.id) > 0).order_by(Post.created_at.desc()).limit(10)
 
     elif (query == 'likes'):
-        posts = user.user_likes[0: 5]
-
-        # return {'posts': [x.to_dict() for x in posts]}
+        posts = user.user_likes[0:10]
 
     return {'posts': [x.to_dict_single() for x in posts]}
 

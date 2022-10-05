@@ -38,6 +38,7 @@ class User(db.Model, UserMixin):
             'bio': self.bio,
             'profilePic': self.profile_pic,
             'profileBackground': self.profile_background,
+            'numLikes': len(self.user_likes),
             'postLikes': [x.id for x in self.user_likes],
             'numPosts': len(self.posts)
         }
