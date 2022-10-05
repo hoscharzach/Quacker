@@ -33,4 +33,47 @@
 
 .search-dropdown {
     box-shadow: rgb(136 153 166 / 20%) 0px 0px 15px, rgb(136 153 166 / 15%) 0px 0px 3px 1px;
+    border-radius: 15px;
+}
+
+.search-item {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 12px 16px;
+
+    transition: background-color .5s;
+}
+
+.search-item:hover {
+    background-color: rgb(30, 39, 50);
+    cursor: pointer;
+}
+
+.search-profile-pic {
+    background-color: white;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    margin-right: 10px;
+}
+
+.search-profile-name {
+    font-family: 'chirp';
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: normal;
+    font-weight: 700;
+}
+
+.search-profile-username {
+    font-family: 'chirp';
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: normal;
+    font-weight: 400;
+    color: #8B98A5;
 }
