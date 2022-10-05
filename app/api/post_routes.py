@@ -94,12 +94,12 @@ def create_dummy_posts():
     return {'message': 'success'}
 
 
-@post_routes.get('/<string:username>/<string:query>')
+@post_routes.get('/<string:username>/query/<string:query>')
 def get_user_liked_posts(username, query):
     user = User.query.filter_by(username=username).first_or_404(
         description=f'There is no user by the name {username}')
 
-    if (query == 'tweets'):
+    if (query == 'quacks'):
         posts = Post.query.filter_by(user_id=user.id, parent_id=None).order_by(
             Post.created_at.desc()).limit(15)
 

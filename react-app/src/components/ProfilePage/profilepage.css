@@ -1,11 +1,11 @@
 .media-profile-button,
-.tweets-profile-button,
+.quacks-profile-button,
 .replies-profile-button,
 .likes-profile-button {
     transition: background-color .5s;
 }
 
-.tweets-profile-button[data-active='tweets'],
+.quacks-profile-button[data-active='quacks'],
 .media-profile-button[data-active='media'],
 .replies-profile-button[data-active='replies'],
 .likes-profile-button[data-active='likes'] {
@@ -14,7 +14,7 @@
 }
 
 
-.tweets-profile-button:hover,
+.quacks-profile-button:hover,
 .replies-profile-button:hover,
 .media-profile-button:hover,
 .likes-profile-button:hover {
@@ -23,7 +23,7 @@
 
 .replies-profile-button[data-active='replies'] button,
 .media-profile-button[data-active='media'] button,
-.tweets-profile-button[data-active='tweets'] button,
+.quacks-profile-button[data-active='quacks'] button,
 .likes-profile-button[data-active='likes'] button {
     font-weight: 700;
 

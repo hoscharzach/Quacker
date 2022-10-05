@@ -11,6 +11,8 @@ import ParentCard from "../ParentCard/ParentCard"
 import Loading from "../Loading"
 import { Box, Modal } from "@mui/material"
 import EditProfile from "./EditProfile"
+import { nanoid } from "nanoid"
+import { Fragment } from "react"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -21,48 +23,45 @@ export default function ProfilePage() {
     const user = useSelector(state => state.posts.users[username])
     const sessionUser = useSelector(state => state.session.user)
     const selectPosts = Object.values(useSelector(state => state.posts.normPosts))
+
+    const quacksLoaded = useSelector(state => state.posts.postsLoaded[username]?.quacks)
+    const repliesLoaded = useSelector(state => state.posts.postsLoaded[username]?.replies)
+    const mediaLoaded = useSelector(state => state.posts.postsLoaded[username]?.media)
+    const likesLoaded = useSelector(state => state.posts.postsLoaded[username]?.likes)
+
     const quacks = selectPosts?.filter(post => post?.user.id === user?.id && !post.inReplyTo)
     const replies = selectPosts?.filter(post => post?.user.id === user?.id && post.inReplyTo)
     const media = selectPosts?.filter(post => post?.user.id === user?.id && post.images.length > 0)
     const likes = selectPosts?.filter(post => post?.userLikes.includes(user?.id))
 
-    const [viewType, setViewType] = useState('tweets')
-    const [quacksLoaded, setQuacksLoaded] = useState(false)
-    const [repliesLoaded, setRepliesLoaded] = useState(false)
-    const [mediaLoaded, setMediaLoaded] = useState(false)
-    const [likesLoaded, setLikesLoaded] = useState(false)
+    const [viewType, setViewType] = useState('quacks')
     const [userLoaded, setUserLoaded] = useState(false)
-    const [postsLoaded, setPostsLoaded] = useState(false)
+    const [postsFetched, setPostsFetched] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
 
     useEffect(() => {
         (async () => {
-            setPostsLoaded(false)
+            setPostsFetched(false)
             if (!user) {
                 await dispatch(getUserPosts(username, viewType))
                 setUserLoaded(true)
-            } if (viewType === 'tweets' && !quacksLoaded) {
+            }
+            if (viewType === 'quacks' && !quacksLoaded) {
                 await dispatch(getUserPosts(username, viewType))
-                setQuacksLoaded(true)
-                setPostsLoaded(true)
             } else if (viewType === 'replies' && !repliesLoaded) {
                 await dispatch(getUserPosts(username, viewType))
-                setRepliesLoaded(true)
             } else if (viewType === 'media' && !mediaLoaded) {
                 await dispatch(getUserPosts(username, viewType))
-                setMediaLoaded(true)
             } else if (viewType === 'likes' && !likesLoaded) {
                 await dispatch(getUserPosts(username, viewType))
-                setLikesLoaded(true)
             }
-            setPostsLoaded(true)
+            setPostsFetched(true)
             setUserLoaded(true)
         })()
-    }, [viewType])
-
+    }, [viewType, username])
 
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
-    const tabs = [['tweets', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
+    const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
     const topBarStyle = {
         zIndex: '998',
         position: 'sticky',
@@ -93,15 +92,6 @@ export default function ProfilePage() {
         boxShadow: 24,
     };
 
-    // useEffect(() => {
-    //     setQuacksLoaded(false)
-    //     setRepliesLoaded(false)
-    //     setMediaLoaded(false)
-    //     setLikesLoaded(false)
-    //     setPostsLoaded(false)
-    //     setUserLoaded(false)
-    // }, [username])
-
     return (
         <>
             <div className="center-column">
@@ -128,7 +118,7 @@ export default function ProfilePage() {
                             <div className="profile-top-relative" style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', height: '70px', width: '630px' }}>
                                 <div style={{ width: '141px' }}>
                                     <div style={{ position: 'absolute', height: '133px', width: '133px', borderRadius: '50%', left: '15px', top: '-80px' }}>
-                                        <img style={{ width: '100%', height: '100%', borderRadius: '50%', border: "4px solid #15202b" }} src={user.profilePic || defaultUserIcon}></img>
+                                        <img style={{ backgroundColor: 'white', width: '100%', height: '100%', borderRadius: '50%', border: "4px solid #15202b" }} src={user.profilePic || defaultUserIcon}></img>
                                     </div>
                                 </div>
                                 {
@@ -157,32 +147,32 @@ export default function ProfilePage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
                     {tabs.map(tab => (
                         <div key={tab[0]} data-active={viewType === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button`} style={tabStyle}>
-                            <button style={{ background: 'none', width: '100%' }} onClick={(e) => setViewType(`${tab[0]}`)} >{`${tab[1]}`}</button>
+                            <button key={tab[0]} style={{ background: 'none', width: '100%' }} onClick={(e) => setViewType(`${tab[0]}`)} >{`${tab[1]}`}</button>
                         </div>
                     ))}
 
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '650px', borderTop: '1px solid rgb(66, 83, 100)' }}>
 
-                    {!postsLoaded &&
+                    {!postsFetched &&
                         <Loading />
                     }
-                    {postsLoaded && selectPosts && viewType === 'tweets' && quacks &&
+                    {postsFetched && selectPosts && viewType === 'quacks' && quacks &&
                         quacks.map(post => (
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
                         ))}
-                    {postsLoaded && selectPosts && viewType === 'replies' && replies &&
+                    {postsFetched && selectPosts && viewType === 'replies' && replies &&
                         replies.map(post => (
-                            <>
+                            <Fragment key={nanoid()}>
                                 <ParentCard key={post.parent.id} postId={post.parent.id} />
                                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-                            </>
+                            </Fragment>
                         ))}
-                    {postsLoaded && selectPosts && viewType === 'media' && media &&
+                    {postsFetched && selectPosts && viewType === 'media' && media &&
                         media.map(post => (
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                         ))}
-                    {postsLoaded && selectPosts && viewType === 'likes' && likes &&
+                    {postsFetched && selectPosts && viewType === 'likes' && likes &&
                         likes.map(post => (
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                         ))}
