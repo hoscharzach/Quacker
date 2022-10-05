@@ -93,7 +93,7 @@ export default function SinglePost() {
                     // borderTop: '1px solid rgb(66, 83, 100)',
                     // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
-                    <button className="back-button" onClick={() => history.push(mainPost.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
+                    <button className="back-button" onClick={() => history.push(mainPost?.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
                     <div className="scroll-top-button" style={{ paddingLeft: '10px' }} >Quack</div>
                 </div>
                 {mainPostLoaded && errors.length > 0 &&
