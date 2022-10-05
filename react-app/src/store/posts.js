@@ -10,9 +10,22 @@ const ADD_NEW_POSTS = '/posts/NEW'
 const ADD_OLD_POSTS = 'posts/OLD'
 const UPDATE_USER_INFO = '/users/EDIT'
 const TOGGLE_POST_LIKE = '/post/like'
+const SET_USER_POSTS_LOADED = '/profile/POSTS'
 
-const initialState = { normPosts: {}, feed: [], users: {}, fetched: false, page: 1 }
+const initialState = {
+    normPosts: {},
+    feed: [],
+    users: {},
+    fetched: false,
+    page: 1,
+    postsLoaded: {}
+}
 
+export const setPostsLoaded = (username, contentType) => ({
+    type: SET_USER_POSTS_LOADED,
+    contentType,
+    username
+})
 
 export const loadPosts = (data) => ({
     type: LOAD_POSTS,
@@ -95,11 +108,12 @@ export const updatePostById = (post) => async (dispatch) => {
 }
 
 export const getUserPosts = (username, query) => async (dispatch) => {
-    const response = await fetch(`/api/posts/${username}/${query}`)
+    const response = await fetch(`/api/posts/${username}/query/${query}`)
     if (response.ok) {
         const data = await response.json()
+        dispatch(updateUser(data.user))
         dispatch(addUserPosts(data.posts))
-        dispatch(updateUserInfo(data.user))
+        dispatch(setPostsLoaded(username, query))
     } else {
         const error = await response.json()
         return error
@@ -207,6 +221,19 @@ export default function reducer(state = initialState, action) {
     let newState
 
     switch (action.type) {
+        case SET_USER_POSTS_LOADED:
+            newState = { ...state }
+            if (!newState.postsLoaded[action.username]) {
+                newState.postsLoaded[action.username] = {
+                    quacks: false,
+                    replies: false,
+                    media: false,
+                    likes: false
+                }
+            }
+
+            newState.postsLoaded[action.username][action.contentType] = true
+            return newState
 
         case TOGGLE_POST_LIKE:
             newState = clone(state)
@@ -255,9 +282,6 @@ export default function reducer(state = initialState, action) {
 
         case ADD_USER_POSTS:
             newState = { ...state }
-            if (action.posts[0] && !newState.users[action.posts[0].user.username]) {
-                newState.users[action.posts[0].user.username] = action.posts[0].user
-            }
 
             action.posts.forEach(post => {
                 if (!newState.normPosts[post.id]) {

@@ -13,8 +13,7 @@
 
 .main-post-container {
     padding: 12px;
-    padding-top: 4px;
-    margin-top: 2px;
+    margin-top: 4px;
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgb(66, 83, 100);

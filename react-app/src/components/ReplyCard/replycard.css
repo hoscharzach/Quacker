@@ -141,6 +141,10 @@
     width: 100%;
 }
 
+.reply-card-image:hover {
+    cursor: pointer;
+}
+
 .reply-card-buttons {
     margin-top: 5px;
     width: 100%;

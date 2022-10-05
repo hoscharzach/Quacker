@@ -23,13 +23,15 @@ export default function ReplyCard({ reply, name, borderTop }) {
     const [image, setImage] = useState('')
     const [like, setLike] = useState(false)
 
+    const likeTextStyle = reply.userLikes.includes(sessionUser.id) ? { color: 'rgb(249, 24, 128)' } : { color: '#8B98A5' }
+
     const likeButtonStyles = {
         '&:hover': {
             backgroundColor: 'rgb(249, 24, 128, .1)',
         },
         '&:hover *': {
-            fill: 'rgb(249, 24, 128)'
-        }
+            fill: 'rgb(249, 24, 128)',
+        },
     }
 
     async function handleLike() {
@@ -88,7 +90,10 @@ export default function ReplyCard({ reply, name, borderTop }) {
                         </div>
 
                         <div className='reply-card-buttons'>
-                            <ReplyModal parentId={reply.id} text={reply.numReplies} />
+                            <Box>
+                                <ReplyModal parentId={reply.id} text={reply.numReplies} />
+
+                            </Box>
                             <Box
                                 sx={{
                                     currentColor: 'rgba(249, 24, 128, .1)',
@@ -97,14 +102,14 @@ export default function ReplyCard({ reply, name, borderTop }) {
                                 }}>
                                 {sessionUser &&
                                     reply.userLikes.includes(sessionUser.id) ?
-                                    <IconButton color='secondary' sx={likeButtonStyles} onClick={handleLike}>
+                                    <IconButton sx={likeButtonStyles} onClick={handleLike}>
                                         <LikeButtonFilled width={'22.25'} height={'22.25'} />
                                     </IconButton> :
                                     <IconButton sx={likeButtonStyles} onClick={handleLike}>
                                         <LikeButton height={'22.25'} width={'22.25'} />
                                     </IconButton>
                                 }
-                                <span>{reply.numLikes}</span>
+                                <span style={likeTextStyle}>{reply.numLikes}</span>
                             </Box>
                         </div>
                     </div>
