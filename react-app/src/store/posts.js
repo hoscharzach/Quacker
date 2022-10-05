@@ -99,6 +99,7 @@ export const getUserPosts = (username, query) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json()
         dispatch(addUserPosts(data.posts))
+        dispatch(updateUserInfo(data.user))
     } else {
         const error = await response.json()
         return error
@@ -254,7 +255,7 @@ export default function reducer(state = initialState, action) {
 
         case ADD_USER_POSTS:
             newState = { ...state }
-            if (!newState.users[action.posts[0].user.username]) {
+            if (action.posts[0] && !newState.users[action.posts[0].user.username]) {
                 newState.users[action.posts[0].user.username] = action.posts[0].user
             }
 

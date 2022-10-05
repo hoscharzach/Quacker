@@ -114,7 +114,7 @@ def get_user_liked_posts(username, query):
     elif (query == 'likes'):
         posts = user.user_likes[0:10]
 
-    return {'posts': [x.to_dict_single() for x in posts]}
+    return {'posts': [x.to_dict_single() for x in posts], 'user': user.to_dict()}
 
 
 @post_routes.post('/home/new')

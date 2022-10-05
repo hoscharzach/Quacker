@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../store/posts";
 import PhotoCameraRoundedIcon from '@mui/icons-material/PhotoCameraRounded';
+import defaultUserIcon from '../../images/defaultprofilepic.svg'
 
 export default function EditProfile({ user, setProfileModalOpen }) {
 
@@ -170,7 +171,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     width="112px"
                     borderRadius="50%"
                     position="relative">
-                    <img style={{ border: "4px solid #15202b", width: '100%', height: '100%', borderRadius: '50%', position: 'absolute', top: -70, left: 15 }} alt="" src={user.profilePic || ''} ></img>
+                    <img style={{ backgroundColor: 'white', border: "4px solid #15202b", width: '100%', height: '100%', borderRadius: '50%', position: 'absolute', top: -70, left: 15 }} alt="" src={user.profilePic || defaultUserIcon} ></img>
                 </Box>
 
             </Box>
