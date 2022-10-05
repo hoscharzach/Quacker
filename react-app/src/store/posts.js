@@ -1,3 +1,5 @@
+import clone from "./clone"
+
 const LOAD_POSTS = '/posts/LOAD'
 const ADD_POST = '/posts/ADD'
 const UPDATE_POST = '/posts/UPDATE'
@@ -206,7 +208,7 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
 
         case TOGGLE_POST_LIKE:
-            newState = { ...state }
+            newState = clone(state)
 
             if (action.updatedPost.inReplyTo && newState.normPosts[action.updatedPost.inReplyTo].replies) {
                 newState.normPosts[action.updatedPost.inReplyTo].replies = newState.normPosts[action.updatedPost.inReplyTo].replies.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
