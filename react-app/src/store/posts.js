@@ -92,8 +92,8 @@ export const updatePostById = (post) => async (dispatch) => {
     }
 }
 
-export const getUserPosts = (username) => async (dispatch) => {
-    const response = await fetch(`/api/posts/${username}/quacks`)
+export const getUserPosts = (username, query) => async (dispatch) => {
+    const response = await fetch(`/api/posts/${username}/${query}`)
     if (response.ok) {
         const data = await response.json()
         dispatch(addUserPosts(data.posts))
@@ -206,16 +206,24 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
 
         case TOGGLE_POST_LIKE:
-            newState = JSON.parse(JSON.stringify(state))
+            newState = { ...state }
+
+            if (action.updatedPost.inReplyTo && newState.normPosts[action.updatedPost.inReplyTo].replies) {
+                newState.normPosts[action.updatedPost.inReplyTo].replies = newState.normPosts[action.updatedPost.inReplyTo].replies.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
+            }
+
             newState.normPosts[action.updatedPost.id] = action.updatedPost
             newState.feed = newState.feed.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
 
             return newState
         case UPDATE_USER_INFO:
-            newState = { ...state }
-            newState.users[action.user.username] = action.user
-
-            return newState
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    [action.user.username]: action.user
+                }
+            }
 
         case ADD_NEW_POSTS:
             newState = { ...state }

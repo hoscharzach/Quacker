@@ -9,7 +9,7 @@ import { getUserPosts } from "../../store/posts"
 import ReplyCard from "../ReplyCard/ReplyCard"
 import ParentCard from "../ParentCard/ParentCard"
 import Loading from "../Loading"
-import { Box, Button, Modal } from "@mui/material"
+import { Box, Modal } from "@mui/material"
 import EditProfile from "./EditProfile"
 
 export default function ProfilePage() {
@@ -20,14 +20,46 @@ export default function ProfilePage() {
 
     const user = useSelector(state => state.posts.users[username])
     const sessionUser = useSelector(state => state.session.user)
-    const quacks = Object.values(useSelector(state => state.posts.normPosts)).filter(post => post.user.username === username)
-    const replies = quacks?.filter(post => post.inReplyTo)
-    const media = quacks?.filter(post => post.images.length > 0)
+    const selectPosts = Object.values(useSelector(state => state.posts.normPosts))
+    const quacks = selectPosts?.filter(post => post?.user.id === user?.id && !post.inReplyTo)
+    const replies = selectPosts?.filter(post => post?.user.id === user?.id && post.inReplyTo)
+    const media = selectPosts?.filter(post => post?.user.id === user?.id && post.images.length > 0)
+    const likes = selectPosts?.filter(post => post?.userLikes.includes(user?.id))
 
     const [viewType, setViewType] = useState('tweets')
+    const [quacksLoaded, setQuacksLoaded] = useState(false)
+    const [repliesLoaded, setRepliesLoaded] = useState(false)
+    const [mediaLoaded, setMediaLoaded] = useState(false)
+    const [likesLoaded, setLikesLoaded] = useState(false)
     const [userLoaded, setUserLoaded] = useState(false)
     const [postsLoaded, setPostsLoaded] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
+
+    useEffect(() => {
+        (async () => {
+            setPostsLoaded(false)
+            if (!user) {
+                await dispatch(getUserPosts(username, viewType))
+                setUserLoaded(true)
+            } if (viewType === 'tweets' && !quacksLoaded) {
+                await dispatch(getUserPosts(username, viewType))
+                setQuacksLoaded(true)
+                setPostsLoaded(true)
+            } else if (viewType === 'replies' && !repliesLoaded) {
+                await dispatch(getUserPosts(username, viewType))
+                setRepliesLoaded(true)
+            } else if (viewType === 'media' && !mediaLoaded) {
+                await dispatch(getUserPosts(username, viewType))
+                setMediaLoaded(true)
+            } else if (viewType === 'likes' && !likesLoaded) {
+                await dispatch(getUserPosts(username, viewType))
+                setLikesLoaded(true)
+            }
+            setPostsLoaded(true)
+            setUserLoaded(true)
+        })()
+    }, [viewType])
+
 
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['tweets', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
@@ -61,37 +93,21 @@ export default function ProfilePage() {
         boxShadow: 24,
     };
 
-    async function fetchPosts() {
-
-        if (!user) {
-            await dispatch(getUserPosts(username))
-            setUserLoaded(true)
-            setPostsLoaded(true)
-        } else {
-            setUserLoaded(true)
-            await dispatch(getUserPosts(username))
-            setPostsLoaded(true)
-        }
-    }
-
-    useEffect(() => {
-        fetchPosts()
-    }, [username])
-
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
-
-    function scrollTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
+    // useEffect(() => {
+    //     setQuacksLoaded(false)
+    //     setRepliesLoaded(false)
+    //     setMediaLoaded(false)
+    //     setLikesLoaded(false)
+    //     setPostsLoaded(false)
+    //     setUserLoaded(false)
+    // }, [username])
 
     return (
         <>
             <div className="center-column">
                 <div
                     className="profile-top-bar"
-                    onClick={scrollTop}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     style={topBarStyle}>
                     <div style={{ display: 'flex', alignItems: 'center', height: '100%', marginRight: '20px' }}>
                         <button style={{ background: 'none' }} className="back-button" onClick={() => history.push('/home')}><img src={backbutton} alt="" ></img></button>
@@ -140,7 +156,7 @@ export default function ProfilePage() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
                     {tabs.map(tab => (
-                        <div data-active={viewType === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button`} style={tabStyle}>
+                        <div key={tab[0]} data-active={viewType === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button`} style={tabStyle}>
                             <button style={{ background: 'none', width: '100%' }} onClick={(e) => setViewType(`${tab[0]}`)} >{`${tab[1]}`}</button>
                         </div>
                     ))}
@@ -151,23 +167,25 @@ export default function ProfilePage() {
                     {!postsLoaded &&
                         <Loading />
                     }
-                    {postsLoaded && quacks && viewType === 'tweets' &&
+                    {postsLoaded && selectPosts && viewType === 'tweets' && quacks &&
                         quacks.map(post => (
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
                         ))}
-                    {postsLoaded && replies && viewType === 'replies' &&
+                    {postsLoaded && selectPosts && viewType === 'replies' && replies &&
                         replies.map(post => (
                             <>
                                 <ParentCard key={post.parent.id} postId={post.parent.id} />
                                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                             </>
                         ))}
-                    {postsLoaded && media && viewType === 'media' &&
+                    {postsLoaded && selectPosts && viewType === 'media' && media &&
                         media.map(post => (
                             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
                         ))}
-                    {postsLoaded && viewType === 'likes' &&
-                        <Loading />}
+                    {postsLoaded && selectPosts && viewType === 'likes' && likes &&
+                        likes.map(post => (
+                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+                        ))}
                 </div>
             </div >
             <Modal
