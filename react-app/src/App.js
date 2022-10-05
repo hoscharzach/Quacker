@@ -9,7 +9,7 @@ import SinglePost from './components/singlepost/SinglePost';
 import Home from './components/home/Home';
 import bigDuckIcon from './images/ducklogo.svg'
 import ProfilePage from './components/ProfilePage/ProfilePage';
-import BasicMenu from './components/MenuDropdown';
+import RightColumn from './components/RightColumn/RightColumn';
 
 
 function App() {
@@ -36,23 +36,32 @@ function App() {
   return (
     <div id='entire-app-container'>
       <BrowserRouter>
-        {user && <NavBar />}
+        {/* {user && <NavBar />} */}
         <Switch>
           <Route exact path='/'>
             <SignUpForm />
           </Route>
           <ProtectedRoute exact path='/home'>
-            <Home mainLoaded={mainLoaded} />
+            <>
+              <NavBar />
+              <Home />
+              <RightColumn />
+            </>
           </ProtectedRoute>
           <ProtectedRoute exact path='/post/:postId'>
-            <SinglePost />
+            <>
+              <NavBar />
+              <SinglePost />
+              <RightColumn />
+            </>
           </ProtectedRoute>
           <ProtectedRoute exact path='/profile/:username'>
-            <ProfilePage />
+            <>
+              <NavBar />
+              <ProfilePage />
+              <RightColumn />
+            </>
           </ProtectedRoute>
-          <Route exact path="/testing" >
-            <BasicMenu />
-          </Route>
           <Route>
 
             {!user &&
