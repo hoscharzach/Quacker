@@ -24,6 +24,7 @@ button {
 }
 
 * {
+    margin: 0;
     /* background-color: inherit; */
     color: white;
     font-family: 'chirp';
