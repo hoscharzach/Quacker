@@ -16,10 +16,8 @@ export default function Home() {
     const page = useSelector(state => state.posts.page)
     const latestPost = useSelector(state => state.posts.latestPost)
 
-    // const [page, setPage] = useState(1)
     const [loaded, setLoaded] = useState(false)
     const [newLoaded, setNewLoaded] = useState(true)
-    // const [feed, setFeed] = useState([])
 
     useEffect(() => {
         scrollTop()
@@ -34,15 +32,8 @@ export default function Home() {
     }, [])
 
     async function getFeed() {
-        if (!fetched) {
-            await dispatch(getAllPosts())
-            setLoaded(true)
-        } else {
-            setLoaded(true)
-            setNewLoaded(false)
-            await dispatch(getNewPosts(latestPost))
-            setNewLoaded(true)
-        }
+        await dispatch(getAllPosts())
+        setLoaded(true)
     }
 
     async function getMorePosts() {
@@ -50,7 +41,7 @@ export default function Home() {
     }
 
     const endMessage = (
-        <div>Hello, I put the cap on infinite scroll to 10 pages just in case a bug caused too many renders. You've reached the end!</div>
+        <div style={{ height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Hello, I put the cap on infinite scroll to 10 pages just in case a bug caused too many renders. You've reached the end!</div>
     )
 
     return (

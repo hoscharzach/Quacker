@@ -31,7 +31,7 @@ export default function SinglePost() {
         } else {
             window.scrollTo({ top: 0 })
         }
-    }, [parentPost, mainPost])
+    }, [parentPost?.id, mainPost?.id])
 
 
     useEffect(() => {

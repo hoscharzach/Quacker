@@ -59,6 +59,7 @@ class Post(db.Model):
             'numReplies': len(self.replies),
             'numLikes': len(self.post_likes),
             'userLikes': [x.id for x in self.post_likes],
+            'hasImages': len(self.images) > 0,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
@@ -75,6 +76,7 @@ class Post(db.Model):
             'numLikes': len(self.post_likes),
             'userLikes': [x.id for x in self.post_likes],
             'numReplies': len(self.replies),
+            'hasImages': len(self.images) > 0,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }

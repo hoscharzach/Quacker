@@ -6,6 +6,7 @@ from sqlalchemy.orm import load_only
 from app.seeds.posts import post_list
 from app.seeds.images import image_list
 from random import randint
+from sqlalchemy import func
 
 post_routes = Blueprint('posts', __name__)
 
@@ -26,11 +27,11 @@ def like_post(id):
     if current_user not in post.post_likes:
         post.post_likes.append(current_user)
         db.session.commit()
-        return {'updatedPost': post.to_dict()}
+        return {'updatedPost': post.to_dict_single()}
     elif current_user in post.post_likes:
         post.post_likes.remove(current_user)
         db.session.commit()
-        return {'updatedPost': post.to_dict()}
+        return {'updatedPost': post.to_dict_single()}
 
 
 @post_routes.get('/dummy')
@@ -93,29 +94,42 @@ def create_dummy_posts():
     return {'message': 'success'}
 
 
+@post_routes.get('/<string:username>/<string:query>')
+def get_user_liked_posts(username, query):
+    user = User.query.filter_by(username=username).first_or_404(
+        description=f'There is no user by the name {username}')
+
+    user_likes = [x.id for x in user.user_likes]
+
+    if (query == 'tweets'):
+        posts = Post.query.filter_by(user_id=user.id, parent_id=None).order_by(
+            Post.created_at.desc()).limit(15)
+
+    elif (query == 'replies'):
+        posts = Post.query.filter_by(user_id=user.id).filter(
+            Post.parent_id != None).order_by(Post.created_at.desc()).limit(15)
+
+    elif (query == 'media'):
+        posts = db.session.query(Post).join(Post.images).group_by(
+            Post).having(func.count(Image.id) > 0).order_by(Post.created_at.desc()).limit(10)
+
+    elif (query == 'likes'):
+        posts = user.user_likes[0: 5]
+
+        # return {'posts': [x.to_dict() for x in posts]}
+
+    return {'posts': [x.to_dict_single() for x in posts]}
+
+
 @post_routes.post('/home/new')
 @login_required
 def get_new_posts():
     latest_post_id = request.get_json()
     latest_post = Post.query.get(latest_post_id)
-    # print(post.created_at.strftime("%Y-%m-%d %H:%M:%S"))
-    new_posts = Post.query.filter(Post.id > latest_post.id).order_by(
+    new_posts = Post.query.filter(Post.id > latest_post.id).filter_by(parent_id=None).order_by(
         Post.created_at.desc()).limit(10)
 
     return {'posts': [post.to_dict() for post in new_posts]}
-
-# should work in theory as well
-
-# @post_routes.post('/home/old')
-# @login_required
-# def get_older_posts():
-#     oldest_post_id = request.get_json()
-#     oldest_post = Post.query.get(oldest_post_id)
-
-#     old_posts = Post.query.filter(
-#         Post.id < oldest_post.id).order_by(Post.created_at.desc(), Post.id.desc()).limit(10).all()
-
-#     return {'posts': [post.to_dict() for post in old_posts]}
 
 
 @post_routes.get('/home/<int:page>')
