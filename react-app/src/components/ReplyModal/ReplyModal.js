@@ -26,7 +26,7 @@ export default function ReplyModal({ parentId, numReplies, text }) {
                     dispatch(clearImages())
                     dispatch(removeErrors())
                     return
-                }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span className='num-replies-button'>{text}</span></button>
+                }}><img id='reply-modal-reply-icon' src={replyIcon} alt=""></img><span style={{ color: '#8B98A5' }} className='num-replies-button'>{text}</span></button>
             {showModal && (
                 <Modal onClose={(e) => {
                     e.preventDefault()
