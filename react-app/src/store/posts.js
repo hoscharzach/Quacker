@@ -247,13 +247,12 @@ export default function reducer(state = initialState, action) {
 
             return newState
         case UPDATE_USER_INFO:
-            return {
-                ...state,
-                users: {
-                    ...state.users,
-                    [action.user.username]: action.user
-                }
-            }
+            newState = { ...state }
+
+            Object.values(newState.normPosts).forEach(post => post.user = action.user)
+            newState.users[action.user.username] = action.user
+
+            return newState
 
         case ADD_NEW_POSTS:
             newState = { ...state }

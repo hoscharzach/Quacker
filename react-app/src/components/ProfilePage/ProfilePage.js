@@ -76,7 +76,7 @@ export default function ProfilePage() {
             ))
             // if type is media, return individual posts where the post has 1 or more image
         } else if (viewType === 'media') {
-            items = selectPosts.filter(post => post.user.id === user.id && post.images.length > 0).map(post => (
+            items = selectPosts.filter(post => post.user.id === user.id && post.hasImages).map(post => (
                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
             ))
             // if type is likes, return individual posts where the user's id is in the post's likes array
@@ -87,6 +87,7 @@ export default function ProfilePage() {
         }
 
     }
+    console.log(items)
 
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
