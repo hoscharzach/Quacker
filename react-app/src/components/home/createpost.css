@@ -8,6 +8,11 @@
     outline: none;
     resize: none;
     height: .9rem;
+    color: white;
+}
+
+.new-post-text::placeholder {
+    color: #8b98a5;
 }
 
 

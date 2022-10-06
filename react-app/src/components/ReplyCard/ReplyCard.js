@@ -19,11 +19,11 @@ export default function ReplyCard({ reply, name, borderTop }) {
     const sessionUser = useSelector(state => state.session.user)
     const history = useHistory()
 
+    const [postLiked, setPostLiked] = useState(reply.userLikes.includes(sessionUser?.id))
     const [imageModalOpen, setImageModalOpen] = useState(false)
     const [image, setImage] = useState('')
-    const [like, setLike] = useState(false)
 
-    const likeTextStyle = reply.userLikes.includes(sessionUser.id) ? { color: 'rgb(249, 24, 128)' } : { color: '#8B98A5' }
+    const likeTextStyle = postLiked ? { color: 'rgb(249, 24, 128)' } : { color: '#8B98A5' }
 
     const likeButtonStyles = {
         '&:hover': {
@@ -35,6 +35,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
     }
 
     async function handleLike() {
+        postLiked ? setPostLiked(false) : setPostLiked(true)
         await dispatch(likePostToggle(reply.id))
     }
 
@@ -101,7 +102,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                                     alignItems: 'center'
                                 }}>
                                 {sessionUser &&
-                                    reply.userLikes.includes(sessionUser.id) ?
+                                    postLiked ?
                                     <IconButton sx={likeButtonStyles} onClick={handleLike}>
                                         <LikeButtonFilled width={'22.25'} height={'22.25'} />
                                     </IconButton> :

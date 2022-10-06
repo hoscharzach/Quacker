@@ -30,10 +30,12 @@ export default function SearchBar() {
             {showMenu &&
                 <ClickAwayListener onClickAway={() => setShowMenu(false)}>
 
-                    <div className="search-dropdown" style={{ position: 'absolute', top: 48, left: 0, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
+                    <div className="search-dropdown" style={{ position: 'absolute', top: 43, left: 0, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
+                        <div style={{ height: '48px', boxSizing: 'border-box', padding: '12px 16px', display: 'flex', alignItems: 'center', fontSize: '20px', fontFamily: 'chirp', spacing: 'normal', lineHeight: '24px', weight: 700 }}>Recent</div>
                         {users && users.map(user => (
+
                             <Link key={user.id} to={`/profile/${user.username}`}>
-                                <div className="search-item" key={user.id}>
+                                <div onClick={() => setShowMenu(false)} className="search-item" key={user.id}>
                                     <div>
                                         <img className="search-profile-pic" src={user.profilePic || defaultProfilePic}></img>
                                     </div>
@@ -43,6 +45,7 @@ export default function SearchBar() {
                                     </div>
                                 </div>
                             </Link>
+
                         ))}
                     </div>
                 </ClickAwayListener>
