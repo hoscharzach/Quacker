@@ -6,7 +6,7 @@ export default function RightColumn() {
     return (
         <div className="right-column">
             <SearchBar />
-            <WhoToFollow />
+            {/* <WhoToFollow /> */}
         </div>
     )
 }

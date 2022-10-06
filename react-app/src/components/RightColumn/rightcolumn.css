@@ -18,9 +18,13 @@
     border-radius: 999px;
 }
 
-#search-bar:focus-within {
+#search-bar[data-focused='1'] {
     outline: 1px solid rgb(29, 155, 240);
     background-color: #15202b;
+}
+
+#search-bar[data-focused="1"] svg {
+    fill: rgb(29, 155, 240);
 }
 
 .search-input {
@@ -32,8 +36,11 @@
 }
 
 .search-dropdown {
+    top: 0;
     box-shadow: rgb(136 153 166 / 20%) 0px 0px 15px, rgb(136 153 166 / 15%) 0px 0px 3px 1px;
-    border-radius: 15px;
+    border-radius: 5px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .search-item {
@@ -45,11 +52,14 @@
     height: auto;
     padding: 12px 16px;
 
-    transition: background-color .5s;
+    transition: background-color .3s;
 }
+
+
 
 .search-item:hover {
     background-color: rgb(30, 39, 50);
+    overflow: hidden;
     cursor: pointer;
 }
 

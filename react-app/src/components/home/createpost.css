@@ -8,6 +8,11 @@
     outline: none;
     resize: none;
     height: .9rem;
+    color: white;
+}
+
+.new-post-text::placeholder {
+    color: #8b98a5;
 }
 
 
@@ -16,9 +21,12 @@
 }
 
 .entire-create-post-wrapper {
+    box-sizing: border-box;
+    padding: 0px 16px;
     background-color: #15202b;
     display: flex;
-    width: 650px;
+    min-width: 580px;
+    max-width: 100%;
     border-bottom: 1px solid rgb(66, 83, 100);
 }
 

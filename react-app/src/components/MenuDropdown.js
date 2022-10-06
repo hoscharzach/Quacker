@@ -10,15 +10,11 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import EditPostModal from './EditPostModal/EditPostModal';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EditPost from './EditPostModal/EditPost';
 import DeleteConfirm from './DeleteConfirm/DeleteConfirm.js'
 import { useSelector } from 'react-redux';
-import { shadows } from '@mui/system';
-import { MenuList } from '@mui/material';
 
 
 
