@@ -25,7 +25,8 @@
     font-family: 'chirpH';
     font-weight: bold;
     display: flex;
-    width: 594px;
+    min-width: 300px;
+    margin-right: 20px;
     flex-direction: column;
     align-items: flex-end;
 
@@ -34,15 +35,10 @@
 .navigation-icons-wrapper {
     display: flex;
     flex-direction: column;
-    width: 275px;
+    justify-content: center;
+    /* width: 100%; */
     position: fixed;
     top: 50px;
-}
-
-.navigation-icons-wrapper div {
-    height: 52px;
-    display: flex;
-    align-items: center;
 }
 
 #quack-modal-button {
