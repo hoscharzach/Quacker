@@ -16,7 +16,6 @@ export default function SearchBar() {
 
     async function handleSearch(e) {
         if (e.key === 'Enter') {
-            console.log("search")
             // history.push(`/search/${search}`)
             setShowMenu(false)
         }
