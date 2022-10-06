@@ -16,7 +16,6 @@ export default function SearchBar() {
 
     async function handleSearch(e) {
         if (e.key === 'Enter') {
-            console.log("search")
             // history.push(`/search/${search}`)
             setShowMenu(false)
         }
@@ -38,7 +37,7 @@ export default function SearchBar() {
 
                     <div className="search-dropdown" style={{ position: 'fixed', top: 45, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
                         <div style={{ height: '48px', boxSizing: 'border-box', padding: '12px 16px', display: 'flex', alignItems: 'center', fontSize: '20px', fontFamily: 'chirp', spacing: 'normal', lineHeight: '24px', weight: 700 }}>Recent</div>
-                        {results && results.map(user => (
+                        {users && results && results.map(user => (
 
                             <div style={{
                                 position: 'relative',

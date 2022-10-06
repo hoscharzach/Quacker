@@ -13,6 +13,7 @@ import { Box, Modal } from "@mui/material"
 import EditProfile from "./EditProfile"
 import { nanoid } from "nanoid"
 import { Fragment } from "react"
+import { profileModalStyle, topBarStyle, postsContainerStyle } from "./profilepagestyles"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -24,21 +25,17 @@ export default function ProfilePage() {
     const sessionUser = useSelector(state => state.session.user)
     const selectPosts = Object.values(useSelector(state => state.posts.normPosts))
 
-    const quacksLoaded = useSelector(state => state.posts.postsLoaded[username]?.quacks)
-    const repliesLoaded = useSelector(state => state.posts.postsLoaded[username]?.replies)
-    const mediaLoaded = useSelector(state => state.posts.postsLoaded[username]?.media)
-    const likesLoaded = useSelector(state => state.posts.postsLoaded[username]?.likes)
-
-    const quacks = selectPosts?.filter(post => post?.user.id === user?.id && !post.inReplyTo)
-    const replies = selectPosts?.filter(post => post?.user.id === user?.id && post.inReplyTo)
-    const media = selectPosts?.filter(post => post?.user.id === user?.id && post.images.length > 0)
-    const likes = selectPosts?.filter(post => post?.userLikes.includes(user?.id))
+    const checkLoaded = useSelector(state => state.posts.postsLoaded[username])
 
     const [viewType, setViewType] = useState('quacks')
     const [userLoaded, setUserLoaded] = useState(false)
     const [postsFetched, setPostsFetched] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
 
+    // intialize the items to be displayed under the tab
+    let items;
+
+    // if showing type of post for the first time, fetch latest data
     useEffect(() => {
         (async () => {
             setPostsFetched(false)
@@ -46,13 +43,8 @@ export default function ProfilePage() {
                 await dispatch(getUserPosts(username, viewType))
                 setUserLoaded(true)
             }
-            if (viewType === 'quacks' && !quacksLoaded) {
-                await dispatch(getUserPosts(username, viewType))
-            } else if (viewType === 'replies' && !repliesLoaded) {
-                await dispatch(getUserPosts(username, viewType))
-            } else if (viewType === 'media' && !mediaLoaded) {
-                await dispatch(getUserPosts(username, viewType))
-            } else if (viewType === 'likes' && !likesLoaded) {
+            else if (!checkLoaded || !checkLoaded[viewType]) {
+                setPostsFetched(false)
                 await dispatch(getUserPosts(username, viewType))
             }
             setPostsFetched(true)
@@ -65,37 +57,40 @@ export default function ProfilePage() {
         window.scrollTo(0, 0)
     }, [])
 
-    const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
-    const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
-    const topBarStyle = {
-        zIndex: '998',
-        position: 'sticky',
-        top: '0',
-        display: 'flex',
-        backgroundColor: 'rgba(21, 32, 43, .9)',
-        opacity: 1,
-        blur: '10px',
-        alignItems: 'flex-start',
-        paddingLeft: '15px',
-        boxSizing: 'border-box',
-        width: '650px',
-        height: '53px',
-        marginBottom: '10px'
+
+    if (selectPosts && user) {
+
+        // if type is quacks, only return single cards where there is no parent post
+        if (viewType === 'quacks') {
+            items = selectPosts.filter(post => post.user.id === user.id && !post.inReplyTo).map(post => (
+                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
+            ))
+        }
+        // if type is replies, return the post with its parent in one fragment
+        else if (viewType === 'replies') {
+            items = selectPosts.filter(post => post.user.id === user.id && post.inReplyTo).map(post => (
+                <Fragment key={nanoid()}>
+                    <ParentCard key={post.parent.id} postId={post.parent.id} />
+                    <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+                </Fragment>
+            ))
+            // if type is media, return individual posts where the post has 1 or more image
+        } else if (viewType === 'media') {
+            items = selectPosts.filter(post => post.user.id === user.id && post.images.length > 0).map(post => (
+                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+            ))
+            // if type is likes, return individual posts where the user's id is in the post's likes array
+        } else if (viewType === 'likes') {
+            items = selectPosts.filter(post => post.userLikes.includes(user.id)).map(post => (
+                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+            ))
+        }
+
     }
 
-    const profileModalStyle = {
-        position: 'absolute',
-        boxSizing: 'border-box',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        height: 'auto',
-        width: '600px',
-        borderRadius: '15px',
-        bgcolor: '#15202b',
-        border: '2px solid #000',
-        boxShadow: 24,
-    };
+    const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
+    const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
+
 
     return (
         <>
@@ -145,9 +140,7 @@ export default function ProfilePage() {
                     </>
                 }
 
-                {!userLoaded &&
-                    <Loading />
-                }
+                {!userLoaded && <Loading />}
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
                     {tabs.map(tab => (
@@ -157,30 +150,8 @@ export default function ProfilePage() {
                     ))}
 
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', width: '650px', borderTop: '1px solid rgb(66, 83, 100)' }}>
-
-                    {!postsFetched &&
-                        <Loading />
-                    }
-                    {postsFetched && selectPosts && viewType === 'quacks' && quacks &&
-                        quacks.map(post => (
-                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
-                        ))}
-                    {postsFetched && selectPosts && viewType === 'replies' && replies &&
-                        replies.map(post => (
-                            <Fragment key={nanoid()}>
-                                <ParentCard key={post.parent.id} postId={post.parent.id} />
-                                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-                            </Fragment>
-                        ))}
-                    {postsFetched && selectPosts && viewType === 'media' && media &&
-                        media.map(post => (
-                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-                        ))}
-                    {postsFetched && selectPosts && viewType === 'likes' && likes &&
-                        likes.map(post => (
-                            <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-                        ))}
+                <div style={postsContainerStyle}>
+                    {!postsFetched ? <Loading /> : items}
                 </div>
             </div >
             <Modal

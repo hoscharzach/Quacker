@@ -18,7 +18,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
     const sessionUser = useSelector(state => state.session.user)
     const history = useHistory()
 
-    const [postLiked, setPostLiked] = useState(reply.userLikes.includes(sessionUser?.id))
+    const [postLiked, setPostLiked] = useState(reply?.userLikes?.includes(sessionUser?.id))
     const [imageModalOpen, setImageModalOpen] = useState(false)
     const [image, setImage] = useState('')
 
