@@ -10,7 +10,6 @@ export default function SearchBar() {
     const users = Object.values(useSelector(state => state.posts.users))
     const history = useHistory()
 
-    const searchBar = useRef(null)
     const [search, setSearch] = useState('')
     const [showMenu, setShowMenu] = useState(false)
     const [results, setResults] = useState([...users])
@@ -37,7 +36,7 @@ export default function SearchBar() {
             {showMenu &&
                 <ClickAwayListener onClickAway={() => setShowMenu(false)}>
 
-                    <div className="search-dropdown" style={{ position: 'absolute', top: 45, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
+                    <div className="search-dropdown" style={{ position: 'fixed', top: 45, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
                         <div style={{ height: '48px', boxSizing: 'border-box', padding: '12px 16px', display: 'flex', alignItems: 'center', fontSize: '20px', fontFamily: 'chirp', spacing: 'normal', lineHeight: '24px', weight: 700 }}>Recent</div>
                         {results && results.map(user => (
 
