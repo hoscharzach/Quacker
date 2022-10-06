@@ -33,7 +33,7 @@ export default function ProfilePage() {
     const [profileModalOpen, setProfileModalOpen] = useState(false)
 
     // intialize the items to be displayed under the tab
-    let items = {}
+    let items;
 
     // if showing type of post for the first time, fetch latest data
     useEffect(() => {
