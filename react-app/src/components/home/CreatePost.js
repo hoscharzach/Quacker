@@ -10,7 +10,7 @@ import { nanoid } from "nanoid"
 import { addError, removeErrors } from "../../store/session"
 import x from '../../images/imageclose-x.svg'
 
-export default function CreatePost({ parentId, setShowModal }) {
+export default function CreatePost({ parentId, setReplyModalOpen }) {
 
     const textInput = useRef(null)
     const history = useHistory()
@@ -47,10 +47,10 @@ export default function CreatePost({ parentId, setShowModal }) {
 
 
     useEffect(() => {
-        if (setShowModal) {
+        if (setReplyModalOpen) {
             setContent('')
         }
-    }, [setShowModal])
+    }, [setReplyModalOpen])
 
     useEffect(() => {
         dispatch(removeErrors())
@@ -79,9 +79,9 @@ export default function CreatePost({ parentId, setShowModal }) {
             setContent('')
             textInput.current.style.height = '1.2rem'
             dispatch(clearImages())
-            if (setShowModal) {
+            if (setReplyModalOpen) {
                 history.push('/home')
-                setShowModal(false)
+                setReplyModalOpen(false)
             }
         }
 
@@ -97,8 +97,8 @@ export default function CreatePost({ parentId, setShowModal }) {
                         <div key={nanoid()} className="error-message">{err}</div>
                     ))}
                 </div>}
-            <div style={setShowModal && { boxSizing: 'border-box', padding: '20px', borderRadius: '24px' }} className="entire-create-post-wrapper">
-                <div style={setShowModal && { borderRadius: '24px' }} className="create-post-profile-pic-wrapper">
+            <div style={setReplyModalOpen && { boxSizing: 'border-box', padding: '20px', borderRadius: '24px' }} className="entire-create-post-wrapper">
+                <div style={setReplyModalOpen && { borderRadius: '24px' }} className="create-post-profile-pic-wrapper">
                     <img className="profile-picture" src={selectUser.profilePic || defaultProfile} alt=""></img>
                 </div>
 

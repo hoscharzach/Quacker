@@ -54,7 +54,7 @@ export default function ProfilePage() {
 
     // on first render, scroll window to top
     useEffect(() => {
-        window.scrollTo(0, 0)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [])
 
 
@@ -108,7 +108,7 @@ export default function ProfilePage() {
                         <div><span style={{ fontSize: '13px', color: '#8B98AF' }}>{user && user.numPosts} Quacks</span></div>
                     </div>
                 </div>
-                {user &&
+                {userLoaded && user ?
                     <>
                         <div style={{ position: 'relative', height: '200px', width: '650px' }}>
                             <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: `url(${user.profileBackground || null})` }} className="profile-background">
@@ -137,10 +137,10 @@ export default function ProfilePage() {
                             <div style={{ fontSize: '15px', marginTop: '5px' }} className="profile-bio">{user.bio}</div>
 
                         </div>
-                    </>
-                }
+                    </> :
 
-                {!userLoaded && <Loading />}
+                    <Loading />
+                }
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
                     {tabs.map(tab => (
