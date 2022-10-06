@@ -101,11 +101,11 @@ def get_user_liked_posts(username, query):
 
     if (query == 'quacks'):
         posts = Post.query.filter_by(user_id=user.id, parent_id=None).order_by(
-            Post.created_at.desc()).limit(15)
+            Post.created_at.desc()).limit(10)
 
     elif (query == 'replies'):
         posts = Post.query.filter_by(user_id=user.id).filter(
-            Post.parent_id != None).order_by(Post.created_at.desc()).limit(15)
+            Post.parent_id != None).order_by(Post.created_at.desc()).limit(10)
 
     elif (query == 'media'):
         posts = db.session.query(Post).join(Post.images).group_by(
