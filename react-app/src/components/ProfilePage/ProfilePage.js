@@ -60,6 +60,11 @@ export default function ProfilePage() {
         })()
     }, [viewType, username])
 
+    // on first render, scroll window to top
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
     const topBarStyle = {

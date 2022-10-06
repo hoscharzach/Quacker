@@ -23,10 +23,6 @@
     background-color: #15202b;
 }
 
-#search-bar[data-focused="1"] svg {
-    fill: rgb(29, 155, 240);
-}
-
 .search-input {
     all: unset;
     width: 100%;
