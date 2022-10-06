@@ -7,8 +7,7 @@ import { intlFormatDistance } from 'date-fns'
 import ReplyModal from '../ReplyModal/ReplyModal'
 import { Link, useHistory } from 'react-router-dom'
 import BasicMenu from '../MenuDropdown'
-import { Box, IconButton, Modal, SvgIcon } from '@mui/material'
-import likeButton from '../../images/likebutton.svg'
+import { Box, IconButton, Modal } from '@mui/material'
 import LikeButton from '../LikeButton'
 import LikeButtonFilled from '../LikeButtonFilled'
 import { likePostToggle } from '../../store/posts'
@@ -44,10 +43,10 @@ export default function ReplyCard({ reply, name, borderTop }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        height: 'auto',
+        // height: 'auto',
         borderRadius: '15px',
-        bgcolor: '#15202b',
-        border: '2px solid #000',
+        backgroundColor: '#15202b',
+        border: '2px solid #15202b',
         boxShadow: 24,
         p: 2,
     };
@@ -82,7 +81,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                         </div>
                         <div className='reply-card-content-container'><Link to={`/post/${reply.id}`} >{reply.content}</Link></div>
                         <div className='reply-card-images-container' data-images={reply.images.length}>
-                            {reply.images.map(img => (
+                            {reply.images.map((img, i) => (
                                 <img onClick={() => {
                                     setImage(img.url)
                                     setImageModalOpen(true)
@@ -119,6 +118,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
 
 
             }
+
             <Modal
                 open={imageModalOpen}
                 onClose={() => setImageModalOpen(false)}
@@ -126,7 +126,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <img style={{ height: '100%', width: '100%' }} alt='' src={image}>
+                    <img style={{ maxWidth: '95vw', height: 'auto', maxHeight: '95vh' }} alt='' src={image}>
                     </img>
                 </Box>
             </Modal>
