@@ -26,12 +26,12 @@ export default function SinglePost() {
 
     useEffect(() => {
         const topPost = document.getElementsByClassName("parent-body-container")[0]
-        if (topPost && mainPost && mainPost.inReplyTo) {
+        if (topPost) {
             window.scrollTo({ top: topPost.clientHeight })
         } else {
             window.scrollTo({ top: 0 })
         }
-    }, [parentPost?.id, mainPost?.id])
+    }, [parentPost?.id, mainPost?.id, postId])
 
 
     useEffect(() => {
