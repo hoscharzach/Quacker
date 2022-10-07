@@ -59,7 +59,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                         <div style={{ height: '12px', marginBottom: '4px', width: '100%', display: 'flex', justifyContent: 'center' }}>
                         </div>
                         <Link to={`/profile/${reply.user.username}`}>
-                            <img style={{ backgroundColor: 'white' }} className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img>
+                            <img style={{ backgroundColor: 'white', }} className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img>
                         </Link>
                     </div>
                     <div className='reply-card-right'>
@@ -90,8 +90,11 @@ export default function ReplyCard({ reply, name, borderTop }) {
                         </div>
 
                         <div className='reply-card-buttons'>
-                            <Box>
-                                <ReplyModal parentId={reply.id} text={reply.numReplies} />
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                <ReplyModal type={'reply'} parentId={reply.id} numReplies={reply.numReplies} />
 
                             </Box>
                             <Box

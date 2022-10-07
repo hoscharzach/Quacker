@@ -16,7 +16,7 @@ export default function SinglePost() {
 
     const mainPost = useSelector(state => state.posts.normPosts[postId])
     const parentPost = useSelector(state => state.posts.normPosts[mainPost?.inReplyTo])
-    const replies = useSelector(state => state.posts.normPosts[postId]?.replies)
+    const selectPosts = useSelector(state => state.posts.normPosts)
 
     const dispatch = useDispatch()
 
@@ -94,7 +94,7 @@ export default function SinglePost() {
                     // borderBottom: '1px solid rgb(66, 83, 100)'
                 }}>
                     <button className="back-button" onClick={() => history.push(mainPost?.inReplyTo ? `/post/${mainPost.inReplyTo}` : '/home')}><img src={backbutton} alt="" ></img></button>
-                    <div className="scroll-top-button" style={{ paddingLeft: '10px' }} >Quack</div>
+                    <div className="scroll-top-button" style={{ paddingLeft: '10px', flexGrow: 1 }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} >Quack</div>
                 </div>
                 {mainPostLoaded && errors.length > 0 &&
                     <div style={{ height: '300px', display: 'flex', borderBottom: '1px solid rgb(66, 83, 100)', alignItems: 'center', padding: '0px 10px' }} >
@@ -114,8 +114,8 @@ export default function SinglePost() {
                         <div className="replies-container">
                             {!restLoaded &&
                                 <Loading />}
-                            {restLoaded && replies &&
-                                replies.map(reply => (
+                            {restLoaded && selectPosts &&
+                                Object.values(selectPosts).filter(post => post.inReplyTo && post.inReplyTo == postId).map(reply => (
                                     <ReplyCard key={reply.id} replyId={reply.id} reply={reply} />
                                 ))}
                         </div>

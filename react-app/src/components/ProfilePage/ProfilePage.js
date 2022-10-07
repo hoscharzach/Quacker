@@ -56,6 +56,8 @@ export default function ProfilePage() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [])
 
+
+    // object containing all the necessary functions for filtering posts so the jsx can be one line of code
     const filterFunctions = {
         quacks: {
             filter: (post) => post.user.id === user.id && !post.inReplyTo,
@@ -81,40 +83,8 @@ export default function ProfilePage() {
 
     }
 
-
-    // if (selectPosts && user) {
-
-    //     // if type is quacks, only return single cards where there is no parent post
-    //     if (viewType === 'quacks') {
-    //         items = selectPosts.filter(post => post.user.id === user.id && !post.inReplyTo).map(post => (
-    //             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
-    //         ))
-    //     }
-    //     // if type is replies, return the post with its parent in one fragment
-    //     else if (viewType === 'replies') {
-    //         items = selectPosts.filter(post => post.user.id === user.id && post.inReplyTo).map(post => (
-    //             <Fragment key={nanoid()}>
-    //                 <ParentCard key={post.parent.id} postId={post.parent.id} />
-    //                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-    //             </Fragment>
-    //         ))
-    //         // if type is media, return individual posts where the post has 1 or more image
-    //     } else if (viewType === 'media') {
-    //         items = selectPosts.filter(post => post.user.id === user.id && post.hasImages).map(post => (
-    //             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-    //         ))
-    //         // if type is likes, return individual posts where the user's id is in the post's likes array
-    //     } else if (viewType === 'likes') {
-    //         items = selectPosts.filter(post => post.userLikes.includes(user.id)).map(post => (
-    //             <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
-    //         ))
-    //     }
-
-    // }
-
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
-    console.log(selectPosts, "SELECT POSTS IN PROFILE PAGE")
 
     return (
         <>

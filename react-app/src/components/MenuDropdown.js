@@ -66,85 +66,89 @@ export default function BasicMenu({ post }) {
 
     return (
         <>
-            <div>
-                <Button
-                    id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                >
-                    <MoreHorizIcon />
-                </Button>
-                <Menu
-                    sx={{
-                        '& .MuiPaper-root': {
-                            boxShadow: 'rgb(136 153 166 / 20%) 0px 0px 15px, rgb(136 153 166 / 15%) 0px 0px 3px 1px',
-                        },
-                        '& .MuiList-root': {
-                            padding: 0
-                        }
-                    }}
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}
-                >
 
-                    {sessionUser.id === post.user.id &&
-                        <MenuItem
-                            className='mui-menu-item'
-                            sx={{
-                                color: 'red',
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255,255,255,.03)'
-                                }
-                            }}
-                            onClick={() => {
-                                setDeleteModalOpen(true)
-                                handleClose()
-                            }}
-                        >
-                            <DeleteForeverIcon style={{ fill: 'red' }} sx={buttonStyle} />
-                            Delete
-                        </MenuItem>
+            <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+            >
+                <MoreHorizIcon />
+            </Button>
+            <Menu
+                sx={{
+                    '& .MuiPaper-root': {
+                        boxShadow: 'rgb(136 153 166 / 20%) 0px 0px 15px, rgb(136 153 166 / 15%) 0px 0px 3px 1px',
+                    },
+                    '& .MuiList-root': {
+                        padding: 0
                     }
-                    {sessionUser.id === post.user.id &&
-                        <MenuItem
-                            sx={{
-                                '&:hover': {
-                                    backgroundColor: 'rgba(255,255,255,.03)'
-                                }
-                            }}
-                            onClick={() => {
-                                handleClose()
-                                setEditModalOpen(true)
-                            }}
-                        >
-                            <EditIcon sx={buttonStyle} />
-                            Edit
-                        </MenuItem>
-                    }
+                }}
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+            >
 
+                {sessionUser.id === post.user.id &&
                     <MenuItem
+                        className='mui-menu-item'
                         sx={{
+                            color: 'red',
+                            padding: '10px',
                             '&:hover': {
                                 backgroundColor: 'rgba(255,255,255,.03)'
                             }
                         }}
                         onClick={() => {
+                            setDeleteModalOpen(true)
                             handleClose()
-                            navigator.clipboard.writeText(`https://quacker-fullstack.herokuapp.com/post/${post.id}`)
                         }}
                     >
-                        <ContentPasteIcon sx={buttonStyle} />
-                        Copy Link
+                        <DeleteForeverIcon style={{ fill: 'red' }} sx={buttonStyle} />
+                        Delete
                     </MenuItem>
-                </Menu>
-            </div>
+                }
+                {sessionUser.id === post.user.id &&
+                    <MenuItem
+                        sx={{
+                            padding: '10px',
+                            '&:hover': {
+                                backgroundColor: 'rgba(255,255,255,.03)',
+
+                            }
+                        }}
+                        onClick={() => {
+                            handleClose()
+                            setEditModalOpen(true)
+                        }}
+                    >
+                        <EditIcon sx={buttonStyle} />
+                        Edit
+                    </MenuItem>
+                }
+
+                <MenuItem
+                    sx={{
+                        padding: '10px',
+                        '&:hover': {
+                            backgroundColor: 'rgba(255,255,255,.03)'
+                        }
+                    }}
+                    onClick={() => {
+                        handleClose()
+                        navigator.clipboard.writeText(`https://quacker-fullstack.herokuapp.com/post/${post.id}`)
+                    }}
+                >
+                    <ContentPasteIcon sx={buttonStyle} />
+                    Copy Link
+                </MenuItem>
+            </Menu>
+
             <Modal
                 open={editModalOpen}
                 onClose={() => setEditModalOpen(false)}

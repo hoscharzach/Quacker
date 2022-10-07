@@ -45,7 +45,7 @@ const NavBar = () => {
   const links = [
     { text: 'Github Repo', icon: githubIcon, link: 'https://github.com/hoscharzach/Quacker' },
     { text: 'Developer', icon: linkedinIcon, link: 'https://www.linkedin.com/in/zachhoschar/' },
-    { text: 'Portfolio', icon: headshot, link: 'https://zachhoschar.com/' }
+    { text: 'About Me', icon: headshot, link: 'https://zachhoschar.com/' }
   ]
   const modalStyle = {
     position: 'absolute',
@@ -99,21 +99,21 @@ const NavBar = () => {
                 <IconButton disableRipple onClick={btn.onClick} sx={buttonStyle}>
                   <img style={btn.profilepic ? profilePicStyle : svgStyle} src={btn.icon}></img>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <div style={{ marginRight: '10px', marginLeft: '20px' }}>{btn.text}</div>
+                    <div style={{ marginRight: '10px', marginLeft: '20px', fontSize: '20px' }}>{btn.text}</div>
                   </div>
                 </IconButton>
               </div>
             </div>
           ))}
 
-          <Divider sx={{ bgcolor: '#8B98A5', margin: '5px 0px' }} />
+          <Divider sx={{ bgcolor: '#8B98A5', margin: '10px 0px' }} />
 
           {links.map((link, i) => (
             <a key={i} href={link.link} target="_blank" >
               <IconButton disableRipple sx={buttonStyle}>
                 <img style={link.profilepic ? profilePicStyle : svgStyle} src={link.icon}></img>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <div style={{ marginRight: '10px', marginLeft: '20px' }}>{link.text}</div>
+                  <div style={{ marginRight: '10px', marginLeft: '20px', fontSize: '20px' }}>{link.text}</div>
                 </div>
               </IconButton>
             </a>

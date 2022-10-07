@@ -61,6 +61,12 @@ function App() {
               <RightColumn />
             </>
           </ProtectedRoute>
+          <ProtectedRoute exact path='/search/:query'>
+            <>
+              <NavBar />
+              {/* <Search /> */}
+            </>
+          </ProtectedRoute>
           <Route>
 
             {!user &&
@@ -69,9 +75,14 @@ function App() {
               </div>}
 
             {user &&
-              <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', }} >
-                <h3>Page couldn't be found, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
-              </div>}
+              <>
+                <NavBar />
+                <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', width: '650px', boxSizing: 'border-box' }} >
+                  <h3>Page couldn't be found or feature under development, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
+                </div>
+                <RightColumn />
+              </>
+            }
 
           </Route>
         </Switch>
