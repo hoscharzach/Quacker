@@ -23,7 +23,12 @@
 
 #reply-modal-reply-icon {
     height: 22.5px;
-    widtH: 22.5px;
+    width: 22.5px;
+}
+
+#reply-modal-reply-icon:hover {
+    color: #1e9cf1;
+
 }
 
 .num-replies-button {

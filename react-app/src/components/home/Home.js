@@ -32,7 +32,9 @@ export default function Home() {
     }, [])
 
     async function getFeed() {
-        await dispatch(getAllPosts())
+        if (!fetched) {
+            await dispatch(getAllPosts())
+        }
         setLoaded(true)
     }
 

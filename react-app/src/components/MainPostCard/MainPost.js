@@ -1,23 +1,41 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { deletePostById } from '../../store/posts'
-import EditPostModal from '../EditPostModal/EditPostModal'
+import { likePostToggle } from '../../store/posts'
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import './mainpost.css'
 import ReplyModal from '../ReplyModal/ReplyModal'
-import deleteIconSquare from '../../images/deleteiconsquare.svg'
 import { format } from 'date-fns'
+import BasicMenu from '../MenuDropdown'
+import LikeButton from '../LikeButton'
+import { IconButton } from '@mui/material'
+import LikeButtonFilled from '../LikeButtonFilled'
 
 export default function MainPostCard({ postId }) {
 
     const params = useParams()
     const history = useHistory()
 
+    const likeButtonStyles = {
+        '&:hover': {
+            backgroundColor: 'rgb(249, 24, 128, .1)',
+        },
+        '&:hover *': {
+            fill: 'rgb(249, 24, 128)',
+        },
+    }
+
     const post = useSelector(state => state.posts.normPosts[postId])
     const sessionUser = useSelector(state => state.session.user)
 
     const dispatch = useDispatch()
+
+    const [postLiked, setPostLiked] = useState(post?.userLikes?.includes(sessionUser.id))
+
+    async function handleLike() {
+        postLiked ? setPostLiked(false) : setPostLiked(true)
+        await dispatch(likePostToggle(postId))
+    }
 
     return (
         <>
@@ -41,13 +59,14 @@ export default function MainPostCard({ postId }) {
                                 <span className='main-post-username'>@{post.user.username}</span>
                             </div>
                         </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}>
 
-                    </div>
-                    <div className='main-post-profile-icon-container'>
+                            <BasicMenu post={post} />
+                        </div>
+
 
                     </div>
                     <div className='main-post-body-container'>
-
 
                         <div className='main-post-content-text'>
                             {post.content}
@@ -62,25 +81,22 @@ export default function MainPostCard({ postId }) {
                         {/* 6:38 PM * Sep 8, 2022 Quacker Web App */}
                         <div className='main-post-timestamp'><span className='main-post-timestamp-text'>{format(Date.parse(post.createdAt), 'PPP')} · {format(Date.parse(post.createdAt), 'p')} · Quacker Web App </span></div>
                         <div className='main-post-buttons-outer-container'>
-
-                            <div className='main-post-buttons-wrapper'>
-                                {sessionUser.id === post.user.id &&
-                                    <>
-                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
-                                        <span className='delete-button-span'><button id='delete-post-button' onClick={() => {
-                                            dispatch(deletePostById(post.id))
-                                            history.push('/home')
-                                        }
-                                        }><img alt='' id='delete-post-icon' src={deleteIconSquare}></img>Delete</button></span>
-                                        <EditPostModal post={post} text={'Edit'} />
-                                    </>
-                                }
-                                {sessionUser.id !== post.user.id &&
-                                    <>
-                                        <ReplyModal parentId={post.id} numReplies={post.numReplies} text={'Reply'} />
-                                    </>
-                                }
+                            <div className='main-post-stats'>
+                                <span className='stats-num'>{post.numLikes} </span>
+                                <span className='underline-dim'>Likes</span>
                             </div>
+                        </div>
+                        <div className='main-post-buttons-wrapper'>
+                            <ReplyModal parentId={post.id} numReplies={post.numReplies} />
+                            {sessionUser &&
+                                postLiked ?
+                                <IconButton sx={likeButtonStyles} onClick={handleLike}>
+                                    <LikeButtonFilled width={'22.25'} height={'22.25'} />
+                                </IconButton> :
+                                <IconButton sx={likeButtonStyles} onClick={handleLike}>
+                                    <LikeButton height={'22.25'} width={'22.25'} />
+                                </IconButton>
+                            }
                         </div>
                     </div>
                 </div>

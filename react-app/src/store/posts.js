@@ -240,6 +240,7 @@ export default function reducer(state = initialState, action) {
         case TOGGLE_POST_LIKE:
             newState = clone(state)
 
+            // if
             if (action.updatedPost.inReplyTo && newState.normPosts[action.updatedPost.inReplyTo].replies) {
                 newState.normPosts[action.updatedPost.inReplyTo].replies = newState.normPosts[action.updatedPost.inReplyTo].replies.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
             }
@@ -251,9 +252,9 @@ export default function reducer(state = initialState, action) {
         case UPDATE_USER_INFO:
             newState = { ...state }
 
-            console.log(newState.normPosts, "BEFORE UPDATE USER INFO")
+
             Object.values(newState.normPosts).map(post => post.user.id === action.user.id ? post.user = action.user : post)
-            console.log(newState.normPosts, "AFTER UPDATE USER INFO")
+
             newState.users[action.user.username] = action.user
 
             return newState

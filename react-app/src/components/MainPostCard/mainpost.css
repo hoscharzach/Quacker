@@ -11,12 +11,16 @@
     color: #8B98A5
 }
 
+.main-post-options {
+    display: flex;
+    height: fit-content;
+}
+
 .main-post-container {
     padding: 12px;
     margin-top: 4px;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid rgb(66, 83, 100);
 }
 
 .main-post-body-container {
@@ -127,7 +131,8 @@
 }
 
 .main-post-timestamp {
-    margin-top: 5px;
+
+    padding: 16px 0px;
 }
 
 .main-post-timestamp-text {
@@ -137,12 +142,9 @@
 
 .main-post-buttons-wrapper {
 
-    /* padding-left: 50px; */
-    padding-top: 8px;
     display: flex;
-    height: 70%;
+    height: 50px;
     width: 100%;
-    border-top: 1px solid rgb(255, 255, 255, .4);
     justify-content: space-evenly;
     align-items: center;
 }
@@ -161,9 +163,14 @@
 }
 
 .main-post-buttons-outer-container {
-    margin-top: 5px;
+    width: 100%;
+    border-top: 1px solid rgb(56, 68, 77);
+    border-bottom: 1px solid rgb(56, 68, 77);
     height: 55px;
     display: flex;
-    justify-content: center;
     align-items: center;
+}
+
+.main-post-stats {
+    flex-grow: 1;
 }

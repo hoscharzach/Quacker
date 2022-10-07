@@ -6,6 +6,10 @@
 
 } */
 
+.scroll-top-button:hover {
+    cursor: pointer;
+}
+
 .title-container {
     display: flex;
     align-items: flex-start;

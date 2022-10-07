@@ -36,6 +36,13 @@
     height: 48px;
     /* background-color: white; */
     border-radius: 50%;
+    transition: all 2s;
+}
+
+.reply-card-profile-pic:hover {
+    box-shadow: rgb(255 255 255 / 3%) 0px 0px 2px inset;
+    outline: 1px solid white;
+    background-color: rgba(26, 26, 26.15);
 }
 
 .reply-card-content-container {
