@@ -36,7 +36,6 @@ function App() {
   return (
     <div id='entire-app-container'>
       <BrowserRouter>
-        {/* {user && <NavBar />} */}
         <Switch>
           <Route exact path='/'>
             <SignUpForm />

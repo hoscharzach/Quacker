@@ -21,10 +21,9 @@ export default function SearchBar() {
         }
     }
 
-    useEffect(() => {
-        setResults(users.filter(user => user.username.toLowerCase().includes(search.toLowerCase()) || user.displayName.toLowerCase().includes(search.toLowerCase())))
-    }, [search])
-
+    const searchFilter = (user) => {
+        return user.username.toLowerCase().includes(search.toLowerCase()) || user.displayName.toLowerCase().includes(search.toLowerCase())
+    }
 
     return (
         <>
@@ -37,8 +36,7 @@ export default function SearchBar() {
 
                     <div className="search-dropdown" style={{ position: 'fixed', top: 45, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
                         <div style={{ height: '48px', boxSizing: 'border-box', padding: '12px 16px', display: 'flex', alignItems: 'center', fontSize: '20px', fontFamily: 'chirp', spacing: 'normal', lineHeight: '24px', weight: 700 }}>Recent</div>
-                        {users && results && results.map(user => (
-
+                        {users && users.filter(searchFilter).map(user => (
                             <div style={{
                                 position: 'relative',
                                 zIndex: 999

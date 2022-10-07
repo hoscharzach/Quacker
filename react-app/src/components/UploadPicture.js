@@ -4,6 +4,7 @@ import uploadImageIcon from '../images/imageuploadsvg.svg'
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../store/images";
 import { addError, removeErrors } from "../store/session";
+import { IconButton } from "@mui/material";
 
 
 const UploadPicture = () => {
@@ -65,11 +66,20 @@ const UploadPicture = () => {
                 style={{ display: 'none' }}
             />
 
-            <button
+            {/* <button */}
+            <IconButton
                 disabled={hideImageInput}
-                id="file-select" onClick={handleFileClick} >
+                id="file-select"
+                onClick={handleFileClick}
+                sx={{
+                    '&:hover': {
+                        backgroundColor: 'rgba(29, 155, 240, .1)'
+                    }
+                }}>
+
                 <img src={uploadImageIcon} alt="" ></img>
-            </button>
+            </IconButton>
+            {/* </button> */}
         </>
     )
 }

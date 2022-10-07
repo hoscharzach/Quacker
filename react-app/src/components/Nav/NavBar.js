@@ -86,16 +86,17 @@ const NavBar = () => {
     <>
       <div className='navigation'>
         <div className='navigation-icons-wrapper'>
+
           <div>
             <IconButton sx={buttonStyle} onClick={() => history.push('/home')}>
               <img style={svgStyle} src={duckLogo} ></img>
             </IconButton>
           </div>
-          {/* <div style={{ display: 'flex', alignItems: 'center', padding: '12px' }} >{user.username}</div> */}
-          {buttons.map(btn => (
-            <div className='navbar-item-container'>
+
+          {buttons.map((btn, i) => (
+            <div key={i} className='navbar-item-container'>
               <div className='navbar-item-button'>
-                <IconButton onClick={btn.onClick} sx={buttonStyle}>
+                <IconButton disableRipple onClick={btn.onClick} sx={buttonStyle}>
                   <img style={btn.profilepic ? profilePicStyle : svgStyle} src={btn.icon}></img>
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <div style={{ marginRight: '10px', marginLeft: '20px' }}>{btn.text}</div>
@@ -104,10 +105,12 @@ const NavBar = () => {
               </div>
             </div>
           ))}
-          <Divider sx={{ bgcolor: 'white', margin: '5px 0px' }} />
-          {links.map(link => (
-            <a href={link.link} target="_blank" >
-              <IconButton sx={buttonStyle}>
+
+          <Divider sx={{ bgcolor: '#8B98A5', margin: '5px 0px' }} />
+
+          {links.map((link, i) => (
+            <a key={i} href={link.link} target="_blank" >
+              <IconButton disableRipple sx={buttonStyle}>
                 <img style={link.profilepic ? profilePicStyle : svgStyle} src={link.icon}></img>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <div style={{ marginRight: '10px', marginLeft: '20px' }}>{link.text}</div>
@@ -115,18 +118,21 @@ const NavBar = () => {
               </IconButton>
             </a>
           ))}
-          <button className='main-quack-button' style={{ width: '225px', height: '52px', fontSize: '17px', marginTop: '10px' }} onClick={() => setReplyModalOpen(true)}>Quack</button>
+
+          <button className='main-quack-button' style={{ width: '225px', height: '52px', fontSize: '17px', marginTop: '10px', marginLeft: '12px' }} onClick={() => setReplyModalOpen(true)}>Quack</button>
         </div>
       </div>
+
       <Modal
         open={replyModalOpen}
         onClose={() => setReplyModalOpen(false)}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
+
         <Box sx={modalStyle}>
           <CreatePost setReplyModalOpen={setReplyModalOpen} />
         </Box>
+
       </Modal>
     </>
   );

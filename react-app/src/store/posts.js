@@ -230,9 +230,11 @@ export default function reducer(state = initialState, action) {
                     media: false,
                     likes: false
                 }
+            } else {
+
+                newState.postsLoaded[action.username][action.contentType] = true
             }
 
-            newState.postsLoaded[action.username][action.contentType] = true
             return newState
 
         case TOGGLE_POST_LIKE:
@@ -247,13 +249,14 @@ export default function reducer(state = initialState, action) {
 
             return newState
         case UPDATE_USER_INFO:
-            return {
-                ...state,
-                users: {
-                    ...state.users,
-                    [action.user.username]: action.user
-                }
-            }
+            newState = { ...state }
+
+            console.log(newState.normPosts, "BEFORE UPDATE USER INFO")
+            Object.values(newState.normPosts).map(post => post.user.id === action.user.id ? post.user = action.user : post)
+            console.log(newState.normPosts, "AFTER UPDATE USER INFO")
+            newState.users[action.user.username] = action.user
+
+            return newState
 
         case ADD_NEW_POSTS:
             newState = { ...state }
