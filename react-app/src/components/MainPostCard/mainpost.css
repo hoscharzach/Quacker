@@ -18,9 +18,11 @@
 
 .main-post-container {
     padding: 12px;
+    padding-bottom: 0;
     margin-top: 4px;
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid rgb(56, 68, 77);
 }
 
 .main-post-body-container {
@@ -44,7 +46,9 @@
 
 .main-post-content-text {
     overflow-wrap: break-word;
-    /* word-break: break-all; */
+    word-wrap: break-word;
+    -ms-word-break: break-word;
+    word-break: break-word;
     margin-bottom: 8px;
     padding-left: 5px;
 }
