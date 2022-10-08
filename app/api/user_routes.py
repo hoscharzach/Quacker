@@ -24,7 +24,7 @@ def user(username):
     display_name = data['displayName']
     bio = data['bio']
 
-    if user == current_user:
+    if user.id == current_user.id:
         user.display_name = display_name
         user.bio = bio
         db.session.commit()

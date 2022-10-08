@@ -1,8 +1,7 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 import CreatePost from "./CreatePost";
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts, getNewPosts, getOldPosts, loadOldPosts, loadPosts } from "../../store/posts";
+import { getFeed, getOldPosts } from "../../store/posts";
 import './home.css'
 import ReplyCard from "../ReplyCard/ReplyCard";
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -11,13 +10,14 @@ import Loading from "../Loading";
 export default function Home() {
 
     const dispatch = useDispatch()
+
     const feed = useSelector(state => state.posts.feed)
     const fetched = useSelector(state => state.posts.fetched)
     const page = useSelector(state => state.posts.page)
-    const latestPost = useSelector(state => state.posts.latestPost)
+    const selectPosts = useSelector(state => state.posts.normPosts)
 
     const [loaded, setLoaded] = useState(false)
-    const [newLoaded, setNewLoaded] = useState(true)
+
 
     useEffect(() => {
         scrollTop()
@@ -28,12 +28,12 @@ export default function Home() {
     }
 
     useEffect(() => {
-        getFeed()
+        getHomePage()
     }, [])
 
-    async function getFeed() {
+    async function getHomePage() {
         if (!fetched) {
-            await dispatch(getAllPosts())
+            await dispatch(getFeed())
         }
         setLoaded(true)
     }
@@ -56,23 +56,18 @@ export default function Home() {
                     <div>Home</div>
                 </div>
                 <CreatePost />
-                {loaded &&
+                {!loaded ? <Loading /> :
                     <InfiniteScroll
                         dataLength={feed.length}
                         next={getMorePosts}
                         hasMore={page <= 10}
                         loader={<Loading />}
-                        endMessage={endMessage}
-                    >
+                        endMessage={endMessage}>
                         {feed.map((el) => (
-                            <ReplyCard name={`reply${el.id}`} key={el.id} reply={el} />
+                            <ReplyCard name={`reply${el}`} key={el} reply={selectPosts[el]} />
                         ))}
                     </InfiniteScroll>
                 }
-                {!newLoaded &&
-                    <Loading />}
-                {!loaded &&
-                    <Loading />}
 
             </div>
         </>

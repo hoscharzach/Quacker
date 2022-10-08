@@ -1,6 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { deletePostById } from '../../store/posts';
 import './deleteconfirm.css'
 
@@ -8,11 +9,10 @@ import './deleteconfirm.css'
 export default function DeleteConfirm({ post, setDeleteModalOpen }) {
 
     const dispatch = useDispatch()
+    const history = useHistory()
 
     async function handleDelete() {
-        const data = await dispatch(deletePostById(post.id))
-        if (data) window.alert(data)
-
+        dispatch(deletePostById(post.id))
     }
 
     return (

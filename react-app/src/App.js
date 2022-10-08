@@ -10,6 +10,7 @@ import Home from './components/home/Home';
 import bigDuckIcon from './images/ducklogo.svg'
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import RightColumn from './components/RightColumn/RightColumn';
+import PageNotFound from './components/PageNotFound';
 
 
 function App() {
@@ -68,22 +69,7 @@ function App() {
             </>
           </ProtectedRoute>
           <Route>
-
-            {!user &&
-              <div style={{ height: '300px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', }} >
-                <h3>Page couldn't be found<br></br><Link to={'/'}><span style={{ color: 'rgb(29, 155, 240)' }} >Get outta here!</span></Link></h3>
-              </div>}
-
-            {user &&
-              <>
-                <NavBar />
-                <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 10px', width: '650px', boxSizing: 'border-box' }} >
-                  <h3>Page couldn't be found or feature under development, check out the <Link to={'/home'}><span style={{ color: 'rgb(29, 155, 240)' }} >main feed</span></Link>, or refresh the page to try again.</h3>
-                </div>
-                <RightColumn />
-              </>
-            }
-
+            {user ? <PageNotFound variant={"LOGGED_IN"} /> : <PageNotFound variant={"LOGGED_OUT"} />}
           </Route>
         </Switch>
       </BrowserRouter>

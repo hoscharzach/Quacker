@@ -14,7 +14,7 @@
 }
 
 html {
-    background-color: rgb(21, 32, 43);
+    background-color: #15202b;
 
 }
 
@@ -23,9 +23,9 @@ button {
     background-color: #15202b;
 }
 
+
 * {
     margin: 0;
-    /* background-color: inherit; */
     color: white;
     font-family: 'chirp';
     font-size: 18px;

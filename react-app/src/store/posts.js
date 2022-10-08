@@ -67,9 +67,9 @@ const updateUser = (user) => ({
     user
 })
 
-const togglePostLike = (updatedPost) => ({
+const togglePostLike = (data) => ({
     type: TOGGLE_POST_LIKE,
-    updatedPost
+    data
 })
 
 export const loadOldPosts = (data) => ({
@@ -128,11 +128,11 @@ export const deletePostById = (id) => async (dispatch) => {
     if (response.ok) {
         dispatch(deletePost(id))
     } else {
-        throw Error('You are not authorized to delete this')
+        return new Error('You are not authorized to delete this')
     }
 }
 
-export const getAllPosts = () => async (dispatch) => {
+export const getFeed = () => async (dispatch) => {
     const response = await fetch(`/api/posts/home/1`)
 
     if (response.ok) {
@@ -144,23 +144,6 @@ export const getAllPosts = () => async (dispatch) => {
     }
 }
 
-export const getNewPosts = (payload) => async (dispatch) => {
-    const response = await fetch('/api/posts/home/new', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
-
-    if (response.ok) {
-        const data = await response.json()
-        dispatch(loadNewPosts(data.posts))
-    } else {
-        const errors = await response.json()
-        return errors
-    }
-}
 export const getOldPosts = (page) => async (dispatch) => {
     const response = await fetch(`/api/posts/home/${page}`)
     if (response.ok) {
@@ -196,7 +179,7 @@ export const likePostToggle = (id) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json()
-        dispatch(togglePostLike(data.updatedPost))
+        dispatch(togglePostLike(data))
     }
 }
 export const createNewPost = (payload) => async (dispatch) => {
@@ -218,71 +201,82 @@ export const createNewPost = (payload) => async (dispatch) => {
 }
 
 export default function reducer(state = initialState, action) {
+
     let newState
+    let parent
 
     switch (action.type) {
         case SET_USER_POSTS_LOADED:
-            newState = { ...state }
-            if (!newState.postsLoaded[action.username]) {
-                newState.postsLoaded[action.username] = {
+
+            let userLoadedState
+            if (!state.postsLoaded[action.username]) {
+                userLoadedState = {
                     quacks: false,
                     replies: false,
                     media: false,
                     likes: false
                 }
+
+                userLoadedState[action.contentType] = true
+                return {
+                    ...state,
+                    postsLoaded: {
+                        [action.username]: userLoadedState
+                    }
+                }
             } else {
-
-                newState.postsLoaded[action.username][action.contentType] = true
+                return {
+                    ...state,
+                    postsLoaded: {
+                        ...state.postsLoaded,
+                        [action.username]: {
+                            ...state.postsLoaded[action.username],
+                            [action.contentType]: true
+                        }
+                    }
+                }
             }
-
-            return newState
-
         case TOGGLE_POST_LIKE:
-            newState = clone(state)
 
-            // if
-            if (action.updatedPost.inReplyTo && newState.normPosts[action.updatedPost.inReplyTo].replies) {
-                newState.normPosts[action.updatedPost.inReplyTo].replies = newState.normPosts[action.updatedPost.inReplyTo].replies.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
+            newState = { ...state }
+
+            const id = action.data.postId
+            const likes = action.data.updatedLikes
+
+            return {
+                ...state,
+                normPosts: {
+                    ...state.normPosts,
+                    [id]: {
+                        ...state.normPosts[id],
+                        userLikes: likes
+                    }
+                }
             }
 
-            newState.normPosts[action.updatedPost.id] = action.updatedPost
-            newState.feed = newState.feed.map(post => post.id === action.updatedPost.id ? action.updatedPost : post)
-
-            return newState
         case UPDATE_USER_INFO:
             newState = { ...state }
 
-
             Object.values(newState.normPosts).map(post => post.user.id === action.user.id ? post.user = action.user : post)
-
             newState.users[action.user.username] = action.user
 
             return newState
 
-        case ADD_NEW_POSTS:
-            newState = { ...state }
-
-            let feed = []
-            action.posts.forEach(post => {
-                if (!newState.normPosts[post.id]) {
-                    feed.push(post)
-                }
-                newState.normPosts[post.id] = post
-            })
-            newState.feed = [...feed, ...newState.feed]
-            return newState
-
         case ADD_OLD_POSTS:
-            newState = { ...state }
+            const oldPosts = []
+            const oldPostsObj = {}
+
             action.data.posts.forEach(post => {
-                if (!newState.normPosts[post.id]) {
-                    newState.normPosts[post.id] = post
-                    newState.feed.push(post)
-                }
+                oldPostsObj[post.id] = post
+                oldPosts.push(post.id)
             })
 
-            newState.page = action.data.page
-            return newState
+            return {
+                ...state,
+                page: action.data.page,
+                normPosts: { ...state.normPosts, ...oldPostsObj },
+                feed: [...state.feed, ...oldPosts]
+            }
 
         case ADD_USER_POSTS:
             newState = { ...state }
@@ -334,74 +328,89 @@ export default function reducer(state = initialState, action) {
         case LOAD_POSTS:
             newState = { ...state }
 
-            // normalize all posts in state along with their
-            // respective users for faster loading of user profile later
+            let userFeed = []
             action.data.posts.forEach(post => {
                 if (!newState.users[post.user.username]) {
                     newState.users[post.user.username] = post.user
                 }
+                userFeed.push(post.id)
                 newState.normPosts[post.id] = post
             })
 
-            // copy all posts into the feed
-            newState.feed = [...action.data.posts]
+            newState.feed = userFeed
             newState.fetched = true
 
             newState.page = action.data.page
-            newState.latestPost = newState.feed[0].id
             return newState
 
         case ADD_POST:
-            newState = { ...state }
 
-            // add post to state
-            newState.normPosts[action.post.id] = action.post
+            const postId = action.post.id
+            parent = action.post.inReplyTo
 
-            // if it's a reply, adjust the parents numReplies and replies accordingly
-            if (action.post.inReplyTo) {
-                const i = action.post.inReplyTo
-                if (!newState.normPosts[i].replies) {
-                    newState.normPosts[i].replies = [action.post]
-                    newState.normPosts[i].numReplies++
-                } else {
-                    newState.normPosts[action.post.inReplyTo].numReplies++
-                    newState.normPosts[action.post.inReplyTo].replies = [action.post, ...newState.normPosts[action.post.inReplyTo].replies]
+
+            if (parent) {
+                let replyCount = state.normPosts[parent].numReplies
+                return {
+                    ...state,
+                    normPosts: {
+                        ...state.normPosts,
+                        [action.post.id]: action.post,
+                        [parent]: {
+                            ...state.normPosts[parent],
+                            numReplies: replyCount + 1
+                        }
+                    }
+
                 }
             } else {
-                // if it's not a reply, just prepend it to the feed array
-                newState.feed = [action.post, ...newState.feed]
-                newState.latestPost = newState.feed[0].id
+                return {
+                    ...state,
+                    normPosts: {
+                        ...state.normPosts,
+                        [action.post.id]: action.post
+                    }
+                }
             }
 
+            // add post to state
+            newState.normPosts[postId] = action.post
+
+            // if it's a reply, adjust the parents numReplies
+            if (parent) {
+                newState.normPosts[parent].numReplies++
+            } else {
+                newState.feed = [action.post.id, ...state.feed]
+            }
 
             return newState
 
         case UPDATE_POST:
-            newState = JSON.parse(JSON.stringify(state))
-            if (action.post.inReplyTo) {
-                const j = action.post.inReplyTo
-                newState.normPosts[action.post.id] = action.post
-                if (newState.normPosts[j].replies) {
-                    newState.normPosts[j].replies = newState.normPosts[j].replies.map(post => action.post.id === post.id ? action.post : post)
+            return {
+                ...state,
+                normPosts: {
+                    ...state.normPosts,
+                    [action.post.id]: action.post
                 }
-            } else {
-                newState.feed = newState.feed.map(el => action.post.id === el.id ? action.post : el)
-                newState.normPosts[action.post.id] = action.post
             }
-            return newState
 
         case DELETE_POST:
-            newState = JSON.parse(JSON.stringify(state))
 
-            if (newState.normPosts[action.id].inReplyTo) {
-                const i = newState.normPosts[action.id].inReplyTo
-                newState.normPosts[i].numReplies--
-                newState.normPosts[i].replies = newState.normPosts[i].replies?.filter(el => el.id !== action.id)
-            } else {
-                newState.feed = newState.feed.filter(el => el.id !== action.id)
+            const normPostsCopy = { ...state.normPosts }
+            parent = normPostsCopy[action.id].inReplyTo
+
+            if (parent) {
+                normPostsCopy[action.id].numReplies--
             }
-            delete newState.normPosts[action.id]
-            return newState
+
+            delete normPostsCopy[action.id]
+
+            return {
+                ...state,
+                normPosts: {
+                    ...normPostsCopy
+                }
+            }
 
         default:
             return state

@@ -1,6 +1,4 @@
-from venv import create
 from .db import db
-import sqlalchemy
 from sqlalchemy.sql import func
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -96,6 +94,9 @@ class Post(db.Model):
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }
+
+    def post_likes_dict(self):
+        return [x.id for x in self.post_likes]
 
     def get_date(self):
         return {

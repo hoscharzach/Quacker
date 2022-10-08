@@ -27,11 +27,11 @@ def like_post(id):
     if current_user not in post.post_likes:
         post.post_likes.append(current_user)
         db.session.commit()
-        return {'updatedPost': post.to_dict_single()}
+        return {'updatedLikes': post.post_likes_dict(), 'postId': id, 'act': 'add'}
     elif current_user in post.post_likes:
         post.post_likes.remove(current_user)
         db.session.commit()
-        return {'updatedPost': post.to_dict_single()}
+        return {'updatedLikes': post.post_likes_dict(), 'postId': id, 'act': 'del'}
 
 
 @post_routes.get('/dummy')

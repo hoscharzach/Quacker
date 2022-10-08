@@ -166,7 +166,7 @@ export default function BasicMenu({ post }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={deleteStyle}>
-                    <DeleteConfirm post={post} setDeleteModalOpen={setDeleteModalOpen} />
+                    <DeleteConfirm from={'single'} post={post} setDeleteModalOpen={setDeleteModalOpen} />
                 </Box>
             </Modal>
         </>
