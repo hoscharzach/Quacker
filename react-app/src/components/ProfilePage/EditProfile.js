@@ -192,7 +192,7 @@ export default function EditProfile({ user, setProfileModalOpen }) {
                     value={name}
                     label="Display Name"
                     variant="outlined"
-                    inputProps={{ maxLength: 20 }}
+                    inputProps={{ maxLength: 15 }}
                     sx={nameInputStyles}
                     onChange={(e) => setName(e.target.value)} />
                 <TextField
