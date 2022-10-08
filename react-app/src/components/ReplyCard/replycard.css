@@ -2,7 +2,7 @@
     box-sizing: border-box;
     width: 650px;
     display: flex;
-    max-height: 700px;
+    max-height: 750px;
     padding: 12px;
     padding-top: 0px;
     border-bottom: 1px solid rgb(66, 83, 100);
@@ -190,6 +190,7 @@
 }
 
 .reply-card-image {
+    outline: 2px solid rgb(56, 68, 77);
     overflow: hidden;
     object-fit: cover;
     max-height: 500px;

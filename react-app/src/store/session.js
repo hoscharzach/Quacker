@@ -3,7 +3,7 @@ const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const ADD_ERROR = 'session/ADD_ERROR'
 const REMOVE_ERRORS = 'session/REMOVE_ERRORS'
-
+const UPDATE_LIKES = 'session/UPDATE_LIKES'
 
 
 export const addError = (error) => ({
@@ -22,6 +22,11 @@ const setUser = (user) => ({
 
 const removeUser = () => ({
   type: REMOVE_USER,
+})
+
+export const updateSessionUserLikes = (postId) => ({
+  type: UPDATE_LIKES,
+  postId
 })
 
 const initialState = { user: null, errors: [] };
@@ -114,7 +119,13 @@ export const signUp = (username, email, password, displayname) => async (dispatc
 export default function reducer(state = initialState, action) {
   let newState
   switch (action.type) {
+    case UPDATE_LIKES:
+      newState = { ...state }
+      newState.user.postLikes.has(action.postId) ? newState.user.postLikes.delete(action.postId) : newState.user.postLikes.add(action.postId)
+      return newState
     case SET_USER:
+      const likedPostsSet = new Set(action.payload.postLikes)
+      action.payload.postLikes = likedPostsSet
       return {
         ...state,
         user: action.payload

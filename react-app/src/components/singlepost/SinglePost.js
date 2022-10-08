@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, React } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useHistory, useParams } from "react-router-dom"
+import { Link, Redirect, useHistory, useParams } from "react-router-dom"
 import { getSinglePost } from "../../store/posts"
 import './singlepost.css'
 import MainPost from "../MainPostCard/MainPost"
@@ -72,6 +72,8 @@ export default function SinglePost() {
 
         })();
     }, [postId, dispatch, mainPost])
+
+    if (mainPostLoaded && !mainPost) return <Redirect to={'/home'} />
 
     return (
         <>

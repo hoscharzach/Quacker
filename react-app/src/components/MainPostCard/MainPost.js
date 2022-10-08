@@ -10,11 +10,9 @@ import BasicMenu from '../MenuDropdown'
 import LikeButton from '../LikeButton'
 import { IconButton } from '@mui/material'
 import LikeButtonFilled from '../LikeButtonFilled'
+import { updateSessionUserLikes } from '../../store/session'
 
 export default function MainPostCard({ postId }) {
-
-    const params = useParams()
-    const history = useHistory()
 
     const likeButtonStyles = {
         '&:hover': {
@@ -30,11 +28,9 @@ export default function MainPostCard({ postId }) {
 
     const dispatch = useDispatch()
 
-    const [postLiked, setPostLiked] = useState(post?.userLikes?.includes(sessionUser.id))
-
     async function handleLike() {
-        postLiked ? setPostLiked(false) : setPostLiked(true)
-        await dispatch(likePostToggle(postId))
+        dispatch(likePostToggle(postId))
+        dispatch(updateSessionUserLikes(postId))
     }
 
     return (
@@ -78,18 +74,17 @@ export default function MainPostCard({ postId }) {
                             ))}
                         </div>
 
-                        {/* 6:38 PM * Sep 8, 2022 Quacker Web App */}
                         <div className='main-post-timestamp'><span className='main-post-timestamp-text'>{format(Date.parse(post.createdAt), 'PPP')} · {format(Date.parse(post.createdAt), 'p')} · Quacker Web App </span></div>
                         <div className='main-post-buttons-outer-container'>
                             <div className='main-post-stats'>
-                                <span className='stats-num'>{post.numLikes} </span>
+                                <span className='stats-num'>{post.userLikes.length} </span>
                                 <span className='underline-dim'>Likes</span>
                             </div>
                         </div>
                         <div className='main-post-buttons-wrapper'>
                             <ReplyModal parentId={post.id} numReplies={post.numReplies} />
                             {sessionUser &&
-                                postLiked ?
+                                sessionUser.postLikes.has(postId) ?
                                 <IconButton sx={likeButtonStyles} onClick={handleLike}>
                                     <LikeButtonFilled width={'22.25'} height={'22.25'} />
                                 </IconButton> :

@@ -57,7 +57,7 @@ export default function ProfilePage() {
     }, [])
 
 
-    // object containing all the necessary functions for filtering posts so the jsx can be one line of code
+    // object containing all the necessary functions for filtering posts so the jsx for sorting can be one line of code
     const filterFunctions = {
         quacks: {
             filter: (post) => post.user.id === user.id && !post.inReplyTo,
@@ -80,7 +80,6 @@ export default function ProfilePage() {
             filter: (post) => post.userLikes.includes(user.id),
             map: (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
         }
-
     }
 
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }

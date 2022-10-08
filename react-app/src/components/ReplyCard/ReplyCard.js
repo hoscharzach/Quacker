@@ -5,24 +5,23 @@ import './replycard.css'
 import defaultProfilePic from '../../images/defaultprofilepic.svg'
 import { intlFormatDistance } from 'date-fns'
 import ReplyModal from '../ReplyModal/ReplyModal'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import BasicMenu from '../MenuDropdown'
 import { Box, IconButton, Modal } from '@mui/material'
 import LikeButton from '../LikeButton'
 import LikeButtonFilled from '../LikeButtonFilled'
 import { likePostToggle } from '../../store/posts'
+import { updateSessionUserLikes } from '../../store/session'
 
 
 export default function ReplyCard({ reply, name, borderTop }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
-    const history = useHistory()
 
-    const [postLiked, setPostLiked] = useState(reply?.userLikes?.includes(sessionUser?.id))
     const [imageModalOpen, setImageModalOpen] = useState(false)
     const [image, setImage] = useState('')
 
-    const likeTextStyle = postLiked ? { color: 'rgb(249, 24, 128)' } : { color: '#8B98A5' }
+    const likeTextStyle = sessionUser.postLikes.has(reply?.id) ? { color: 'rgb(249, 24, 128)' } : { color: '#8B98A5' }
 
     const likeButtonStyles = {
         '&:hover': {
@@ -34,8 +33,8 @@ export default function ReplyCard({ reply, name, borderTop }) {
     }
 
     async function handleLike() {
-        postLiked ? setPostLiked(false) : setPostLiked(true)
-        await dispatch(likePostToggle(reply.id))
+        dispatch(likePostToggle(reply.id))
+        dispatch(updateSessionUserLikes(reply.id))
     }
 
     const style = {
@@ -43,7 +42,6 @@ export default function ReplyCard({ reply, name, borderTop }) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        // height: 'auto',
         borderRadius: '15px',
         backgroundColor: '#15202b',
         border: '2px solid #15202b',
@@ -104,7 +102,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                                     alignItems: 'center'
                                 }}>
                                 {sessionUser &&
-                                    postLiked ?
+                                    sessionUser.postLikes.has(reply.id) ?
                                     <IconButton sx={likeButtonStyles} onClick={handleLike}>
                                         <LikeButtonFilled width={'22.25'} height={'22.25'} />
                                     </IconButton> :
@@ -112,7 +110,7 @@ export default function ReplyCard({ reply, name, borderTop }) {
                                         <LikeButton height={'22.25'} width={'22.25'} />
                                     </IconButton>
                                 }
-                                <span style={likeTextStyle}>{reply.numLikes}</span>
+                                <span style={likeTextStyle}>{reply.userLikes.length}</span>
                             </Box>
                         </div>
                     </div>
