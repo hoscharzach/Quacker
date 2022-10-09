@@ -26,6 +26,10 @@
     box-sizing: border-box;
     padding: 16px;
     color: #1d9bf0;
+    position: relative;
+    margin-bottom: 15vh;
+    /* border-top: 1px solid rgb(66, 83, 100);
+    border-bottom: 1px solid rgb(66, 83, 100); */
 }
 
 .view-more-button:hover {

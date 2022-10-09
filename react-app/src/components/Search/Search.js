@@ -33,6 +33,8 @@ export default function Search() {
 
     useEffect(() => {
         (async () => {
+            setSearchPosts([])
+            setSearchUsers([])
             setInitialFetchFinished(false)
             const response = await fetch(`/api/search/${query}`)
             if (response.ok) {
@@ -47,6 +49,7 @@ export default function Search() {
 
             }
             setInitialFetchFinished(true)
+            window.scrollTo(0, 0)
         })();
     }, [query])
 
@@ -102,10 +105,12 @@ export default function Search() {
                 {type === 'posts' && selectPosts && searchPosts.map(post => <ReplyCard key={post} reply={selectPosts[post]} />)}
                 {type === 'users' && selectUsers && searchUsers.map(username => <UserCard key={selectUsers[username].id} user={selectUsers[username]} />)}
             </div>
-            {resultsLoading && <Loading height={'75px'} />}
+            {resultsLoading && <Loading height={'100px'} />}
             {!initialFetchFinished && <Loading />}
-            {!resultsLoading && initialFetchFinished && morePosts && type === 'posts' && <button className="view-more-button" onClick={() => viewMorePosts()}>View more posts</button>}
+            {!resultsLoading && initialFetchFinished && morePosts && type === 'posts' && <button style={{ borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }} className="view-more-button" onClick={() => viewMorePosts()}>View more posts</button>}
             {!resultsLoading && initialFetchFinished && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => console.log('more users')}>View more users</button>}
+            {type === 'users' && !moreUsers && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
+            {type === 'posts' && !morePosts && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
         </div>
     )
 
