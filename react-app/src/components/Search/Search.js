@@ -16,6 +16,8 @@ export default function Search() {
     let query = useQuery()
     const dispatch = useDispatch()
 
+    const [type, setType] = useState('users')
+
     const selectPosts = useSelector(state => state.posts.normPosts)
     const users = useSelector(state => state.posts.users)
     const searchUsersPage = useSelector(state => state.posts.searchUsersPage)
@@ -29,21 +31,25 @@ export default function Search() {
         })();
     }, [query])
 
+    const tabs = [['users', 'Users'], ['posts', 'Posts']]
+    const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
+
     return (
-        <div className="center-column">
-            <div className="search-top-bar"><SearchBar /></div>
+        <div className="center-search-column">
+            <div className="search-top-bar">
+                <SearchBar />
+                <div style={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px', position: 'fixed', top: 50, width: '650px' }}>
+                    {tabs.map(tab => (
+                        <div key={tab[0]} data-active={type === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button-container`} style={tabStyle}>
+                            <button className={`${tab[0]}-profile-button`} key={tab[0]} style={{ width: '100%' }} onClick={(e) => setType(`${tab[0]}`)} >{`${tab[1]}`}</button>
+                        </div>
+                    ))}
 
-            <div style={{ borderRight: '1px solid rgb(56, 68, 77)', borderLeft: '1px solid rgb(56, 68, 77)', boxSizing: 'border-box', height: 'auto', width: '650px', position: 'absolute', top: 50 }}>
-
-                <h1 style={{ height: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Users</h1>
-                <div>
-
-                    {selectSearchUsers && selectPosts && selectSearchUsers.map(username => <UserCard key={users[username].id} user={users[username]} />)}
                 </div>
-                <h1 style={{ height: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Posts</h1>
-                <div>
-                    {selectSearchPosts && selectPosts && selectSearchPosts.map(post => <ReplyCard key={post} reply={selectPosts[post]} />)}
-                </div>
+            </div>
+            <div>
+                {type === 'posts' && selectSearchPosts && selectPosts && selectSearchPosts.map(post => <ReplyCard key={post} reply={selectPosts[post]} />)}
+                {type === 'users' && selectSearchUsers && selectPosts && selectSearchUsers.map(username => <UserCard key={users[username].id} user={users[username]} />)}
             </div>
         </div>
     )

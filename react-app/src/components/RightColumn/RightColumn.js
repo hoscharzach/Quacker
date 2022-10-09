@@ -2,7 +2,6 @@ import './rightcolumn.css'
 import SearchBar from './SearchBar'
 
 export default function RightColumn({ variant }) {
-    console.log(variant)
     switch (variant) {
         case 'NO_SEARCH':
             return (
