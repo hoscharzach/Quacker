@@ -38,6 +38,7 @@ export default function SinglePost() {
         (async () => {
             setErrors('')
 
+            if (!mainPost && mainPostLoaded) return
 
             if (Number.isNaN(Number(postId))) {
                 setErrors('404 Resource Not Found')

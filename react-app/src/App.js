@@ -66,9 +66,7 @@ function App() {
           <ProtectedRoute path='/search'>
             <>
               <NavBar />
-              <div className='center-column'>
-                <Search />
-              </div>
+              <Search />
               <RightColumn variant='NO_SEARCH' />
             </>
           </ProtectedRoute>

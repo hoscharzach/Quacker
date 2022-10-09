@@ -1,0 +1,29 @@
+.user-card-wrapper {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid rgb(56, 68, 77);
+}
+
+.user-card-profile-pic {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.user-card-bio-text {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-word;
+    word-break: break-word;
+}
+
+.user-card-right-container {
+    margin-left: 5px;
+}
+
+.user-card-name-and-follow-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}

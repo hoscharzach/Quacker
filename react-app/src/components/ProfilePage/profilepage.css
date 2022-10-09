@@ -53,6 +53,13 @@
     transition: background-color .5s;
 }
 
+.profile-bio {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-word;
+    word-break: break-word;
+}
+
 #edit-profile-submit-button:hover {
     background-color: rgb(215, 219, 220);
 }
