@@ -10,6 +10,11 @@
     border-radius: 50%;
 }
 
+.user-card-wrapper:hover {
+    background-color: rgba(53, 77, 100, .3);
+    cursor: pointer;
+}
+
 .user-card-bio-text {
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -19,6 +24,7 @@
 
 .user-card-right-container {
     margin-left: 5px;
+    width: 100%;
 }
 
 .user-card-name-and-follow-button-container {
@@ -26,4 +32,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.user-card-follow-button {
+    width: 77px;
+    height: 32px;
+    background-color: rgb(239, 243, 244);
+    color: black;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
 }

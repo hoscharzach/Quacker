@@ -9,8 +9,6 @@ import { searchThunk } from "../../store/posts";
 export default function SearchBar() {
 
     const users = Object.values(useSelector(state => state.posts.users))
-    const searchPostsPage = useSelector(state => state.posts.searchPostsPage)
-    const searchUsersPage = useSelector(state => state.posts.searchUsersPage)
 
     const history = useHistory()
     const dispatch = useDispatch()
@@ -41,7 +39,7 @@ export default function SearchBar() {
             {showMenu &&
                 <ClickAwayListener onClickAway={() => setShowMenu(false)}>
 
-                    <div className="search-dropdown" style={{ position: 'fixed', top: 45, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
+                    <div className="search-dropdown" style={{ position: 'fixed', zIndex: 999, top: 45, height: 'auto', width: '370px', backgroundColor: 'rgba(21,32,43,1.00)' }}>
                         <div style={{ height: '48px', boxSizing: 'border-box', padding: '12px 16px', display: 'flex', alignItems: 'center', fontSize: '20px', fontFamily: 'chirp', spacing: 'normal', lineHeight: '24px', weight: 700 }}>Recent</div>
                         {users && users.filter(searchFilter).map(user => (
                             <div style={{

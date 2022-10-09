@@ -64,7 +64,7 @@ const togglePostLike = (data) => ({
     data
 })
 
-const loadSearchResults = (data) => ({
+export const loadSearchResults = (data) => ({
     type: LOAD_SEARCH_RESULTS,
     data
 })
@@ -230,16 +230,31 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
 
         case LOAD_SEARCH_RESULTS:
-            newState = clone(state)
+            let posts = {}
+            let users = {}
 
-            action.data.posts.forEach(post => newState.normPosts[post.id] = post)
-            action.data.users.forEach(user => newState.users[user.username] = user)
-            newState.searchPosts = [...state.searchPosts, ...action.data.posts.map(post => post.id)]
-            newState.searchUsers = [...state.searchUsers, ...action.data.users.map(user => user.username)]
-            newState.searchPostsPage = state.searchPostsPage + 1
-            newState.searchUsersPage = state.searchUsersPage + 1
+            if (action.data.posts) {
+                action.data.posts.forEach(post => {
+                    users[post.user.username] = post.user
+                    posts[post.id] = post
+                })
+            }
 
-            return newState
+            if (action.data.users) {
+                action.data.users.forEach(user => users[user.username] = user)
+            }
+
+            return {
+                ...state,
+                normPosts: {
+                    ...state.normPosts,
+                    ...posts
+                },
+                users: {
+                    ...state.users,
+                    ...users
+                }
+            }
 
         case SET_USER_POSTS_LOADED:
 
