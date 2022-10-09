@@ -7,7 +7,7 @@ export default function UserCard({ user }) {
         <Link to={`/profile/${user.username}`}>
             <div className="user-card-wrapper" >
                 <div className='user-card-left-container'>
-                    <img className='user-card-profile-pic' alt="" src={user.profilePic || defaultProfilePic}></img>
+                    <img style={{ backgroundColor: 'white' }} className='user-card-profile-pic' alt="" src={user.profilePic || defaultProfilePic}></img>
                 </div>
                 <div className='user-card-right-container'>
                     <div className='user-card-name-and-follow-button-container'>

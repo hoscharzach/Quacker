@@ -13,13 +13,33 @@
     height: 103px;
 }
 
+.search-results-container {
+    width: 653px;
+    box-sizing: border-box;
+}
+
+.view-more-button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    height: 52px;
+    box-sizing: border-box;
+    padding: 16px;
+    color: #1d9bf0;
+}
+
+.view-more-button:hover {
+    cursor: pointer;
+    background-color: rgba(53, 77, 100, .3);
+}
+
 .center-search-column {
     min-height: 110vh;
     margin: 0;
     box-sizing: border-box;
     border-left: 1px solid rgb(56, 68, 77);
     border-right: 1px solid rgb(56, 68, 77);
-    width: 650px;
+    width: 652px;
 }
 
 .users-profile-button,
