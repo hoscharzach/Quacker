@@ -11,15 +11,7 @@ const ADD_OLD_POSTS = 'posts/OLD'
 const UPDATE_USER_INFO = '/users/EDIT'
 const TOGGLE_POST_LIKE = '/post/like'
 const SET_USER_POSTS_LOADED = '/profile/POSTS'
-
-const initialState = {
-    normPosts: {},
-    feed: [],
-    users: {},
-    fetched: false,
-    page: 1,
-    postsLoaded: {}
-}
+const LOAD_SEARCH_RESULTS = '/search/POPULATE'
 
 export const setPostsLoaded = (username, contentType) => ({
     type: SET_USER_POSTS_LOADED,
@@ -72,11 +64,28 @@ const togglePostLike = (data) => ({
     data
 })
 
+const loadSearchResults = (data) => ({
+    type: LOAD_SEARCH_RESULTS,
+    data
+})
+
+
 export const loadOldPosts = (data) => ({
     type: ADD_OLD_POSTS,
     data
 })
 
+export const searchThunk = (search) => async (dispatch) => {
+    const response = await fetch(`/api/search/${search}`)
+
+    if (response.ok) {
+        const data = await response.json()
+        console.log(data, "DATA IN THUNK")
+        dispatch(loadSearchResults(data))
+    } else {
+        return new Error("Something went wrong")
+    }
+}
 
 export const getSinglePost = (postId) => async (dispatch) => {
     const response = await fetch(`/api/posts/${postId}`)
@@ -200,12 +209,38 @@ export const createNewPost = (payload) => async (dispatch) => {
     }
 }
 
+const initialState = {
+    normPosts: {},
+    feed: [],
+    users: {},
+    fetched: false,
+    page: 1,
+    postsLoaded: {},
+    searchPosts: [],
+    searchUsers: [],
+    searchPostsPage: 1,
+    searchUsersPage: 1
+}
+
 export default function reducer(state = initialState, action) {
 
     let newState
     let parent
 
     switch (action.type) {
+
+        case LOAD_SEARCH_RESULTS:
+            newState = clone(state)
+
+            action.data.posts.forEach(post => newState.normPosts[post.id] = post)
+            action.data.users.forEach(user => newState.users[user.username] = user)
+            newState.searchPosts = [...state.searchPosts, ...action.data.posts.map(post => post.id)]
+            newState.searchUsers = [...state.searchUsers, ...action.data.users.map(user => user.username)]
+            newState.searchPostsPage = state.searchPostsPage + 1
+            newState.searchUsersPage = state.searchUsersPage + 1
+
+            return newState
+
         case SET_USER_POSTS_LOADED:
 
             let userLoadedState
@@ -344,8 +379,6 @@ export default function reducer(state = initialState, action) {
             return newState
 
         case ADD_POST:
-
-            const postId = action.post.id
             parent = action.post.inReplyTo
 
 
@@ -369,21 +402,10 @@ export default function reducer(state = initialState, action) {
                     normPosts: {
                         ...state.normPosts,
                         [action.post.id]: action.post
-                    }
+                    },
+                    feed: [action.post.id, ...state.feed]
                 }
             }
-
-            // add post to state
-            newState.normPosts[postId] = action.post
-
-            // if it's a reply, adjust the parents numReplies
-            if (parent) {
-                newState.normPosts[parent].numReplies++
-            } else {
-                newState.feed = [action.post.id, ...state.feed]
-            }
-
-            return newState
 
         case UPDATE_POST:
             return {

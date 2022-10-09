@@ -11,6 +11,7 @@ import bigDuckIcon from './images/ducklogo.svg'
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import RightColumn from './components/RightColumn/RightColumn';
 import PageNotFound from './components/PageNotFound';
+import Search from './components/Search/Search';
 
 
 function App() {
@@ -45,31 +46,32 @@ function App() {
             <>
               <NavBar />
               <Home />
-              <RightColumn />
+              <RightColumn variant="WITH_SEARCH" />
             </>
           </ProtectedRoute>
           <ProtectedRoute exact path='/post/:postId'>
             <>
               <NavBar />
               <SinglePost />
-              <RightColumn />
+              <RightColumn variant="WITH_SEARCH" />
             </>
           </ProtectedRoute>
           <ProtectedRoute exact path='/profile/:username'>
             <>
               <NavBar />
               <ProfilePage />
-              <RightColumn />
+              <RightColumn variant="WITH_SEARCH" />
             </>
           </ProtectedRoute>
-          <ProtectedRoute exact path='/search/:query'>
+          <ProtectedRoute path='/search'>
             <>
               <NavBar />
-              {/* <Search /> */}
+              <Search />
+              <RightColumn variant='NO_SEARCH' />
             </>
           </ProtectedRoute>
           <Route>
-            {user ? <PageNotFound variant={"LOGGED_IN"} /> : <PageNotFound variant={"LOGGED_OUT"} />}
+            {user ? <PageNotFound variant="LOGGED_IN" /> : <PageNotFound variant={"LOGGED_OUT"} />}
           </Route>
         </Switch>
       </BrowserRouter>

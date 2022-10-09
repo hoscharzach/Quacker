@@ -1,22 +1,29 @@
 import { ClickAwayListener, ownerDocument } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SearchIcon from "./SearchIcon";
 import defaultProfilePic from '../../images/defaultprofilepic.svg'
 import { Link, useHistory } from "react-router-dom";
+import { searchThunk } from "../../store/posts";
 
 export default function SearchBar() {
 
     const users = Object.values(useSelector(state => state.posts.users))
+    const searchPostsPage = useSelector(state => state.posts.searchPostsPage)
+    const searchUsersPage = useSelector(state => state.posts.searchUsersPage)
+
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const [search, setSearch] = useState('')
     const [showMenu, setShowMenu] = useState(false)
-    const [results, setResults] = useState([...users])
 
     async function handleSearch(e) {
         if (e.key === 'Enter') {
-            // history.push(`/search/${search}`)
+            history.push({
+                pathname: `/search/`,
+                search: search
+            })
             setShowMenu(false)
         }
     }
