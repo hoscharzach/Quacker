@@ -18,7 +18,9 @@ const initialState = {
     users: {},
     fetched: false,
     page: 1,
-    postsLoaded: {}
+    postsLoaded: {},
+    searchPostsPage: 1,
+    searchUsersPage: 1
 }
 
 export const setPostsLoaded = (username, contentType) => ({
@@ -369,21 +371,10 @@ export default function reducer(state = initialState, action) {
                     normPosts: {
                         ...state.normPosts,
                         [action.post.id]: action.post
-                    }
+                    },
+                    feed: [action.post.id, ...state.feed]
                 }
             }
-
-            // add post to state
-            newState.normPosts[postId] = action.post
-
-            // if it's a reply, adjust the parents numReplies
-            if (parent) {
-                newState.normPosts[parent].numReplies++
-            } else {
-                newState.feed = [action.post.id, ...state.feed]
-            }
-
-            return newState
 
         case UPDATE_POST:
             return {

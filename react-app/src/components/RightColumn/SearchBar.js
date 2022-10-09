@@ -12,11 +12,11 @@ export default function SearchBar() {
 
     const [search, setSearch] = useState('')
     const [showMenu, setShowMenu] = useState(false)
-    const [results, setResults] = useState([...users])
 
     async function handleSearch(e) {
         if (e.key === 'Enter') {
-            // history.push(`/search/${search}`)
+            history.push({ pathname: `/search/${search}` },
+                search)
             setShowMenu(false)
         }
     }
