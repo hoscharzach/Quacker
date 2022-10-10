@@ -80,7 +80,6 @@ export const searchThunk = (search) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json()
-        // console.log(data, "DATA IN THUNK")
         dispatch(loadSearchResults(data))
     } else {
         return new Error("Something went wrong")

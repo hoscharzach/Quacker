@@ -2,6 +2,26 @@
     display: flex;
 }
 
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .main-post-header-user {
     margin-left: 7px;
     padding-top: 3px;
@@ -22,6 +42,8 @@
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgb(56, 68, 77);
+    -webkit-animation: fadein 1s;
+    -moz-animation: fadein 1s;
 }
 
 .main-post-body-container {
@@ -34,6 +56,14 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    transition: all 1s;
+
+}
+
+.profile-picture:hover {
+    opacity: .7;
+    box-shadow: rgb(255 255 255 / 3%) 0px 0px 2px inset;
+    background-color: rgba(26, 26, 26.15);
 
 }
 

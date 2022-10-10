@@ -4,9 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../store/session'
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import './navbar.css'
-import CreatePostModal from '../CreatePostModal'
 import origamiBird from '../../images/origamibird.svg'
 import duck from '../../images/duck.svg'
 import duckLogo from '../../images/ducklogo.svg'
@@ -16,7 +14,6 @@ import githubIcon from '../../images/github.svg'
 import linkedinIcon from '../../images/linkedin2.svg'
 import headshot from '../../images/headshot.jpg'
 import Divider from '@mui/material/Divider';
-import Reply from '../ReplyModal/Reply';
 import { Box, Modal } from '@mui/material';
 import CreatePost from '../home/CreatePost';
 import defaultProfilePic from '../../images/defaultprofilepic.svg'
@@ -40,7 +37,7 @@ const NavBar = () => {
     { text: 'Home', icon: duck, onClick: () => history.push('/home') },
     { text: 'Profile', icon: user.profilePic ? user.profilePic : defaultProfilePic, profilepic: true, onClick: () => history.push(`/profile/${user.username}`) },
     {
-      text: 'Search', icon: swanIcon, onClick: () => history.push('/search/?search')
+      text: 'Search', icon: swanIcon, onClick: () => history.push('/search/?')
     },
     { text: 'Logout', icon: origamiBird, onClick: onLogout },
   ]
