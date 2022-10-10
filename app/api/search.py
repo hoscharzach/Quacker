@@ -21,9 +21,9 @@ def initial_search_query(query):
 @search_routes.get('/posts/<string:query>/<int:page>')
 def get_more_posts(query, page):
 
-    parsed = query.split('=')[0]
+    parsed = query.split('=')[0].replace("+", " ")
 
-    posts = Post.query.filter(Post.content.contains(
-        parsed.lower())).order_by(Post.created_at.desc()).paginate(page=page, per_page=5)
+    posts = Post.query.filter(func.lower(Post.content).contains(parsed.lower())).order_by(
+        Post.created_at.desc()).paginate(page=page, per_page=5)
 
     return {'posts': [post.to_dict() for post in posts.items], 'hasMore': posts.has_next}
