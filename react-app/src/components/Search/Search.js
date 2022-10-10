@@ -29,7 +29,7 @@ export default function Search() {
     const [moreUsers, setMoreUsers] = useState(false)
     const [morePosts, setMorePosts] = useState(false)
     const [resultsLoading, setResultsLoading] = useState(false)
-    const [initialFetchFinished, setInitialFetchFinished] = useState(true)
+    const [initialFetchFinished, setInitialFetchFinished] = useState(false)
 
     useEffect(() => {
         (async () => {
