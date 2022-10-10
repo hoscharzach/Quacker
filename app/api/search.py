@@ -10,10 +10,10 @@ search_routes = Blueprint('search', __name__)
 def initial_search_query(query):
     parsed = query.split('=')[0].replace("+", " ")
 
-    users = User.query.filter(or_(User.bio.contains(parsed.lower()), User.username.contains(parsed.lower()))).order_by(
+    users = User.query.filter(or_(func.lower(User.bio).contains(parsed.lower()), func.lower(User.username).contains(parsed.lower()))).order_by(
         User.username).paginate(page=1, per_page=5)
-    posts = Post.query.filter(Post.content.contains(
-        parsed.lower())).order_by(Post.created_at.desc()).paginate(page=1, per_page=5)
+    posts = Post.query.filter(func.lower(Post.content).contains(parsed.lower())).order_by(
+        Post.created_at.desc()).paginate(page=1, per_page=5)
 
     return {'query': query, 'users': [user.to_dict() for user in users.items], 'posts': [post.to_dict() for post in posts.items], 'morePosts': posts.has_next, 'moreUsers': users.has_next}
 
