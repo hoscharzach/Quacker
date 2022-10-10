@@ -40,10 +40,7 @@ const NavBar = () => {
     { text: 'Home', icon: duck, onClick: () => history.push('/home') },
     { text: 'Profile', icon: user.profilePic ? user.profilePic : defaultProfilePic, profilepic: true, onClick: () => history.push(`/profile/${user.username}`) },
     {
-      text: 'Search', icon: swanIcon, onClick: () => history.push({
-        pathname: `/search/`,
-        search: ''
-      })
+      text: 'Search', icon: swanIcon, onClick: () => history.push('/search/?search')
     },
     { text: 'Logout', icon: origamiBird, onClick: onLogout },
   ]
