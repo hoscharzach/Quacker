@@ -14,6 +14,8 @@ export default function Search() {
     const selectUsers = useSelector(state => state.posts.users)
     const { search } = useLocation()
 
+    // console.log()
+
     const useQuery = () => {
         return useMemo(() => new URLSearchParams(search), [search])
     }
@@ -107,8 +109,8 @@ export default function Search() {
                 </div>
             </div>
             <div className="search-results-container">
-                {type === 'posts' && selectPosts && searchPosts.map(post => <ReplyCard key={post} reply={selectPosts[post]} />)}
-                {type === 'users' && selectUsers && searchUsers.map(username => <UserCard key={selectUsers[username].id} user={selectUsers[username]} />)}
+                {type === 'posts' && selectPosts && searchPosts.map(post => <ReplyCard key={post} reply={selectPosts[post]} keyword={`${search.toString().split('?')[1]}`} />)}
+                {type === 'users' && selectUsers && searchUsers.map(username => <UserCard keyword={`${search.toString().split('?')[1]}`} key={selectUsers[username].id} user={selectUsers[username]} />)}
             </div>
             {resultsLoading && <Loading height={'100px'} />}
             {/* {!initialFetchFinished && <Loading height={'100px'} />} */}

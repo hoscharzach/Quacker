@@ -12,9 +12,10 @@ import LikeButton from '../LikeButton'
 import LikeButtonFilled from '../LikeButtonFilled'
 import { likePostToggle } from '../../store/posts'
 import { updateSessionUserLikes } from '../../store/session'
+const reactStringReplace = require('react-string-replace')
 
 
-export default function ReplyCard({ reply, name, borderTop, parent }) {
+export default function ReplyCard({ reply, name, borderTop, parent, keyword }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
 
@@ -36,6 +37,7 @@ export default function ReplyCard({ reply, name, borderTop, parent }) {
         dispatch(likePostToggle(reply.id))
         dispatch(updateSessionUserLikes(reply.id))
     }
+
 
     const style = {
         position: 'absolute',
@@ -78,7 +80,9 @@ export default function ReplyCard({ reply, name, borderTop, parent }) {
                         <div className='reply-card-replying-to'>
                             {reply.parent && <span className='reply-card-dim'>Replying to <Link style={{ color: 'rgb(24, 120, 184)' }} to={`/profile/${reply.parent.user.username}`}>@{reply.parent.user.username}</Link></span>}
                         </div>
-                        <div className='reply-card-content-container'><Link to={`/post/${reply.id}`} >{reply.content}</Link></div>
+                        <div className='reply-card-content-container'><Link to={`/post/${reply.id}`} >{keyword ? reactStringReplace(reply.content, `${keyword}`, (match, i) => (
+                            <span className='keyword' key={i}>{`${keyword}`}</span>
+                        )) : reply.content}</Link></div>
                         <div className='reply-card-images-container' data-images={reply.images.length}>
                             {reply.images.map((img, i) => (
                                 <img onClick={() => {
