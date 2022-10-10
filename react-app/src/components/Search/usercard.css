@@ -43,3 +43,8 @@
     font-size: 14px;
     font-weight: 700;
 }
+
+.user-card-follow-button:disabled {
+    opacity: .5;
+    cursor: default;
+}

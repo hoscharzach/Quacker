@@ -19,6 +19,7 @@ import Divider from '@mui/material/Divider';
 import Reply from '../ReplyModal/Reply';
 import { Box, Modal } from '@mui/material';
 import CreatePost from '../home/CreatePost';
+import defaultProfilePic from '../../images/defaultprofilepic.svg'
 
 
 const NavBar = () => {
@@ -37,7 +38,7 @@ const NavBar = () => {
 
   const buttons = [
     { text: 'Home', icon: duck, onClick: () => history.push('/home') },
-    { text: 'Profile', icon: user.profilePic, profilepic: true, onClick: () => history.push(`/profile/${user.username}`) },
+    { text: 'Profile', icon: user.profilePic ? user.profilePic : defaultProfilePic, profilepic: true, onClick: () => history.push(`/profile/${user.username}`) },
     { text: 'Search', icon: swanIcon, onClick: () => history.push('/search') },
     { text: 'Logout', icon: origamiBird, onClick: onLogout },
   ]
@@ -66,7 +67,8 @@ const NavBar = () => {
   const profilePicStyle = {
     width: '28.25px',
     height: '28.25px',
-    borderRadius: '50%'
+    borderRadius: '50%',
+    backgroundColor: 'white'
   }
 
   const buttonStyle = {

@@ -25,9 +25,12 @@ export default function SinglePost() {
     const [errors, setErrors] = useState('')
 
     useEffect(() => {
-        const topPost = document.getElementsByClassName("parent-body-container")[0]
-        if (topPost) {
-            window.scrollTo({ top: topPost.clientHeight })
+
+        // janky way to scroll the parent post out of the way but it works
+        const topOfPost = document.getElementsByClassName("main-post-container")[0]
+        if (topOfPost) {
+            topOfPost.scrollIntoView()
+            window.scrollBy(0, -50)
         } else {
             window.scrollTo({ top: 0 })
         }
@@ -70,6 +73,8 @@ export default function SinglePost() {
                 setMainPostLoaded(true)
                 setRestLoaded(true)
             }
+            setMainPostLoaded(true)
+            setRestLoaded(true)
 
         })();
     }, [postId, dispatch, mainPost])
@@ -105,8 +110,8 @@ export default function SinglePost() {
                     </div>
                 }
 
-                {mainPostLoaded && parentPost &&
-                    <ParentCard postId={parentPost.id} />}
+                {mainPostLoaded && mainPost.parent &&
+                    <ParentCard post={mainPost.parent} />}
 
                 {mainPostLoaded && mainPost &&
                     <MainPost parentId={mainPost.inReplyTo || null} postId={mainPost.id} />

@@ -9,7 +9,7 @@ export const topBarStyle = {
     alignItems: 'flex-start',
     paddingLeft: '15px',
     boxSizing: 'border-box',
-    width: '650px',
+    width: '649px',
     height: '53px',
     marginBottom: '10px'
 }

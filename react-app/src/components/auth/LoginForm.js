@@ -72,6 +72,7 @@ const LoginForm = ({ setShowModal }) => {
           <form id='login-form' onSubmit={onLogin}>
             <div>
               <input
+                className='signup-form-input'
                 name='email'
                 type='text'
                 placeholder='Email'
@@ -81,6 +82,7 @@ const LoginForm = ({ setShowModal }) => {
             </div>
             <div>
               <input
+                className='signup-form-input'
                 name='password'
                 type='password'
                 placeholder='Password'

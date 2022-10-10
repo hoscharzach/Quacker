@@ -48,7 +48,6 @@ export default function Search() {
                 setUsersPage(2)
                 setInitialFetchFinished(true)
                 window.scrollTo(0, 0)
-
             } else {
                 setInitialFetchFinished(true)
                 window.scrollTo(0, 0)
@@ -98,7 +97,9 @@ export default function Search() {
                             <button className={`${tab[0]}-profile-button`} key={tab[0]} style={{ width: '100%' }} onClick={(e) => {
                                 window.scrollTo(0, 0)
                                 setType(`${tab[0]}`)
-                            }} >{`${tab[1]}`}</button>
+                            }}>
+                                {`${tab[1]}`}
+                            </button>
                         </div>
                     ))}
 

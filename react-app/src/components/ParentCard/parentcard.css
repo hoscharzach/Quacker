@@ -1,8 +1,14 @@
 .parent-body-container {
+    box-sizing: border-box;
     display: flex;
     padding-top: 10px;
     max-height: 400px;
     height: 100%;
+    transition: background-color .5s;
+}
+
+.parent-body-container:hover {
+    background-color: var(--hover);
 }
 
 .parent-card-content {

@@ -5,9 +5,9 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import './parentcard.css'
 
-export default function ParentCard({ postId }) {
+export default function ParentCard({ post }) {
 
-    const post = useSelector(state => state.posts.normPosts[postId])
+    // const post = useSelector(state => state.posts.normPosts[postId])
 
     const [timestamp, setTimeStamp] = useState('')
 
@@ -17,11 +17,6 @@ export default function ParentCard({ postId }) {
             setTimeStamp(intlFormatDistance(newDate, new Date()))
         }
     }, [post])
-
-    // smaller image container
-    // line going from profile pic to below
-    // smaller text
-    // put replying to text in the main card
 
     return (
         <>

@@ -71,27 +71,32 @@ const SignUpForm = () => {
     {
       value: username,
       placeholder: 'Username',
-      onChange: updateUsername
+      onChange: updateUsername,
+      type: "text"
     },
     {
       value: displayname,
       placeholder: 'Display Name',
-      onChange: updateDisplayname
+      onChange: updateDisplayname,
+      type: "text"
     },
     {
       value: email,
       placeholder: 'Email',
-      onChange: updateEmail
+      onChange: updateEmail,
+      type: "email"
     },
     {
       value: password,
       placeholder: 'Password',
-      onChange: updatePassword
+      onChange: updatePassword,
+      type: "password"
     },
     {
       value: repeatPassword,
       placeholder: 'Repeat Password',
-      onChange: updateRepeatPassword
+      onChange: updateRepeatPassword,
+      type: "password"
     }
 
   ]
@@ -122,64 +127,12 @@ const SignUpForm = () => {
                 ))}
               </div>
               {inputs.map((input, i) => (
-                <input type="text" onChange={inputs[i].onChange} placeholder={inputs[i].placeholder} value={inputs[i].value}></input>
+                <input className='signup-form-input' onChange={inputs[i].onChange} placeholder={inputs[i].placeholder} type={inputs[i].type} value={inputs[i].value}></input>
               ))}
-              {/* <div className='signup-form-container'>
-                <div className='signup-form-input-div'>
 
-                  <span>User Name</span>
-                  <input
-                    placeholder='Username'
-                    type='text'
-                    name='username'
-                    onChange={updateUsername}
-                    value={username}
-                  ></input>
-                </div>
-                <div className='signup-form-input-div'>
-                  <span>Display Name</span>
-                  <input
-                    placeholder='Display Name'
-                    type='text'
-                    name='displayname'
-                    onChange={updateDisplayname}
-                    value={displayname}
-                  ></input>
-                </div>
-              </div>
-              <div className='signup-form-input-div'>
-                <span>Email</span>
-                <input
-                  placeholder='Email'
-                  type='text'
-                  name='email'
-                  onChange={updateEmail}
-                  value={email}
-                ></input>
-              </div>
-              <div className='signup-form-input-div'>
-                <span>Password</span>
-                <input
-                  placeholder='Password'
-                  type='password'
-                  name='password'
-                  onChange={updatePassword}
-                  value={password}
-                ></input>
-              </div>
-              <div className='signup-form-input-div'>
-                <span>Repeat Password</span>
-                <input
-                  placeholder='Repeat Password'
-                  type='password'
-                  name='repeat_password'
-                  onChange={updateRepeatPassword}
-                  value={repeatPassword}
-                ></input>
-              </div> */}
+              <button id='signup-submit-button' onClick={onSignUp} type='submit'>Sign Up</button>
             </form>
             <div className='signup-buttons-container'>
-              <button id='signup-submit-button' onClick={onSignUp} type='submit'>Sign Up</button>
 
               <span className='have-account-text'>Already have an account?</span>
               <LoginModal />

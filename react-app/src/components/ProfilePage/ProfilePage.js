@@ -67,8 +67,8 @@ export default function ProfilePage() {
             filter: (post) => post.user.id === user.id && post.inReplyTo,
             map: (post) =>
                 <Fragment key={nanoid()}>
-                    <ParentCard key={post.parent.id} postId={post.parent.id} />
-                    <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+                    <ParentCard key={post.parent.id} post={post.parent} />
+                    <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
                 </Fragment>
 
         },

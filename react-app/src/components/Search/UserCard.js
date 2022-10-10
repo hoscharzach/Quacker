@@ -15,7 +15,7 @@ export default function UserCard({ user }) {
                 <div className='user-card-name-and-follow-button-container'>
                     <div className='user-card-name-username'>{user.displayName}<br></br><span className='reply-card-dim'>@{user.username}</span></div>
                     <div className='user-card-follow-button'>
-                        <button onClick={() => history.push(`/profile/${user.username}`)} className='user-card-follow-button'>Follow</button>
+                        <button disabled onClick={() => history.push(`/profile/${user.username}`)} className='user-card-follow-button'>Follow</button>
                     </div>
                 </div>
                 <div className='user-card-bio-text'>{user.bio}</div>
