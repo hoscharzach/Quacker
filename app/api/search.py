@@ -8,6 +8,10 @@ search_routes = Blueprint('search', __name__)
 
 @search_routes.get('/<string:query>')
 def initial_search_query(query):
+
+    if not query:
+        return {'error': 'Query required'}, 404
+
     parsed = query.split('=')[0]
 
     users = User.query.filter(User.username.contains(

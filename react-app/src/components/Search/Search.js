@@ -32,8 +32,6 @@ export default function Search() {
     const [initialFetchFinished, setInitialFetchFinished] = useState(true)
 
     useEffect(() => {
-        if (window.location.href === 'https://quacker-fullstack.herokuapp.com/search' ||
-            window.location.href === 'http://localhost:3000/search') return
         (async () => {
             setSearchPosts([])
             setSearchUsers([])
@@ -48,14 +46,15 @@ export default function Search() {
                 setMoreUsers(data.moreUsers)
                 setPostsPage(2)
                 setUsersPage(2)
+                setInitialFetchFinished(true)
+                window.scrollTo(0, 0)
 
+            } else {
+                setInitialFetchFinished(true)
+                window.scrollTo(0, 0)
             }
-            setInitialFetchFinished(true)
-            window.scrollTo(0, 0)
         })();
     }, [query])
-
-    console.log(window.location.href === 'http://localhost:3000/search')
 
     async function viewMorePosts() {
         setResultsLoading(true)
@@ -112,7 +111,7 @@ export default function Search() {
             {resultsLoading && <Loading height={'100px'} />}
             {!initialFetchFinished && <Loading />}
             {!resultsLoading && initialFetchFinished && morePosts && type === 'posts' && <button style={{ borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }} className="view-more-button" onClick={() => viewMorePosts()}>View more posts</button>}
-            {!resultsLoading && initialFetchFinished && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => console.log('more users')}>View more users</button>}
+            {!resultsLoading && initialFetchFinished && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => viewMoreUsers()}>View more users</button>}
             {type === 'users' && !moreUsers && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
             {type === 'posts' && !morePosts && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
         </div>
