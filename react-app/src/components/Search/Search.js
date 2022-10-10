@@ -111,7 +111,7 @@ export default function Search() {
             {resultsLoading && <Loading height={'100px'} />}
             {!initialFetchFinished && <Loading />}
             {!resultsLoading && initialFetchFinished && morePosts && type === 'posts' && <button style={{ borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }} className="view-more-button" onClick={() => viewMorePosts()}>View more posts</button>}
-            {!resultsLoading && initialFetchFinished && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => console.log('more users')}>View more users</button>}
+            {!resultsLoading && initialFetchFinished && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => viewMoreUsers()}>View more users</button>}
             {type === 'users' && !moreUsers && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
             {type === 'posts' && !morePosts && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
         </div>
