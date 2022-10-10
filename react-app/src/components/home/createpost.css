@@ -9,6 +9,7 @@
     resize: none;
     height: .9rem;
     color: white;
+    background-color: var(--background);
 }
 
 .new-post-text::placeholder {

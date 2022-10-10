@@ -12,13 +12,12 @@ export default function Search() {
 
     const selectPosts = useSelector(state => state.posts.normPosts)
     const selectUsers = useSelector(state => state.posts.users)
+    const { search } = useLocation()
 
     const useQuery = () => {
-        const { search } = useLocation()
         return useMemo(() => new URLSearchParams(search), [search])
     }
 
-    let query = useQuery()
     const dispatch = useDispatch()
 
     const [type, setType] = useState('users')
@@ -29,16 +28,19 @@ export default function Search() {
     const [moreUsers, setMoreUsers] = useState(false)
     const [morePosts, setMorePosts] = useState(false)
     const [resultsLoading, setResultsLoading] = useState(false)
-    const [initialFetchFinished, setInitialFetchFinished] = useState(false)
+    // const [initialFetchFinished, setInitialFetchFinished] = useState(true)
 
+    let query = useQuery()
     useEffect(() => {
+
         (async () => {
             setSearchPosts([])
             setSearchUsers([])
-            setInitialFetchFinished(false)
+            // setInitialFetchFinished(false)
             const response = await fetch(`/api/search/${query}`)
             if (response.ok) {
                 const data = await response.json()
+                console.log(data.query, "ARGS")
                 dispatch(loadSearchResults(data))
                 setSearchPosts([...data.posts.map(post => post.id)])
                 setSearchUsers([...data.users.map(user => user.username)])
@@ -46,10 +48,10 @@ export default function Search() {
                 setMoreUsers(data.moreUsers)
                 setPostsPage(2)
                 setUsersPage(2)
-                setInitialFetchFinished(true)
+                // setInitialFetchFinished(true)
                 window.scrollTo(0, 0)
             } else {
-                setInitialFetchFinished(true)
+                // setInitialFetchFinished(true)
                 window.scrollTo(0, 0)
             }
         })();
@@ -110,9 +112,9 @@ export default function Search() {
                 {type === 'users' && selectUsers && searchUsers.map(username => <UserCard key={selectUsers[username].id} user={selectUsers[username]} />)}
             </div>
             {resultsLoading && <Loading height={'100px'} />}
-            {!initialFetchFinished && <Loading />}
-            {!resultsLoading && initialFetchFinished && morePosts && type === 'posts' && <button style={{ borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }} className="view-more-button" onClick={() => viewMorePosts()}>View more posts</button>}
-            {!resultsLoading && initialFetchFinished && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => viewMoreUsers()}>View more users</button>}
+            {/* {!initialFetchFinished && <Loading height={'100px'} />} */}
+            {!resultsLoading && morePosts && type === 'posts' && <button style={{ borderTop: '1px solid rgb(66, 83, 100)', borderBottom: '1px solid rgb(66, 83, 100)' }} className="view-more-button" onClick={() => viewMorePosts()}>View more posts</button>}
+            {!resultsLoading && moreUsers && type === 'users' && <button className="view-more-button" onClick={() => viewMoreUsers()}>View more users</button>}
             {type === 'users' && !moreUsers && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
             {type === 'posts' && !morePosts && <div style={{ borderTop: '1px solid rgb(66, 83, 100)' }}></div>}
         </div>
