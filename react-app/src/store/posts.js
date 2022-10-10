@@ -188,7 +188,9 @@ export const likePostToggle = (id) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json()
-        dispatch(togglePostLike(data))
+        return dispatch(togglePostLike(data))
+    } else {
+        return null
     }
 }
 export const createNewPost = (payload) => async (dispatch) => {
@@ -329,18 +331,28 @@ export default function reducer(state = initialState, action) {
             }
 
         case ADD_USER_POSTS:
-            newState = { ...state }
 
+            const userPosts = {}
             action.posts.forEach(post => {
-                if (!newState.normPosts[post.id]) {
-                    newState.normPosts[post.id] = post
+                userPosts[post.id] = post
+                if (post.inReplyTo && !userPosts[post.inReplyTo]) {
+                    userPosts[post.inReplyTo] = post.parent
                 }
-                if (post.inReplyTo && !newState.normPosts[post.inReplyTo]) {
-                    newState.normPosts[post.inReplyTo] = post.parent
+
+                if (post.replies) {
+                    post.replies.forEach(reply => {
+                        userPosts[reply.id] = reply
+                    })
                 }
             })
 
-            return newState
+            return {
+                ...state,
+                normPosts: {
+                    ...state.normPosts,
+                    ...userPosts
+                }
+            }
 
         case LOAD_ONE:
             newState = { ...state }

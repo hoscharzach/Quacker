@@ -17,8 +17,7 @@
 }
 
 .main-post-container {
-    padding: 12px;
-    padding-bottom: 0;
+    padding: 0px 12px;
     margin-top: 4px;
     display: flex;
     flex-direction: column;

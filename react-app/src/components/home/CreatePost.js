@@ -97,7 +97,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
                         <div key={nanoid()} className="error-message">{err}</div>
                     ))}
                 </div>}
-            <div style={setReplyModalOpen && { boxSizing: 'border-box', padding: '20px', borderRadius: '24px' }} className="entire-create-post-wrapper">
+            <div style={setReplyModalOpen && { boxSizing: 'border-box', padding: '20px', borderRadius: '24px', borderBottom: 'none' }} className="entire-create-post-wrapper">
                 <div style={setReplyModalOpen && { borderRadius: '24px' }} className="create-post-profile-pic-wrapper">
                     <img className="profile-picture" src={selectUser.profilePic || defaultProfile} alt=""></img>
                 </div>

@@ -2,6 +2,12 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+:root {
+    --lightblue: rgb(29, 155, 240);
+    --hover: rgba(53, 77, 100, .3);
+    --background: rgb(21, 32, 43);
+    --line-color: rgb(66, 83, 100);
+}
 
 @font-face {
     font-family: 'chirp';
@@ -13,7 +19,8 @@
     src: local('chirpH'), url(./fonts/chirpH.woff) format('woff');
 }
 
-html {
+html,
+body {
     background-color: #15202b;
 }
 
@@ -24,6 +31,7 @@ button {
 
 
 * {
+    /* box-sizing: border-box; */
     margin: 0;
     color: white;
     font-family: 'chirp';

@@ -14,7 +14,7 @@ import { likePostToggle } from '../../store/posts'
 import { updateSessionUserLikes } from '../../store/session'
 
 
-export default function ReplyCard({ reply, name, borderTop }) {
+export default function ReplyCard({ reply, name, borderTop, parent }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
 
@@ -54,7 +54,8 @@ export default function ReplyCard({ reply, name, borderTop }) {
             {reply &&
                 <div className={`reply-card-wrapper ${name}`} style={borderTop ? { borderTop: 'none' } : null}>
                     <div className='reply-card-left'>
-                        <div style={{ height: '12px', marginBottom: '4px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                        <div className='reply-card-line-container' style={{ height: '12px', marginBottom: '4px', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            {parent && <div className='reply-card-line'></div>}
                         </div>
                         <Link to={`/profile/${reply.user.username}`}>
                             <img style={{ backgroundColor: 'white', }} className='reply-card-profile-pic' src={reply.user.profilePic || defaultProfilePic} alt="" ></img>
