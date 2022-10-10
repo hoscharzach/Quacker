@@ -12,6 +12,10 @@
     -moz-animation: fadein 1s;
 }
 
+.keyword {
+    color: var(--lightblue);
+}
+
 @-moz-keyframes fadein {
     from {
         opacity: 0;
