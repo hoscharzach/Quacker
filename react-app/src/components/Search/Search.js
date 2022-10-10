@@ -32,8 +32,6 @@ export default function Search() {
     const [initialFetchFinished, setInitialFetchFinished] = useState(true)
 
     useEffect(() => {
-        if (window.location.href === 'https://quacker-fullstack.herokuapp.com/search' ||
-            window.location.href === 'http://localhost:3000/search') return
         (async () => {
             setSearchPosts([])
             setSearchUsers([])
@@ -48,14 +46,15 @@ export default function Search() {
                 setMoreUsers(data.moreUsers)
                 setPostsPage(2)
                 setUsersPage(2)
+                setInitialFetchFinished(true)
+                window.scrollTo(0, 0)
 
+            } else {
+                setInitialFetchFinished(true)
+                window.scrollTo(0, 0)
             }
-            setInitialFetchFinished(true)
-            window.scrollTo(0, 0)
         })();
     }, [query])
-
-    console.log(window.location.href === 'http://localhost:3000/search')
 
     async function viewMorePosts() {
         setResultsLoading(true)
