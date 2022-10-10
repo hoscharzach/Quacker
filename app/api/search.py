@@ -9,7 +9,6 @@ search_routes = Blueprint('search', __name__)
 @search_routes.get('/<string:query>')
 def initial_search_query(query):
     parsed = query.split('=')[0].replace("+", " ")
-    print(parsed, "********************")
 
     users = User.query.filter(or_(User.bio.contains(parsed.lower()), User.username.contains(parsed.lower()))).order_by(
         User.username).paginate(page=1, per_page=5)

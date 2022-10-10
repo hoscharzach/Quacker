@@ -40,7 +40,6 @@ export default function Search() {
             const response = await fetch(`/api/search/${query}`)
             if (response.ok) {
                 const data = await response.json()
-                console.log(data.query, "ARGS")
                 dispatch(loadSearchResults(data))
                 setSearchPosts([...data.posts.map(post => post.id)])
                 setSearchUsers([...data.users.map(user => user.username)])
