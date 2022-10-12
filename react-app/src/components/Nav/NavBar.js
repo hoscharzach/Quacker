@@ -107,7 +107,7 @@ const NavBar = () => {
             </div>
           ))}
 
-          <Divider sx={{ bgcolor: '#8B98A5', margin: '10px 0px' }} />
+          <Divider sx={{ width: '90%', bgcolor: '#8B98A5', margin: '10px 0px' }} />
 
           {links.map((link, i) => (
             <a key={i} href={link.link} target="_blank" >

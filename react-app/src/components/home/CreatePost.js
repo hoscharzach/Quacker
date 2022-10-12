@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { clearImages, removeImage } from "../../store/images"
 import { createNewPost } from "../../store/posts"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import UploadPicture from "../UploadPicture"
 import './createpost.css'
@@ -13,6 +13,8 @@ import x from '../../images/imageclose-x.svg'
 export default function CreatePost({ parentId, setReplyModalOpen }) {
 
     const textInput = useRef(null)
+    const circleProgress = useRef(null)
+    const circleProgressInner = useRef(null)
     const history = useHistory()
     const dispatch = useDispatch()
 
@@ -23,27 +25,57 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
 
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
+    const [progress, setProgress] = useState(0)
+
+
 
     function changeContent(e) {
         setContent(e.target.value)
     }
 
-
+    // auto adjust input height to match content
     useEffect(() => {
-        if (content.length < 1) setStyle('red')
-        else if (content.length >= 260) setStyle('red')
-        else if (content.length >= 230) setStyle('#DEC20B')
-        else setStyle('black')
-
         textInput.current.style.height = 'auto'
         textInput.current.style.height = textInput.current.scrollHeight + 'px'
-
         if (content.length > 280) {
             textInput.current.style.backgroundColor = 'red'
         } else {
             textInput.current.style.backgroundColor = 'inherit'
         }
     }, [content])
+
+    const large = {
+        height: '32px',
+        width: '32px',
+    }
+
+
+    // adjust color and size of character counter depending on character length
+    useEffect(() => {
+
+        // if content is longer than 280 characters, increase size of counter and change color to red
+        if (content.length >= 280) {
+            circleProgress.current.style.background = `conic-gradient(#f4212e ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.height = '32px'
+            circleProgress.current.style.width = '32px'
+            circleProgressInner.current.style.width = '26px'
+            circleProgressInner.current.style.height = '26px'
+        }
+        else if (content.length >= 260) {
+            circleProgress.current.style.background = `conic-gradient(#ffd400 ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.height = '32px'
+            circleProgress.current.style.width = '32px'
+            circleProgressInner.current.style.width = '26px'
+            circleProgressInner.current.style.height = '26px'
+        }
+        else if (content.length < 260) {
+            circleProgress.current.style.background = `conic-gradient(#1d9bf0 ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.height = '25px'
+            circleProgress.current.style.width = '25px'
+            circleProgressInner.current.style.width = '21px'
+            circleProgressInner.current.style.height = '21px'
+        }
+    }, [circleProgress, content.length])
 
 
     useEffect(() => {
@@ -59,6 +91,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
     useEffect(() => {
         return () => {
             dispatch(clearImages())
+            setContent('')
         }
     }, [])
 
@@ -103,7 +136,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
                 </div>
 
                 <div className="new-post-wrapper">
-                    <textarea rows={1} ref={textInput} className="new-post-text" onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
+                    <textarea rows={2} ref={textInput} className="new-post-text" onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
                     <>
                         {images &&
                             <div className="staging-images-wrapper" data-images={Object.values(images)?.length} >
@@ -118,6 +151,13 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
                         <div className="new-post-buttons-border">
 
                             <div className="new-post-buttons">
+                                <div ref={circleProgress} className="circle-progress">
+                                    <div ref={circleProgressInner} className="circle-progress-inner"><div style={content.length > 280 ? { color: '#f4212e' } : { color: '#8B98A5' }} className="progress-value">{280 - content.length < 20 && (280 - content.length)}</div></div>
+
+                                </div>
+                                <div className="divider">
+
+                                </div>
                                 <UploadPicture />
 
                                 <div className="char-count-and-quack-button">

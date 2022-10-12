@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import backbutton from '../../images/backbutton.svg'
@@ -57,28 +57,29 @@ export default function ProfilePage() {
     }, [])
 
 
-    // object containing all the necessary functions for filtering posts so the jsx for sorting can be one line of code
+    // object containing all the necessary functions for filtering posts so the jsx for displaying user posts/likes can be one line of code
+    // use memo so it doesn't have to filter through all the posts unless the posts actually change
     const filterFunctions = {
         quacks: {
-            filter: (post) => post.user.id === user.id && !post.inReplyTo,
-            map: (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />
+            filter: useMemo(() => (post) => post.user.id === user.id && !post.inReplyTo),
+            map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />)
         },
         replies: {
-            filter: (post) => post.user.id === user.id && post.inReplyTo,
-            map: (post) =>
+            filter: useMemo(() => (post) => post.user.id === user.id && post.inReplyTo),
+            map: useMemo(() => (post) =>
                 <Fragment key={nanoid()}>
                     <ParentCard key={post.parent.id} post={post.parent} />
                     <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
-                </Fragment>
+                </Fragment>)
 
         },
         media: {
-            filter: (post) => post.user.id === user.id && post.hasImages,
-            map: (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+            filter: useMemo(() => (post) => post.user.id === user.id && post.hasImages),
+            map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />)
         },
         likes: {
-            filter: (post) => post.userLikes.includes(user.id),
-            map: (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />
+            filter: useMemo(() => (post) => post.userLikes.includes(user.id)),
+            map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />)
         }
     }
 
