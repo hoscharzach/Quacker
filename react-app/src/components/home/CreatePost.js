@@ -14,6 +14,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
 
     const textInput = useRef(null)
     const circleProgress = useRef(null)
+    const circleProgressInner = useRef(null)
     const history = useHistory()
     const dispatch = useDispatch()
 
@@ -32,11 +33,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
         setContent(e.target.value)
     }
 
-    useEffect(() => {
-        if (content.length >= 281) return
-        setProgress((content.length / 280) * 100)
-    }, [content])
-
+    // auto adjust input height to match content
     useEffect(() => {
         textInput.current.style.height = 'auto'
         textInput.current.style.height = textInput.current.scrollHeight + 'px'
@@ -47,15 +44,36 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
         }
     }, [content])
 
+    const large = {
+        height: '32px',
+        width: '32px',
+    }
+
+
+    // adjust color and size of character counter depending on character length
     useEffect(() => {
+
+        // if content is longer than 280 characters, increase size of counter and change color to red
         if (content.length >= 280) {
-            circleProgress.current.style.background = `conic-gradient(red ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.background = `conic-gradient(#f4212e ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.height = '32px'
+            circleProgress.current.style.width = '32px'
+            circleProgressInner.current.style.width = '26px'
+            circleProgressInner.current.style.height = '26px'
+        }
+        else if (content.length >= 260) {
+            circleProgress.current.style.background = `conic-gradient(#ffd400 ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.height = '32px'
+            circleProgress.current.style.width = '32px'
+            circleProgressInner.current.style.width = '26px'
+            circleProgressInner.current.style.height = '26px'
         }
         else if (content.length < 260) {
             circleProgress.current.style.background = `conic-gradient(#1d9bf0 ${((content.length / 280)) * 360}deg, #38444d 0deg)`
-        }
-        else if (content.length >= 260) {
-            circleProgress.current.style.background = `conic-gradient(yellow ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+            circleProgress.current.style.height = '25px'
+            circleProgress.current.style.width = '25px'
+            circleProgressInner.current.style.width = '21px'
+            circleProgressInner.current.style.height = '21px'
         }
     }, [circleProgress, content.length])
 
@@ -134,7 +152,8 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
 
                             <div className="new-post-buttons">
                                 <div ref={circleProgress} className="circle-progress">
-                                    <div style={content.length > 280 ? { color: 'red' } : null} className="progress-value">{280 - content.length < 20 && (280 - content.length)}</div>
+                                    <div ref={circleProgressInner} className="circle-progress-inner"><div style={content.length > 280 ? { color: '#f4212e' } : { color: '#8B98A5' }} className="progress-value">{280 - content.length < 20 && (280 - content.length)}</div></div>
+
                                 </div>
                                 <div className="divider">
 

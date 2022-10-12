@@ -18,6 +18,7 @@
 
 
 
+
 #character-count {
     width: 1rem;
     height: 1rem;
@@ -52,15 +53,15 @@
     font-size: 12px;
 }
 
-.circle-progress::before {
-    content: "";
+.circle-progress-inner {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 21px;
     height: 21px;
     background-color: var(--background);
-    /* background-color: #38444d; */
     border-radius: 50%;
-
 }
 
 
