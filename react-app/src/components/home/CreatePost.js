@@ -24,8 +24,6 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
     const errors = useSelector(state => state.session.errors)
 
     const [content, setContent] = useState('')
-    const [style, setStyle] = useState('black')
-    const [progress, setProgress] = useState(0)
 
 
 
@@ -37,11 +35,13 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
     useEffect(() => {
         textInput.current.style.height = 'auto'
         textInput.current.style.height = textInput.current.scrollHeight + 'px'
-        if (content.length > 280) {
-            textInput.current.style.backgroundColor = 'red'
-        } else {
-            textInput.current.style.backgroundColor = 'inherit'
-        }
+        // if (content.length > 280) {
+        //     textInput.current.style.backgroundColor = 'rgba(255,0,0, .15)'
+        //     textInput.current.style.borderRadius = '5px'
+        // } else {
+        //     textInput.current.style.backgroundColor = 'inherit'
+        //     textInput.current.style.borderRadius = '0px'
+        // }
     }, [content])
 
     const large = {
