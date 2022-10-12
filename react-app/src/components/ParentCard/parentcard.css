@@ -5,6 +5,28 @@
     max-height: 400px;
     height: 100%;
     transition: background-color .5s;
+    -webkit-animation: fadein 1s;
+    -moz-animation: fadein 1s;
+}
+
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .parent-body-container:hover {
