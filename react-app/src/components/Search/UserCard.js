@@ -17,7 +17,7 @@ export default function UserCard({ user, keyword }) {
                     <div className='user-card-name-username'>{user.displayName}<br></br><span className='reply-card-dim'>@{keyword ? reactStringReplace(user.username, `${keyword}`, (match, i) => (
                         <span className='keyword' key={i}>{`${keyword}`}</span>
                     )) : user.username}</span></div>
-                    <div className='user-card-follow-button'>
+                    <div style={{ display: 'none' }} className='user-card-follow-button'>
                         <button disabled onClick={() => history.push(`/profile/${user.username}`)} className='user-card-follow-button'>Follow</button>
                     </div>
                 </div>
