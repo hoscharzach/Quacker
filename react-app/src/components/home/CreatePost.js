@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { clearImages, removeImage } from "../../store/images"
 import { createNewPost } from "../../store/posts"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import defaultProfile from '../../images/defaultprofilepic.svg'
 import UploadPicture from "../UploadPicture"
 import './createpost.css'
@@ -13,6 +13,7 @@ import x from '../../images/imageclose-x.svg'
 export default function CreatePost({ parentId, setReplyModalOpen }) {
 
     const textInput = useRef(null)
+    const circleProgress = useRef(null)
     const history = useHistory()
     const dispatch = useDispatch()
 
@@ -23,27 +24,40 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
 
     const [content, setContent] = useState('')
     const [style, setStyle] = useState('black')
+    const [progress, setProgress] = useState(0)
+
+
 
     function changeContent(e) {
         setContent(e.target.value)
     }
 
+    useEffect(() => {
+        if (content.length >= 281) return
+        setProgress((content.length / 280) * 100)
+    }, [content])
 
     useEffect(() => {
-        if (content.length < 1) setStyle('red')
-        else if (content.length >= 260) setStyle('red')
-        else if (content.length >= 230) setStyle('#DEC20B')
-        else setStyle('black')
-
         textInput.current.style.height = 'auto'
         textInput.current.style.height = textInput.current.scrollHeight + 'px'
-
         if (content.length > 280) {
             textInput.current.style.backgroundColor = 'red'
         } else {
             textInput.current.style.backgroundColor = 'inherit'
         }
     }, [content])
+
+    useEffect(() => {
+        if (content.length >= 280) {
+            circleProgress.current.style.background = `conic-gradient(red ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+        }
+        else if (content.length < 260) {
+            circleProgress.current.style.background = `conic-gradient(#1d9bf0 ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+        }
+        else if (content.length >= 260) {
+            circleProgress.current.style.background = `conic-gradient(yellow ${((content.length / 280)) * 360}deg, #38444d 0deg)`
+        }
+    }, [circleProgress, content.length])
 
 
     useEffect(() => {
@@ -59,6 +73,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
     useEffect(() => {
         return () => {
             dispatch(clearImages())
+            setContent('')
         }
     }, [])
 
@@ -103,7 +118,7 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
                 </div>
 
                 <div className="new-post-wrapper">
-                    <textarea rows={1} ref={textInput} className="new-post-text" onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
+                    <textarea rows={2} ref={textInput} className="new-post-text" onChange={changeContent} value={content} placeholder="What's quackin'?" ></textarea>
                     <>
                         {images &&
                             <div className="staging-images-wrapper" data-images={Object.values(images)?.length} >
@@ -118,6 +133,12 @@ export default function CreatePost({ parentId, setReplyModalOpen }) {
                         <div className="new-post-buttons-border">
 
                             <div className="new-post-buttons">
+                                <div ref={circleProgress} className="circle-progress">
+                                    <div style={content.length > 280 ? { color: 'red' } : null} className="progress-value">{280 - content.length < 20 && (280 - content.length)}</div>
+                                </div>
+                                <div className="divider">
+
+                                </div>
                                 <UploadPicture />
 
                                 <div className="char-count-and-quack-button">

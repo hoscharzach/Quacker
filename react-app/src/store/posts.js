@@ -407,7 +407,6 @@ export default function reducer(state = initialState, action) {
         case ADD_POST:
             parent = action.post.inReplyTo
 
-
             if (parent) {
                 let replyCount = state.normPosts[parent].numReplies
                 return {

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../store/images";
 import { addError, removeErrors } from "../store/session";
 import { IconButton } from "@mui/material";
+import Loading from '../components/Loading'
 
 
 const UploadPicture = () => {
@@ -14,6 +15,7 @@ const UploadPicture = () => {
 
     const [image, setImage] = useState(null);
     const [hideImageInput, setHideImageInput] = useState(false)
+    const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -24,9 +26,11 @@ const UploadPicture = () => {
         else if (image) {
             (async () => {
                 dispatch(removeErrors())
-                setHideImageInput(true)
+                // setHideImageInput(true)
+                setUploading(true)
                 const errors = await dispatch(uploadImage(image));
-                setHideImageInput(false)
+                setUploading(false)
+                // setHideImageInput(false)
                 if (errors) {
                     dispatch(addError(errors))
                 }
@@ -66,9 +70,8 @@ const UploadPicture = () => {
                 style={{ display: 'none' }}
             />
 
-            {/* <button */}
             <IconButton
-                disabled={hideImageInput}
+                disabled={hideImageInput || uploading}
                 id="file-select"
                 onClick={handleFileClick}
                 sx={{
@@ -76,10 +79,8 @@ const UploadPicture = () => {
                         backgroundColor: 'rgba(29, 155, 240, .1)'
                     }
                 }}>
-
-                <img src={uploadImageIcon} alt="" ></img>
+                {uploading ? <Loading height={'35px'} width={'px'} /> : <img src={uploadImageIcon} alt="" ></img>}
             </IconButton>
-            {/* </button> */}
         </>
     )
 }
