@@ -12,8 +12,8 @@ def initial_search_query(query):
 
     users = User.query.filter(or_(func.lower(User.bio).contains(parsed.lower()), func.lower(User.username).contains(parsed.lower()))).order_by(
         User.username).paginate(page=1, per_page=5)
-    posts = Post.query.filter(func.lower(Post.content).contains(parsed.lower())).order_by(
-        Post.created_at.desc()).order_by(Post.created_at.desc()).paginate(page=1, per_page=5)
+    posts = Post.query.filter(func.lower(Post.content).contains(
+        parsed.lower())).order_by(Post.id.desc()).paginate(page=1, per_page=5)
 
     return {'query': query, 'users': [user.to_dict() for user in users.items], 'posts': [post.to_dict() for post in posts.items], 'morePosts': posts.has_next, 'moreUsers': users.has_next}
 
@@ -24,6 +24,6 @@ def get_more_posts(query, page):
     parsed = query.split('=')[0].replace("+", " ")
 
     posts = Post.query.filter(func.lower(Post.content).contains(parsed.lower())).order_by(
-        Post.created_at.desc()).paginate(page=page, per_page=5)
+        Post.id.desc()).paginate(page=page, per_page=5)
 
     return {'posts': [post.to_dict() for post in posts.items], 'hasMore': posts.has_next}
