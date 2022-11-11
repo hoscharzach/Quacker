@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import backbutton from '../../images/backbutton.svg'
@@ -17,6 +17,7 @@ import { profileModalStyle, topBarStyle, postsContainerStyle } from "./profilepa
 
 export default function ProfilePage() {
     const { username } = useParams()
+    // let rerenders = useRef(0)
 
     const history = useHistory()
     const dispatch = useDispatch()
@@ -34,6 +35,7 @@ export default function ProfilePage() {
 
 
     // if showing type of post for the first time, fetch latest data
+
     useEffect(() => {
         (async () => {
             setPostsFetched(false)
@@ -44,7 +46,6 @@ export default function ProfilePage() {
                 setPostsFetched(false)
                 await dispatch(getUserPosts(username, viewType))
             }
-
             setPostsFetched(true)
             setUserLoaded(true)
 
@@ -56,32 +57,59 @@ export default function ProfilePage() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [])
 
+    useEffect(() => {
+        console.log('rerendering')
+    })
+
+    // only re-calculate these lists if selectPosts changes
+    let quacks = useMemo(() => selectPosts.filter(post => post.user.id === user.id && !post.inReplyTo)
+        .map(el => <ReplyCard key={el.id} reply={el} name={`reply${el.id}`} />, [selectPosts]))
+
+    let replies = useMemo(() => selectPosts.filter(post => post.user.id === user.id && post.inReplyTo)
+        .map(post =>
+            <Fragment key={nanoid()}>
+                <ParentCard key={post.parent.id} post={post.parent} />
+                <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
+            </Fragment>, [selectPosts]))
+
+    let media = useMemo(() => selectPosts.filter(post => post.user.id === user.id && post.hasImages)
+        .map(post => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />, [selectPosts]))
+
+    let likes = useMemo(() => selectPosts.filter(post => post.userLikes.includes(user.id))
+        .map(post => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />), [selectPosts])
+
+    let posts = {
+        quacks,
+        replies,
+        media,
+        likes
+    }
 
     // object containing all the necessary functions for filtering posts so the jsx for displaying user posts/likes can be one line of code
     // use memo so it doesn't have to filter through all the posts unless the posts actually change
-    const filterFunctions = {
-        quacks: {
-            filter: useMemo(() => (post) => post.user.id === user.id && !post.inReplyTo),
-            map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />)
-        },
-        replies: {
-            filter: useMemo(() => (post) => post.user.id === user.id && post.inReplyTo),
-            map: useMemo(() => (post) =>
-                <Fragment key={nanoid()}>
-                    <ParentCard key={post.parent.id} post={post.parent} />
-                    <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
-                </Fragment>)
+    // const filterFunctions = {
+    //     quacks: {
+    //         filter: useMemo(() => (post) => post.user.id === user.id && !post.inReplyTo, [selectPosts]),
+    //         map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />, [selectPosts])
+    //     },
+    //     replies: {
+    //         filter: useMemo(() => (post) => post.user.id === user.id && post.inReplyTo, [selectPosts]),
+    //         map: useMemo(() => (post) =>
+    //             <Fragment key={nanoid()}>
+    //                 <ParentCard key={post.parent.id} post={post.parent} />
+    //                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
+    //             </Fragment>, [selectPosts])
 
-        },
-        media: {
-            filter: useMemo(() => (post) => post.user.id === user.id && post.hasImages),
-            map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />)
-        },
-        likes: {
-            filter: useMemo(() => (post) => post.userLikes.includes(user.id)),
-            map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />)
-        }
-    }
+    //     },
+    //     media: {
+    //         // filter: useMemo(() => (post) => , [selectPosts]),
+    //         map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />, [selectPosts])
+    //     },
+    //     likes: {
+    //         filter: useMemo(() => (post) => post.userLikes.includes(user.id)),
+    //         map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />, [selectPosts])
+    //     }
+    // }
 
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
@@ -145,9 +173,13 @@ export default function ProfilePage() {
 
                 </div>
                 {selectPosts && user &&
-                    <div style={postsContainerStyle}>
-                        {!postsFetched ? <Loading /> : selectPosts.filter(filterFunctions[viewType].filter).map(filterFunctions[viewType].map)}
-                    </div>}
+                    <>
+                        <div style={postsContainerStyle}>
+                            {!postsFetched ? <Loading /> : posts[viewType]}
+                        </div>
+                    </>
+                }
+
             </div >
             <Modal
                 open={profileModalOpen}
