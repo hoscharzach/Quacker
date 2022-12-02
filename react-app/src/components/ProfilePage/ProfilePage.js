@@ -85,32 +85,6 @@ export default function ProfilePage() {
         likes
     }
 
-    // object containing all the necessary functions for filtering posts so the jsx for displaying user posts/likes can be one line of code
-    // use memo so it doesn't have to filter through all the posts unless the posts actually change
-    // const filterFunctions = {
-    //     quacks: {
-    //         filter: useMemo(() => (post) => post.user.id === user.id && !post.inReplyTo, [selectPosts]),
-    //         map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} />, [selectPosts])
-    //     },
-    //     replies: {
-    //         filter: useMemo(() => (post) => post.user.id === user.id && post.inReplyTo, [selectPosts]),
-    //         map: useMemo(() => (post) =>
-    //             <Fragment key={nanoid()}>
-    //                 <ParentCard key={post.parent.id} post={post.parent} />
-    //                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
-    //             </Fragment>, [selectPosts])
-
-    //     },
-    //     media: {
-    //         // filter: useMemo(() => (post) => , [selectPosts]),
-    //         map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />, [selectPosts])
-    //     },
-    //     likes: {
-    //         filter: useMemo(() => (post) => post.userLikes.includes(user.id)),
-    //         map: useMemo(() => (post) => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />, [selectPosts])
-    //     }
-    // }
-
     const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
 
