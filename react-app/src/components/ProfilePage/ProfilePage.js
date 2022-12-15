@@ -17,7 +17,6 @@ import { profileModalStyle, topBarStyle, postsContainerStyle } from "./profilepa
 
 export default function ProfilePage() {
     const { username } = useParams()
-    // let rerenders = useRef(0)
 
     const history = useHistory()
     const dispatch = useDispatch()
@@ -57,25 +56,21 @@ export default function ProfilePage() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [])
 
-    useEffect(() => {
-        console.log('rerendering')
-    })
-
     // only re-calculate these lists if selectPosts changes
-    let quacks = useMemo(() => selectPosts.filter(post => post.user.id === user.id && !post.inReplyTo)
+    let quacks = useMemo(() => selectPosts?.filter(post => post?.user.id === user?.id && !post?.inReplyTo)
         .map(el => <ReplyCard key={el.id} reply={el} name={`reply${el.id}`} />, [selectPosts]))
 
-    let replies = useMemo(() => selectPosts.filter(post => post.user.id === user.id && post.inReplyTo)
+    let replies = useMemo(() => selectPosts?.filter(post => post?.user.id === user?.id && post?.inReplyTo)
         .map(post =>
             <Fragment key={nanoid()}>
                 <ParentCard key={post.parent.id} post={post.parent} />
                 <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} parent={true} />
             </Fragment>, [selectPosts]))
 
-    let media = useMemo(() => selectPosts.filter(post => post.user.id === user.id && post.hasImages)
+    let media = useMemo(() => selectPosts?.filter(post => post?.user.id === user?.id && post?.hasImages)
         .map(post => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />, [selectPosts]))
 
-    let likes = useMemo(() => selectPosts.filter(post => post.userLikes.includes(user.id))
+    let likes = useMemo(() => selectPosts?.filter(post => post?.userLikes.includes(user?.id))
         .map(post => <ReplyCard key={post.id} reply={post} name={`reply${post.id}`} borderTop={'none'} />), [selectPosts])
 
     let posts = {
