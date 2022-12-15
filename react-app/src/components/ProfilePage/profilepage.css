@@ -13,6 +13,13 @@
     font-weight: 700;
 }
 
+.tab-style {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    height: 100%;
+    margin: 0 5px;
+}
 
 .quacks-profile-button:hover,
 .replies-profile-button:hover,

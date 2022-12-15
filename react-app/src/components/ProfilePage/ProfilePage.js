@@ -34,7 +34,6 @@ export default function ProfilePage() {
 
 
     // if showing type of post for the first time, fetch latest data
-
     useEffect(() => {
         (async () => {
             setPostsFetched(false)
@@ -80,7 +79,6 @@ export default function ProfilePage() {
         likes
     }
 
-    const tabStyle = { flexGrow: '1', display: 'flex', justifyContent: 'center', height: '100%', margin: '0 5px' }
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
 
     return (
@@ -101,10 +99,13 @@ export default function ProfilePage() {
                 </div>
                 {userLoaded && user ?
                     <>
+
+                        {/* user profile background image */}
                         <div style={{ position: 'relative', height: '200px', width: '650px' }}>
                             <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: `url(${user.profileBackground || null})` }} className="profile-background">
                             </div>
                         </div>
+
                         <div style={{ padding: '15px', paddingBottom: '0', display: 'flex', flexDirection: 'column', height: '200px' }} className="below-background-profile-container">
                             <div className="profile-top-relative" style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', height: '70px', width: '630px' }}>
                                 <div style={{ width: '141px' }}>
@@ -135,7 +136,7 @@ export default function ProfilePage() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '53px', padding: '4px 40px' }}>
                     {tabs.map(tab => (
-                        <div key={tab[0]} data-active={viewType === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button`} style={tabStyle}>
+                        <div key={tab[0]} data-active={viewType === `${tab[0]}` ? `${tab[0]}` : null} className={`${tab[0]}-profile-button tab-style`}>
                             <button key={tab[0]} style={{ background: 'none', width: '100%' }} onClick={(e) => setViewType(`${tab[0]}`)} >{`${tab[1]}`}</button>
                         </div>
                     ))}
