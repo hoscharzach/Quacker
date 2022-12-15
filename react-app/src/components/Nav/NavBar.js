@@ -24,7 +24,6 @@ const NavBar = () => {
   const user = useSelector(state => state.session.user)
   const history = useHistory()
   const dispatch = useDispatch()
-  const location = useLocation()
 
   const [replyModalOpen, setReplyModalOpen] = useState(false)
 
@@ -36,9 +35,7 @@ const NavBar = () => {
   const buttons = [
     { text: 'Home', icon: duck, onClick: () => history.push('/home') },
     { text: 'Profile', icon: user.profilePic ? user.profilePic : defaultProfilePic, profilepic: true, onClick: () => history.push(`/profile/${user.username}`) },
-    {
-      text: 'Search', icon: swanIcon, onClick: () => history.push('/search/?')
-    },
+    { text: 'Search', icon: swanIcon, onClick: () => history.push('/search/?') },
     { text: 'Logout', icon: origamiBird, onClick: onLogout },
   ]
 
@@ -47,6 +44,7 @@ const NavBar = () => {
     { text: 'Developer', icon: linkedinIcon, link: 'https://www.linkedin.com/in/zachhoschar/' },
     { text: 'About Me', icon: headshot, link: 'https://zachhoschar.com/' }
   ]
+
   const modalStyle = {
     position: 'absolute',
     top: '50%',
