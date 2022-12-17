@@ -127,8 +127,19 @@ export default function ProfilePage() {
                             <div style={{ marginTop: '10px', fontWeight: '700' }} className="profile-name-username">{user.displayName}</div>
                             <div className="reply-card-dim" style={{ marginBottom: '5px' }}>@{user.username}</div>
                             <div style={{ fontSize: '15px', marginTop: '5px' }} className="profile-bio">{user.bio}</div>
-                            <div>
-                                {/* user followers and following */}
+
+                            {/* user followers and following */}
+                            <div className="followers-wrapper">
+
+                                <div>
+                                    <span className="following-number">366</span>
+                                    <span className="following-text">Following</span>
+
+                                </div>
+                                <div>
+                                    <span className="following-number">10.2K</span>
+                                    <span className="following-text">Followers</span>
+                                </div>
                             </div>
 
                         </div>

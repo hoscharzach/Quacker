@@ -7,7 +7,7 @@
     --hover: rgba(53, 77, 100, .3);
     --background: rgb(21, 32, 43);
     --line-color: rgb(66, 83, 100);
-    --dim: rgb(139, 152, 165);
+    --dim: #8b98a5;
 }
 
 @font-face {
