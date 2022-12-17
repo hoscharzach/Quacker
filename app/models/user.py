@@ -3,6 +3,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
+followers = db.Table('followers',
+ db.Column('follower', db.Integer, db.ForeignKey(
+    'users.id'), primary_key=True),
+db.Column('following', db.Integer, db.ForeignKey(
+    'users.id'), primary_key=True
+    )
+)
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 

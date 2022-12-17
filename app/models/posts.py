@@ -10,7 +10,6 @@ likes = db.Table('likes',
                      'posts.id'), primary_key=True)
                  )
 
-
 class Post(db.Model):
     __tablename__ = 'posts'
 
