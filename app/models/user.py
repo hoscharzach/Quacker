@@ -4,9 +4,9 @@ from flask_login import UserMixin
 
 
 followers = db.Table('followers',
- db.Column('follower', db.Integer, db.ForeignKey(
+ db.Column('follower_id', db.Integer, db.ForeignKey(
     'users.id'), primary_key=True),
-db.Column('following', db.Integer, db.ForeignKey(
+db.Column('following_id', db.Integer, db.ForeignKey(
     'users.id'), primary_key=True
     )
 )
@@ -25,6 +25,15 @@ class User(db.Model, UserMixin):
 
     posts = db.relationship(
         'Post', backref='user', cascade='all, delete')
+
+    followers = db.relationship(
+        'User',
+        secondary=followers,
+        primaryjoin=(followers.c.following_id == id),
+        secondaryjoin=(followers.c.follower_id == id),
+        backref=db.backref('following', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
     @property
     def password(self):

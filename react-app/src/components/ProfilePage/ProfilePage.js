@@ -99,7 +99,6 @@ export default function ProfilePage() {
                 </div>
                 {userLoaded && user ?
                     <>
-
                         {/* user profile background image */}
                         <div style={{ position: 'relative', height: '200px', width: '650px' }}>
                             <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: `url(${user.profileBackground || null})` }} className="profile-background">
@@ -114,14 +113,21 @@ export default function ProfilePage() {
                                     </div>
                                 </div>
                                 {
-                                    sessionUser.id === user.id &&
-                                    <div style={{ width: '110px' }}>
-                                        <button
-                                            id="edit-profile-button"
-                                            onClick={() => setProfileModalOpen(true)} >
-                                            Edit Profile
-                                        </button>
-                                    </div>
+                                    sessionUser.id === user.id ?
+                                        <div style={{ width: '110px' }}>
+                                            <button
+                                                id="edit-profile-button"
+                                                onClick={() => setProfileModalOpen(true)} >
+                                                Edit Profile
+                                            </button>
+                                        </div> :
+                                        <div>
+                                            <button
+                                                id="edit-profile-button"
+                                                onClick={() => console.log("test")} >
+                                                Follow
+                                            </button>
+                                        </div>
                                 }
                             </div>
                             <div style={{ marginTop: '10px', fontWeight: '700' }} className="profile-name-username">{user.displayName}</div>
