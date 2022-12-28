@@ -57,7 +57,8 @@ class User(db.Model, UserMixin):
             'profileBackground': self.profile_background,
             'numLikes': len(self.user_likes),
             'postLikes': [x.id for x in self.user_likes],
-            'numPosts': len(self.posts)
+            'numPosts': len(self.posts),
+            'followers': [x.to_dict_basic_info() for x in self.followers]
         }
 
     def to_dict_basic_info(self):
