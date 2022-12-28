@@ -160,7 +160,6 @@ export const signUp = (username, email, password, displayname) => async (dispatc
 
 export default function reducer(state = initialState, action) {
   let newState
-  console.log(action)
   switch (action.type) {
 
     case FOLLOW_USER:
