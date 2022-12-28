@@ -5,10 +5,16 @@ const ADD_ERROR = 'session/ADD_ERROR'
 const REMOVE_ERRORS = 'session/REMOVE_ERRORS'
 const UPDATE_LIKES = 'session/UPDATE_LIKES'
 const FOLLOW_USER = 'session/FOLLOW_USER'
+const UNFOLLOW_USER = 'session/UNFOLLOW_USER'
 
 
 const follow = (username) => ({
   type: FOLLOW_USER,
+  username
+})
+
+const unfollow = (username) => ({
+  type: UNFOLLOW_USER,
   username
 })
 
@@ -52,6 +58,21 @@ export const followUser = (username) => async (dispatch) => {
 
   dispatch(follow(username))
 }
+export const unfollowUser = (username) => async (dispatch) => {
+  const response = await fetch(`/api/users/${username}/unfollow`, {
+    method: "POST"
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    if (data.errors) {
+      return;
+    }
+  }
+
+  dispatch(unfollow(username))
+}
+
 export const authenticate = () => async (dispatch) => {
   const response = await fetch('/api/auth/', {
     headers: {
@@ -139,16 +160,29 @@ export const signUp = (username, email, password, displayname) => async (dispatc
 
 export default function reducer(state = initialState, action) {
   let newState
+  console.log(action)
   switch (action.type) {
 
-    // case FOLLOW_USER:
-    //   return {
-    //     ...state,
-    //     user: {
-    //       ...state.user,
-    //       followers: state.user.followers ? [...state.user.followers, action.fo]
-    //     }
-    //   }
+    case FOLLOW_USER:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followingList: [
+            ...state.user.followingList,
+            action.username
+          ]
+        }
+      }
+
+    case UNFOLLOW_USER:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followingList: state.user.followingList.filter(el => el !== action.username)
+        }
+      }
 
     case UPDATE_LIKES:
       newState = { ...state }

@@ -14,6 +14,7 @@ import EditProfile from "./EditProfile"
 import { nanoid } from "nanoid"
 import { Fragment } from "react"
 import { profileModalStyle, topBarStyle, postsContainerStyle } from "./profilepagestyles"
+import { followUser, unfollowUser } from "../../store/session"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -79,6 +80,10 @@ export default function ProfilePage() {
         likes
     }
 
+    // console.log(sessionUser.followingList)
+    // console.log(user?.username)
+    // console.log(sessionUser.followingList?.includes(user?.username))
+
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
 
     return (
@@ -122,19 +127,20 @@ export default function ProfilePage() {
                                             </button>
                                         </div> :
                                         <div>
-                                            <button
-                                                id="edit-profile-button"
-                                                onClick={async () => {
-                                                    const res = await fetch(`/api/users/${user.username}/follow`, {
-                                                        method: 'POST'
-                                                    })
-                                                    if (res.ok) {
-                                                        const data = await res.json()
-                                                        console.log(data.message)
-                                                    }
-                                                }} >
-                                                Follow
-                                            </button>
+                                            {
+
+                                                sessionUser && sessionUser.followingList && !sessionUser.followingList.includes(user.username) ?
+                                                    <button
+                                                        id="edit-profile-button"
+                                                        onClick={() => dispatch(followUser(user.username))} >
+                                                        Follow
+                                                    </button> :
+                                                    <button
+                                                        id="edit-profile-button"
+                                                        onClick={() => dispatch(unfollowUser(user.username))}>
+                                                        Unfollow
+                                                    </button>
+                                            }
                                         </div>
                                 }
                             </div>

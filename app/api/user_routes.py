@@ -23,7 +23,7 @@ def follow_user(username):
 
     # get user that is being followed
     followed_user = User.query.filter_by(username=username).first_or_404()
-    followed_user.followers.append(current_user)
+    followed_user.user_followers.append(current_user)
     db.session.commit()
 
     return {'message': f'Successfully followed {username}'}
@@ -34,7 +34,7 @@ def unfollow_user(username):
 
     #get user that is being unfollowed
     unfollowed_user = User.query.filter_by(username=username).first_or_404()
-    unfollowed_user.followers.remove(current_user)
+    unfollowed_user.user_followers.remove(current_user)
     db.session.commit()
 
     return {'message': f'Successfully unfollowed {username}'}
