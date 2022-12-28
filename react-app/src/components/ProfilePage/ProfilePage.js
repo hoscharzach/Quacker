@@ -99,7 +99,6 @@ export default function ProfilePage() {
                 </div>
                 {userLoaded && user ?
                     <>
-
                         {/* user profile background image */}
                         <div style={{ position: 'relative', height: '200px', width: '650px' }}>
                             <div style={{ height: '200px', width: '650px', backgroundPosition: 'center center', backgroundImage: `url(${user.profileBackground || null})` }} className="profile-background">
@@ -114,21 +113,47 @@ export default function ProfilePage() {
                                     </div>
                                 </div>
                                 {
-                                    sessionUser.id === user.id &&
-                                    <div style={{ width: '110px' }}>
-                                        <button
-                                            id="edit-profile-button"
-                                            onClick={() => setProfileModalOpen(true)} >
-                                            Edit Profile
-                                        </button>
-                                    </div>
+                                    sessionUser.id === user.id ?
+                                        <div style={{ width: '110px' }}>
+                                            <button
+                                                id="edit-profile-button"
+                                                onClick={() => setProfileModalOpen(true)} >
+                                                Edit Profile
+                                            </button>
+                                        </div> :
+                                        <div>
+                                            <button
+                                                id="edit-profile-button"
+                                                onClick={async () => {
+                                                    const res = await fetch(`/api/users/${user.username}/follow`, {
+                                                        method: 'POST'
+                                                    })
+                                                    if (res.ok) {
+                                                        const data = await res.json()
+                                                        console.log(data.message)
+                                                    }
+                                                }} >
+                                                Follow
+                                            </button>
+                                        </div>
                                 }
                             </div>
                             <div style={{ marginTop: '10px', fontWeight: '700' }} className="profile-name-username">{user.displayName}</div>
                             <div className="reply-card-dim" style={{ marginBottom: '5px' }}>@{user.username}</div>
                             <div style={{ fontSize: '15px', marginTop: '5px' }} className="profile-bio">{user.bio}</div>
-                            <div>
-                                {/* user followers and following */}
+
+                            {/* user followers and following */}
+                            <div className="followers-wrapper">
+
+                                <div>
+                                    <span className="following-number">366</span>
+                                    <span className="following-text">Following</span>
+
+                                </div>
+                                <div>
+                                    <span className="following-number">10.2K</span>
+                                    <span className="following-text">Followers</span>
+                                </div>
                             </div>
 
                         </div>

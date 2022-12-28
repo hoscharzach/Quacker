@@ -4,7 +4,13 @@ const REMOVE_USER = 'session/REMOVE_USER';
 const ADD_ERROR = 'session/ADD_ERROR'
 const REMOVE_ERRORS = 'session/REMOVE_ERRORS'
 const UPDATE_LIKES = 'session/UPDATE_LIKES'
+const FOLLOW_USER = 'session/FOLLOW_USER'
 
+
+const follow = (username) => ({
+  type: FOLLOW_USER,
+  username
+})
 
 export const addError = (error) => ({
   type: ADD_ERROR,
@@ -31,6 +37,21 @@ export const updateSessionUserLikes = (postId) => ({
 
 const initialState = { user: null, errors: [] };
 
+
+export const followUser = (username) => async (dispatch) => {
+  const response = await fetch(`/api/users/${username}/follow`, {
+    method: "POST"
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    if (data.errors) {
+      return;
+    }
+  }
+
+  dispatch(follow(username))
+}
 export const authenticate = () => async (dispatch) => {
   const response = await fetch('/api/auth/', {
     headers: {
@@ -119,6 +140,16 @@ export const signUp = (username, email, password, displayname) => async (dispatc
 export default function reducer(state = initialState, action) {
   let newState
   switch (action.type) {
+
+    // case FOLLOW_USER:
+    //   return {
+    //     ...state,
+    //     user: {
+    //       ...state.user,
+    //       followers: state.user.followers ? [...state.user.followers, action.fo]
+    //     }
+    //   }
+
     case UPDATE_LIKES:
       newState = { ...state }
       newState.user.postLikes.has(action.postId) ? newState.user.postLikes.delete(action.postId) : newState.user.postLikes.add(action.postId)

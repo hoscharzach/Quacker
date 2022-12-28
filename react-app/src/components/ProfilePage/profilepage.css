@@ -13,12 +13,30 @@
     font-weight: 700;
 }
 
+
 .tab-style {
     display: flex;
     flex-grow: 1;
     justify-content: center;
     height: 100%;
     margin: 0 5px;
+}
+
+.followers-wrapper {
+    margin-top: 12px;
+    display: flex;
+}
+
+.following-number {
+    font-size: 14px;
+    font-weight: bold;
+    padding-right: 5px;
+}
+
+.following-text {
+    font-size: 14px;
+    margin-right: 20px;
+    color: var(--dim)
 }
 
 .quacks-profile-button:hover,
