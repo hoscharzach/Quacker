@@ -26,13 +26,13 @@ class User(db.Model, UserMixin):
     posts = db.relationship(
         'Post', backref='user', cascade='all, delete')
 
-    followers = db.relationship(
+    user_followers = db.relationship(
         'User',
         secondary=followers,
         primaryjoin=(followers.c.following_id == id),
         secondaryjoin=(followers.c.follower_id == id),
-        backref=db.backref('following', lazy='dynamic'),
-        lazy='dynamic'
+        backref=db.backref('user_following', lazy='joined'),
+        lazy='joined'
     )
 
     @property
@@ -58,7 +58,10 @@ class User(db.Model, UserMixin):
             'numLikes': len(self.user_likes),
             'postLikes': [x.id for x in self.user_likes],
             'numPosts': len(self.posts),
-            'followers': [x.to_dict_basic_info() for x in self.followers]
+            'followersList': [x.username for x in self.user_followers],
+            'followingList': [x.username for x in self.user_following],
+            'followerCount': len(self.user_followers),
+            'followingCount': len(self.user_following)
         }
 
     def to_dict_basic_info(self):
