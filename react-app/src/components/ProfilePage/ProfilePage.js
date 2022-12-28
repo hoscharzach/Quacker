@@ -124,7 +124,15 @@ export default function ProfilePage() {
                                         <div>
                                             <button
                                                 id="edit-profile-button"
-                                                onClick={() => console.log("test")} >
+                                                onClick={async () => {
+                                                    const res = await fetch(`/api/users/${user.username}/follow`, {
+                                                        method: 'POST'
+                                                    })
+                                                    if (res.ok) {
+                                                        const data = await res.json()
+                                                        console.log(data.message)
+                                                    }
+                                                }} >
                                                 Follow
                                             </button>
                                         </div>

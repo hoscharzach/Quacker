@@ -12,7 +12,13 @@ def get_user(username):
     return {'user': user.to_dict()}
 
 
+@user_routes.get('/<string:username>/followers')
+def get_users_followers(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return {'followers': [x.username for x in user.followers]}
+
 @user_routes.post('/<string:username>/follow')
+@login_required
 def follow_user(username):
 
     # get user that is being followed
@@ -23,6 +29,7 @@ def follow_user(username):
     return {'message': f'Successfully followed {username}'}
 
 @user_routes.post('/<string:username>/unfollow')
+@login_required
 def unfollow_user(username):
 
     #get user that is being unfollowed
