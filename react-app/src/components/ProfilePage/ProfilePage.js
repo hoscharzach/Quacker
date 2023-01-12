@@ -5,7 +5,7 @@ import backbutton from '../../images/backbutton.svg'
 import { useHistory } from "react-router-dom"
 import defaultUserIcon from '../../images/defaultprofilepic.svg'
 import './profilepage.css'
-import { getUserPosts } from "../../store/posts"
+import { decreaseFollowerCount, getUserPosts, increaseFollowerCount } from "../../store/posts"
 import ReplyCard from "../ReplyCard/ReplyCard"
 import ParentCard from "../ParentCard/ParentCard"
 import Loading from "../Loading"
@@ -33,16 +33,8 @@ export default function ProfilePage() {
     const [postsFetched, setPostsFetched] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
     const [followingButtonText, setFollowingButtonText] = useState('Following')
-    const [followerCount, setFollowerCount] = useState(0)
-    const [followingCount, setFollowingCount] = useState(0)
 
 
-    useEffect(() => {
-        if (user) {
-            setFollowerCount(user.followingCount)
-            setFollowingCount(user.followingCount)
-        }
-    }, [user])
     // if showing type of post for the first time, fetch latest data
     useEffect(() => {
         (async () => {
@@ -139,7 +131,7 @@ export default function ProfilePage() {
                                                         id="edit-profile-button"
                                                         onClick={() => {
                                                             dispatch(followUser(user.username))
-                                                            setFollowerCount(prev => prev + 1)
+                                                            dispatch(increaseFollowerCount(user.username))
                                                         }
                                                         } >
                                                         Follow
@@ -150,7 +142,7 @@ export default function ProfilePage() {
                                                         onMouseLeave={() => setFollowingButtonText('Following')}
                                                         onClick={() => {
                                                             dispatch(unfollowUser(user.username))
-                                                            setFollowerCount(prev => prev - 1)
+                                                            dispatch(decreaseFollowerCount(user.username))
                                                         }
                                                         }>
                                                         {followingButtonText}
@@ -167,12 +159,12 @@ export default function ProfilePage() {
                             <div className="followers-wrapper">
 
                                 <div>
-                                    <span className="following-number">{followingCount}</span>
+                                    <span className="following-number">{user.followingCount}</span>
                                     <span className="following-text">Following</span>
 
                                 </div>
                                 <div>
-                                    <span className="following-number">{followerCount}</span>
+                                    <span className="following-number">{user.followerCount}</span>
                                     <span className="following-text">Followers</span>
                                 </div>
                             </div>
