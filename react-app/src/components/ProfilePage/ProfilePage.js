@@ -33,8 +33,16 @@ export default function ProfilePage() {
     const [postsFetched, setPostsFetched] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
     const [followingButtonText, setFollowingButtonText] = useState('Following')
+    const [followerCount, setFollowerCount] = useState(0)
+    const [followingCount, setFollowingCount] = useState(0)
 
 
+    useEffect(() => {
+        if (user) {
+            setFollowerCount(user.followingCount)
+            setFollowingCount(user.followingCount)
+        }
+    }, [user])
     // if showing type of post for the first time, fetch latest data
     useEffect(() => {
         (async () => {
@@ -80,10 +88,6 @@ export default function ProfilePage() {
         media,
         likes
     }
-
-    // console.log(sessionUser.followingList)
-    // console.log(user?.username)
-    // console.log(sessionUser.followingList?.includes(user?.username))
 
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
 
@@ -133,14 +137,22 @@ export default function ProfilePage() {
                                                 sessionUser && sessionUser.followingList && !sessionUser.followingList.includes(user.username) ?
                                                     <button
                                                         id="edit-profile-button"
-                                                        onClick={() => dispatch(followUser(user.username))} >
+                                                        onClick={() => {
+                                                            dispatch(followUser(user.username))
+                                                            setFollowerCount(prev => prev + 1)
+                                                        }
+                                                        } >
                                                         Follow
                                                     </button> :
                                                     <button
                                                         id="unfollow-button"
                                                         onMouseEnter={() => setFollowingButtonText('Unfollow')}
                                                         onMouseLeave={() => setFollowingButtonText('Following')}
-                                                        onClick={() => dispatch(unfollowUser(user.username))}>
+                                                        onClick={() => {
+                                                            dispatch(unfollowUser(user.username))
+                                                            setFollowerCount(prev => prev - 1)
+                                                        }
+                                                        }>
                                                         {followingButtonText}
                                                     </button>
                                             }
@@ -155,12 +167,12 @@ export default function ProfilePage() {
                             <div className="followers-wrapper">
 
                                 <div>
-                                    <span className="following-number">366</span>
+                                    <span className="following-number">{followingCount}</span>
                                     <span className="following-text">Following</span>
 
                                 </div>
                                 <div>
-                                    <span className="following-number">10.2K</span>
+                                    <span className="following-number">{followerCount}</span>
                                     <span className="following-text">Followers</span>
                                 </div>
                             </div>
