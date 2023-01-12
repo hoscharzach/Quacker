@@ -32,6 +32,7 @@ export default function ProfilePage() {
     const [userLoaded, setUserLoaded] = useState(false)
     const [postsFetched, setPostsFetched] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
+    const [followingButtonText, setFollowingButtonText] = useState('Following')
 
 
     // if showing type of post for the first time, fetch latest data
@@ -136,9 +137,11 @@ export default function ProfilePage() {
                                                         Follow
                                                     </button> :
                                                     <button
-                                                        id="edit-profile-button"
+                                                        id="unfollow-button"
+                                                        onMouseEnter={() => setFollowingButtonText('Unfollow')}
+                                                        onMouseLeave={() => setFollowingButtonText('Following')}
                                                         onClick={() => dispatch(unfollowUser(user.username))}>
-                                                        Unfollow
+                                                        {followingButtonText}
                                                     </button>
                                             }
                                         </div>
