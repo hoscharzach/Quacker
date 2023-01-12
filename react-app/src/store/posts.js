@@ -12,6 +12,8 @@ const UPDATE_USER_INFO = '/users/EDIT'
 const TOGGLE_POST_LIKE = '/post/like'
 const SET_USER_POSTS_LOADED = '/profile/POSTS'
 const LOAD_SEARCH_RESULTS = '/search/POPULATE'
+const INCREASE_FOLLOWER_COUNT = '/user/INCREMENT_FOLLOWER'
+const DECREASE_FOLLOWER_COUNT = '/user/DECREMENT_FOLLOWER'
 
 export const setPostsLoaded = (username, contentType) => ({
     type: SET_USER_POSTS_LOADED,
@@ -62,6 +64,16 @@ const updateUser = (user) => ({
 const togglePostLike = (data) => ({
     type: TOGGLE_POST_LIKE,
     data
+})
+
+export const increaseFollowerCount = (username) => ({
+    type: INCREASE_FOLLOWER_COUNT,
+    username
+})
+
+export const decreaseFollowerCount = (username) => ({
+    type: DECREASE_FOLLOWER_COUNT,
+    username
 })
 
 export const loadSearchResults = (data) => ({
@@ -229,6 +241,29 @@ export default function reducer(state = initialState, action) {
     let parent
 
     switch (action.type) {
+
+        case DECREASE_FOLLOWER_COUNT:
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    [action.username]: {
+                        ...state.users[action.username],
+                        followerCount: state.users[action.username].followerCount - 1
+                    }
+                }
+            }
+        case INCREASE_FOLLOWER_COUNT:
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    [action.username]: {
+                        ...state.users[action.username],
+                        followerCount: state.users[action.username].followerCount + 1
+                    }
+                }
+            }
 
         case LOAD_SEARCH_RESULTS:
             let posts = {}

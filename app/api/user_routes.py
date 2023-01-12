@@ -11,12 +11,6 @@ def get_user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return {'user': user.to_dict()}
 
-
-@user_routes.get('/<string:username>/followers')
-def get_users_followers(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return {'followers': [x.username for x in user.followers]}
-
 @user_routes.post('/<string:username>/follow')
 @login_required
 def follow_user(username):
@@ -39,12 +33,18 @@ def unfollow_user(username):
 
     return {'message': f'Successfully unfollowed {username}'}
 
-# Edit user information
 
-# @user_routes.get('/<string:username>/followers')
-# def get_followers(username):
-#     followers = User.query.filter_by(username=username).first_or_404()
-#     return {}
+@user_routes.get('/<string:username>/followers')
+def get_followers(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return {f'{username} followers': [x.username for x in user.user_followers]}
+
+
+@user_routes.get('/<string:username>/following')
+def get_following(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return {f'{username} following': [x.username for x in user.user_following]}
+
 
 @user_routes.post('/<string:username>/edit')
 @login_required

@@ -5,7 +5,7 @@ import backbutton from '../../images/backbutton.svg'
 import { useHistory } from "react-router-dom"
 import defaultUserIcon from '../../images/defaultprofilepic.svg'
 import './profilepage.css'
-import { getUserPosts } from "../../store/posts"
+import { decreaseFollowerCount, getUserPosts, increaseFollowerCount } from "../../store/posts"
 import ReplyCard from "../ReplyCard/ReplyCard"
 import ParentCard from "../ParentCard/ParentCard"
 import Loading from "../Loading"
@@ -81,10 +81,6 @@ export default function ProfilePage() {
         likes
     }
 
-    // console.log(sessionUser.followingList)
-    // console.log(user?.username)
-    // console.log(sessionUser.followingList?.includes(user?.username))
-
     const tabs = [['quacks', 'Quacks'], ['replies', 'Replies'], ['media', 'Media'], ['likes', 'Likes']]
 
     return (
@@ -133,14 +129,22 @@ export default function ProfilePage() {
                                                 sessionUser && sessionUser.followingList && !sessionUser.followingList.includes(user.username) ?
                                                     <button
                                                         id="edit-profile-button"
-                                                        onClick={() => dispatch(followUser(user.username))} >
+                                                        onClick={() => {
+                                                            dispatch(followUser(user.username))
+                                                            dispatch(increaseFollowerCount(user.username))
+                                                        }
+                                                        } >
                                                         Follow
                                                     </button> :
                                                     <button
                                                         id="unfollow-button"
                                                         onMouseEnter={() => setFollowingButtonText('Unfollow')}
                                                         onMouseLeave={() => setFollowingButtonText('Following')}
-                                                        onClick={() => dispatch(unfollowUser(user.username))}>
+                                                        onClick={() => {
+                                                            dispatch(unfollowUser(user.username))
+                                                            dispatch(decreaseFollowerCount(user.username))
+                                                        }
+                                                        }>
                                                         {followingButtonText}
                                                     </button>
                                             }
@@ -155,12 +159,12 @@ export default function ProfilePage() {
                             <div className="followers-wrapper">
 
                                 <div>
-                                    <span className="following-number">366</span>
+                                    <span className="following-number">{user.followingCount}</span>
                                     <span className="following-text">Following</span>
 
                                 </div>
                                 <div>
-                                    <span className="following-number">10.2K</span>
+                                    <span className="following-number">{user.followerCount}</span>
                                     <span className="following-text">Followers</span>
                                 </div>
                             </div>
