@@ -15,6 +15,7 @@ import { nanoid } from "nanoid"
 import { Fragment } from "react"
 import { profileModalStyle, topBarStyle, postsContainerStyle } from "./profilepagestyles"
 import { followUser, unfollowUser } from "../../store/session"
+import FollowsDisplay from "./FollowsDisplay"
 
 export default function ProfilePage() {
     const { username } = useParams()
@@ -33,6 +34,8 @@ export default function ProfilePage() {
     const [postsFetched, setPostsFetched] = useState(false)
     const [profileModalOpen, setProfileModalOpen] = useState(false)
     const [followingButtonText, setFollowingButtonText] = useState('Following')
+    const [followersModalOpen, setFollowersModalOpen] = useState(false)
+    const [followingModalOpen, setFollowingModalOpen] = useState(false)
 
 
     // if showing type of post for the first time, fetch latest data
@@ -160,12 +163,16 @@ export default function ProfilePage() {
 
                                 <div>
                                     <span className="following-number">{user.followingCount}</span>
-                                    <span className="following-text">Following</span>
+                                    <span
+                                        className="following-text"
+                                        onClick={() => setFollowingModalOpen(true)}>Following</span>
 
                                 </div>
                                 <div>
                                     <span className="following-number">{user.followerCount}</span>
-                                    <span className="following-text">Followers</span>
+                                    <span
+                                        className="following-text"
+                                        onClick={() => setFollowersModalOpen(true)} >Followers</span>
                                 </div>
                             </div>
 
@@ -202,6 +209,20 @@ export default function ProfilePage() {
                     <EditProfile setProfileModalOpen={setProfileModalOpen} user={user} />
                 </Box>
 
+            </Modal>
+            <Modal
+                open={followersModalOpen}
+                onClose={() => setFollowersModalOpen(false)} >
+                <Box sx={profileModalStyle}>
+                    <FollowsDisplay variant='followers' />
+                </Box>
+            </Modal>
+            <Modal
+                open={followingModalOpen}
+                onClose={() => setFollowingModalOpen(false)}>
+                <Box sx={profileModalStyle}>
+                    <FollowsDisplay variant='following' />
+                </Box>
             </Modal>
         </>
     )

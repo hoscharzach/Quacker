@@ -39,6 +39,10 @@
     color: var(--dim)
 }
 
+.following-text:hover {
+    text-decoration: underline;
+}
+
 .quacks-profile-button:hover,
 .replies-profile-button:hover,
 .media-profile-button:hover,
