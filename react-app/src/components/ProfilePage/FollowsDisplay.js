@@ -4,30 +4,36 @@ import Loading from "../Loading"
 
 export default function FollowsDisplay({ variant, username }) {
 
-    const selectUser = useSelector(state => state.posts[username])
+    const selectUser = useSelector(state => state.posts.users[username])
     const [type, setType] = useState(variant)
-    const [list, setList] = useState(null)
+    const [list, setList] = useState([])
     const [followsLoaded, setFollowsLoaded] = useState(false)
 
     useEffect(() => {
+        if (!selectUser) return
+
         if (variant === 'followers') {
-            if (!selectUser?.followersList) {
-                // fetch followers list and load into state
-
-            }
+            setList([...selectUser.followersList])
+            setType('Followers')
+            setFollowsLoaded(true)
+        } else {
+            setList([...selectUser.followingList])
+            setType('Following')
+            setFollowsLoaded(true)
         }
-
-        else if (variant === 'following') {
-            if (!selectUser?.followingList) {
-                // fetch following list
-            }
-        }
-
-    }, [])
+    }, [selectUser])
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            {!followsLoaded ? <Loading /> : <div>{'follows'}</div>}
+            {!followsLoaded ? <Loading /> :
+                <>
+                    <div className="follows-container">
+                        {type}
+                        {list && list.map((el, i) => <div key={i}>{el}</div>)}
+                        {/* <FollowCard username={el} */}
+                    </div>
+                </>
+            }
         </div>
     )
 }
