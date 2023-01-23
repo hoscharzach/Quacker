@@ -214,14 +214,14 @@ export default function ProfilePage() {
                 open={followersModalOpen}
                 onClose={() => setFollowersModalOpen(false)} >
                 <Box sx={profileModalStyle}>
-                    <FollowsDisplay variant='followers' />
+                    <FollowsDisplay variant='followers' username={username} />
                 </Box>
             </Modal>
             <Modal
                 open={followingModalOpen}
                 onClose={() => setFollowingModalOpen(false)}>
                 <Box sx={profileModalStyle}>
-                    <FollowsDisplay variant='following' />
+                    <FollowsDisplay variant='following' username={username} />
                 </Box>
             </Modal>
         </>
