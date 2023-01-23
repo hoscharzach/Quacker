@@ -12,7 +12,8 @@ export default function FollowsDisplay({ variant, username }) {
     useEffect(() => {
         if (variant === 'followers') {
             if (!selectUser?.followersList) {
-                // fetch followers list
+                // fetch followers list and load into state
+
             }
         }
 
