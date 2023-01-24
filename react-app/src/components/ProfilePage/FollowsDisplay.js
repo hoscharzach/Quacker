@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Loading from "../Loading"
+import FollowCard from "./FollowCard"
 
 export default function FollowsDisplay({ variant, username }) {
 
@@ -29,8 +30,7 @@ export default function FollowsDisplay({ variant, username }) {
                 <>
                     <div className="follows-container">
                         {type}
-                        {list && list.map((el, i) => <div key={i}>{el}</div>)}
-                        {/* <FollowCard username={el} */}
+                        {list && list.map((el, i) => <FollowCard key={i} username={el} />)}
                     </div>
                 </>
             }
