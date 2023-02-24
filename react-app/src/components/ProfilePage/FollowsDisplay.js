@@ -6,33 +6,22 @@ import FollowCard from "./FollowCard"
 export default function FollowsDisplay({ variant, username }) {
 
     const selectUser = useSelector(state => state.posts.users[username])
-    const [type, setType] = useState(variant)
-    const [list, setList] = useState([])
     const [followsLoaded, setFollowsLoaded] = useState(false)
 
     useEffect(() => {
         if (!selectUser) return
 
-        if (variant === 'followers') {
-            setList([...selectUser.followersList])
-            setType('Followers')
-            setFollowsLoaded(true)
-        } else {
-            setList([...selectUser.followingList])
-            setType('Following')
-            setFollowsLoaded(true)
-        }
     }, [selectUser])
 
+    console.log(selectUser.followersList)
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            {!followsLoaded ? <Loading /> :
-                <>
-                    <div className="follows-container">
-                        {type}
-                        {list && list.map((el, i) => <FollowCard key={i} username={el} />)}
-                    </div>
-                </>
+            {
+                <div className="follows-container">
+                    {variant}
+                    {variant === 'Followers' ? selectUser.followersList.map((el, i) => <FollowCard key={i} username={el} />)
+                        : selectUser.followingList.map((el, i) => <FollowCard key={i} username={el} />)}
+                </div>
             }
         </div>
     )
