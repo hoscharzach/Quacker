@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "cd react-app && npm install && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build && mkdir -p ../app/static && cp -r build/. ../app/static/",
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 30
+  "ignoreCommand": "exit 0",
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/(.*)",
