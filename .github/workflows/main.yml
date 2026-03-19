@@ -18,10 +18,10 @@ jobs:
 
     - name: Build React App
       working-directory: react-app
-      run: npm install && CI=false npm run build
+      run: npm install && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build
 
     - name: Copy React build to Flask static
-      run: mkdir -p app/static && cp -r react-app/build/. app/static/
+      run: mkdir -p app/static && cp react-app/build/index.html react-app/build/favicon.ico app/static/ && cp -r react-app/build/static/. app/static/
 
     - name: Install Vercel CLI
       run: npm install -g vercel
