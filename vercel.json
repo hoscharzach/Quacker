@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd react-app && npm install && CI=false npm run build && mkdir -p ../app/static && cp -r build/. ../app/static/",
+  "buildCommand": "cd react-app && npm install && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build && mkdir -p ../app/static && cp -r build/. ../app/static/",
   "functions": {
     "api/index.py": {
       "maxDuration": 30
